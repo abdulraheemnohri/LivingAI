@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "livingai"
+version = "1.0.0"
+description = "LivingAI: One-Model Local AI Operating System for Android Terminal"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [
+    {name = "Abdulraheem Nohari", email = "abdulraheemnohri@gmail.com"}
+]
+keywords = ["ai", "local", "terminal", "termux", "android", "llm", "cognitive"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Android",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Artificial Intelligence",
+    "Topic :: Terminal Emulators",
+]
+dependencies = [
+    "click>=8.0.0",
+    "rich>=13.0.0",
+    "peewee>=3.15.0",
+    "requests>=2.25.0",
+    "tqdm>=4.62.0",
+    "pydantic>=1.8.0",
+    "python-dotenv>=0.19.0",
+    "huggingface-hub>=0.14.0",
+    "transformers>=4.30.0",
+    "accelerate>=0.20.0",
+    "torch>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "black>=23.0.0",
+    "flake8>=4.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+livingai = "livingai.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/abdulraheemnohri/LivingAI"
+Documentation = "https://github.com/abdulraheemnohri/LivingAI#readme"
+Repository = "https://github.com/abdulraheemnohri/LivingAI"
+Issues = "https://github.com/abdulraheemnohri/LivingAI/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["livingai*"]
