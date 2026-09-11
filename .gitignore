@@ -1,0 +1,73 @@
+# LivingAI Git Ignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Termux and Android
+*.apk
+*.dex
+*.so
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# Model files (large, exclude by default)
+*.bin
+*.gguf
+*.safetensors
+*.pth
+*.h5
+*.tflite
+*.onnx
+
+# Cache
+.cache/
+*.cache
+
+# Backups
+backups/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Termux-specific
+~/.livingai/
