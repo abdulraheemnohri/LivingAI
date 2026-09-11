@@ -1,5 +1,5 @@
 # LivingAI State Models
-# =======================
+# ======================
 # This module defines the data models for the state system.
 
 from dataclasses import dataclass, field
@@ -8,76 +8,157 @@ from enum import Enum
 import time
 
 
-class StateVariable(Enum):
-    """Variables that can be tracked in the state system."""
-    ENERGY = "energy"           # Current energy level (0.0 to 1.0)
-    FOCUS = "focus"             # Current focus level (0.0 to 1.0)
-    CONFIDENCE = "confidence"   # Current confidence level (0.0 to 1.0)
-    UNCERTAINTY = "uncertainty" # Current uncertainty level (0.0 to 1.0)
-    CURIOUSITY = "curiosity"     # Current curiosity level (0.0 to 1.0)
-    URGENCY = "urgency"           # Current urgency level (0.0 to 1.0)
-    ATTENTION = "attention"       # Current attention level (0.0 to 1.0)
-    SATISFACTION = "satisfaction" # Current satisfaction level (0.0 to 1.0)
-    ACTIVITY = "activity"         # Current activity state
+class StateVariableType(Enum):
+    """Types of state variables."""
+    ENERGY = "energy"           # Energy level (0.0 to 1.0)
+    FOCUS = "focus"             # Focus level (0.0 to 1.0)
+    CONFIDENCE = "confidence"   # Confidence level (0.0 to 1.0)
+    UNCERTAINTY = "uncertainty" # Uncertainty level (0.0 to 1.0)
+    CURIOUSITY = "curiosity"     # Curiosity level (0.0 to 1.0)
+    URGENCY = "urgency"           # Urgency level (0.0 to 1.0)
+    ATTENTION = "attention"       # Attention level (0.0 to 1.0)
+    SATISFACTION = "satisfaction" # Satisfaction level (0.0 to 1.0)
+    ACTIVITY = "activity"         # Current activity
 
 
-class ActivityState(Enum):
+class StateActivity(Enum):
     """Possible activity states."""
-    IDLE = "idle"               # System is idle
-    THINKING = "thinking"         # System is thinking
-    PLANNING = "planning"         # System is planning
-    ACTING = "acting"             # System is acting
-    OBSERVING = "observing"       # System is observing
-    REFLECTING = "reflecting"     # System is reflecting
-    LEARNING = "learning"         # System is learning
-    CONSOLIDATING = "consolidating" # System is consolidating
-    SLEEPING = "sleeping"         # System is sleeping
-    WAITING = "waiting"           # System is waiting
+    IDLE = "idle"               # No active processing
+    THINKING = "thinking"         # Processing information
+    PLANNING = "planning"         # Creating a plan
+    ACTING = "acting"             # Executing an action
+    LEARNING = "learning"         # Learning from experience
+    REFLECTING = "reflecting"     # Reflecting on interactions
+    CONSOLIDATING = "consolidating" # Consolidating memories
+    SLEEPING = "sleeping"         # In sleep mode
+    WAITING = "waiting"           # Waiting for input or resources
+
+
+@dataclass
+class StateVariable:
+    """
+    Represents a single state variable.
+    
+    Attributes:
+        name: Name of the variable.
+        var_type: Type of the variable.
+        value: Current value (0.0 to 1.0 for most types).
+        min_value: Minimum possible value.
+        max_value: Maximum possible value.
+        description: Description of the variable.
+        last_updated: Timestamp of last update.
+    """
+    name: str
+    var_type: StateVariableType
+    value: float = 0.0
+    min_value: float = 0.0
+    max_value: float = 1.0
+    description: str = ""
+    last_updated: float = field(default_factory=time.time)
+    
+    def __post_init__(self):
+        """Post-initialization processing."""
+        if isinstance(self.var_type, str):
+            self.var_type = StateVariableType(self.var_type)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """
+        Convert the state variable to a dictionary.
+        
+        Returns:
+            Dict[str, Any]: Dictionary representation.
+        """
+        return {
+            "name": self.name,
+            "type": self.var_type.value,
+            "value": self.value,
+            "min_value": self.min_value,
+            "max_value": self.max_value,
+            "description": self.description,
+            "last_updated": self.last_updated,
+        }
+    
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "StateVariable":
+        """
+        Create a StateVariable from a dictionary.
+        
+        Args:
+            data: Dictionary with state variable data.
+            
+        Returns:
+            StateVariable: State variable instance.
+        """
+        return cls(
+            name=data.get("name", ""),
+            var_type=data.get("type", StateVariableType.ENERGY.value),
+            value=data.get("value", 0.0),
+            min_value=data.get("min_value", 0.0),
+            max_value=data.get("max_value", 1.0),
+            description=data.get("description", ""),
+            last_updated=data.get("last_updated", time.time()),
+        )
+    
+    def get_percent(self) -> int:
+        """
+        Get the value as a percentage.
+        
+        Returns:
+            int: Value as a percentage (0-100).
+        """
+        if self.max_value == self.min_value:
+            return 0
+        
+        normalized = (self.value - self.min_value) / (self.max_value - self.min_value)
+        return int(normalized * 100)
+    
+    def get_bar(self, width: int = 20) -> str:
+        """
+        Get a visual bar representation of the value.
+        
+        Args:
+            width: Width of the bar in characters.
+            
+        Returns:
+            str: Visual bar representation.
+        """
+        percent = self.get_percent()
+        filled = int(width * percent / 100)
+        empty = width - filled
+        
+        return "█" * filled + "░" * empty
 
 
 @dataclass
 class State:
     """
-    Represents the current state of the LivingAI system.
+    Represents the overall state of the LivingAI system.
     
     Attributes:
-        variables: Dictionary of state variables and their values.
-        activity: Current activity state.
-        timestamp: When the state was last updated.
-        metadata: Additional metadata about the state.
+        variables: Dictionary of state variables.
+        activity: Current activity.
+        last_updated: Timestamp of last update.
     """
-    variables: Dict[StateVariable, float] = field(default_factory=dict)
-    activity: ActivityState = ActivityState.IDLE
-    timestamp: float = field(default_factory=time.time)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    variables: Dict[str, StateVariable] = field(default_factory=dict)
+    activity: StateActivity = StateActivity.IDLE
+    last_updated: float = field(default_factory=time.time)
     
     def __post_init__(self):
         """Post-initialization processing."""
-        # Initialize default values for variables
-        if not self.variables:
-            self.variables = {
-                StateVariable.ENERGY: 1.0,
-                StateVariable.FOCUS: 1.0,
-                StateVariable.CONFIDENCE: 0.8,
-                StateVariable.UNCERTAINTY: 0.2,
-                StateVariable.CURIOUSITY: 0.7,
-                StateVariable.URGENCY: 0.3,
-                StateVariable.ATTENTION: 0.8,
-                StateVariable.SATISFACTION: 0.5,
-            }
+        if isinstance(self.activity, str):
+            self.activity = StateActivity(self.activity)
     
     def to_dict(self) -> Dict[str, Any]:
         """
         Convert the state to a dictionary.
         
         Returns:
-            Dict[str, Any]: Dictionary representation of the state.
+            Dict[str, Any]: Dictionary representation.
         """
         return {
-            "variables": {v.value: val for v, val in self.variables.items()},
+            "variables": {name: var.to_dict() for name, var in self.variables.items()},
             "activity": self.activity.value,
-            "timestamp": self.timestamp,
-            "metadata": self.metadata,
+            "last_updated": self.last_updated,
         }
     
     @classmethod
@@ -92,80 +173,67 @@ class State:
             State: State instance.
         """
         variables = {}
-        for var_name, value in data.get("variables", {}).items():
-            try:
-                var = StateVariable(var_name)
-                variables[var] = value
-            except ValueError:
-                pass
-        
-        activity = data.get("activity", ActivityState.IDLE.value)
-        try:
-            activity = ActivityState(activity)
-        except ValueError:
-            activity = ActivityState.IDLE
+        for name, var_data in data.get("variables", {}).items():
+            variables[name] = StateVariable.from_dict(var_data)
         
         return cls(
             variables=variables,
-            activity=activity,
-            timestamp=data.get("timestamp", time.time()),
-            metadata=data.get("metadata", {}),
+            activity=data.get("activity", StateActivity.IDLE.value),
+            last_updated=data.get("last_updated", time.time()),
         )
     
-    def get_variable(self, variable: StateVariable) -> float:
+    def get_variable(self, name: str) -> Optional[StateVariable]:
         """
-        Get the value of a state variable.
+        Get a state variable by name.
         
         Args:
-            variable: The state variable to get.
+            name: Name of the variable.
             
         Returns:
-            float: The value of the variable.
+            Optional[StateVariable]: The variable, or None if not found.
         """
-        return self.variables.get(variable, 0.0)
+        return self.variables.get(name)
     
-    def set_variable(self, variable: StateVariable, value: float) -> None:
+    def set_variable(
+        self,
+        name: str,
+        value: float,
+        var_type: Optional[StateVariableType] = None
+    ) -> None:
         """
-        Set the value of a state variable.
+        Set a state variable.
         
         Args:
-            variable: The state variable to set.
-            value: The value to set (0.0 to 1.0).
+            name: Name of the variable.
+            value: Value to set.
+            var_type: Optional type of the variable.
         """
-        self.variables[variable] = max(0.0, min(1.0, value))
-        self.timestamp = time.time()
+        if name not in self.variables:
+            # Create new variable
+            if var_type is None:
+                var_type = StateVariableType.ENERGY
+            
+            self.variables[name] = StateVariable(
+                name=name,
+                var_type=var_type,
+                value=value,
+            )
+        else:
+            # Update existing variable
+            self.variables[name].value = value
+            self.variables[name].last_updated = time.time()
+        
+        self.last_updated = time.time()
     
-    def adjust_variable(self, variable: StateVariable, delta: float) -> None:
+    def update_activity(self, activity: StateActivity) -> None:
         """
-        Adjust the value of a state variable by a delta.
+        Update the current activity.
         
         Args:
-            variable: The state variable to adjust.
-            delta: The amount to adjust by (can be positive or negative).
-        """
-        current = self.variables.get(variable, 0.5)
-        new_value = max(0.0, min(1.0, current + delta))
-        self.variables[variable] = new_value
-        self.timestamp = time.time()
-    
-    def get_activity(self) -> ActivityState:
-        """
-        Get the current activity state.
-        
-        Returns:
-            ActivityState: The current activity.
-        """
-        return self.activity
-    
-    def set_activity(self, activity: ActivityState) -> None:
-        """
-        Set the current activity state.
-        
-        Args:
-            activity: The new activity state.
+            activity: New activity.
         """
         self.activity = activity
-        self.timestamp = time.time()
+        self.last_updated = time.time()
     
     def get_summary(self) -> Dict[str, Any]:
         """
@@ -176,8 +244,15 @@ class State:
         """
         return {
             "activity": self.activity.value,
-            "variables": {v.value: self.variables.get(v, 0.0) for v in StateVariable},
-            "timestamp": self.timestamp,
+            "variables": {
+                name: {
+                    "value": var.value,
+                    "percent": var.get_percent(),
+                    "bar": var.get_bar(),
+                }
+                for name, var in self.variables.items()
+            },
+            "last_updated": self.last_updated,
         }
 
 
@@ -188,7 +263,7 @@ class StateHistory:
     
     Attributes:
         states: List of historical states.
-        max_size: Maximum number of states to keep in history.
+        max_size: Maximum number of states to keep.
     """
     states: List[State] = field(default_factory=list)
     max_size: int = 100
@@ -198,11 +273,11 @@ class StateHistory:
         Add a state to the history.
         
         Args:
-            state: The state to add.
+            state: State to add.
         """
         self.states.append(state)
         
-        # Trim if necessary
+        # Trim if over max size
         if len(self.states) > self.max_size:
             self.states = self.states[-self.max_size:]
     
@@ -215,68 +290,25 @@ class StateHistory:
         """
         return self.states.copy()
     
-    def get_state_at(self, index: int) -> Optional[State]:
+    def get_state_at(self, timestamp: float) -> Optional[State]:
         """
-        Get a state at a specific index.
+        Get the state at or before a specific timestamp.
         
         Args:
-            index: Index of the state to get.
+            timestamp: Timestamp to search for.
             
         Returns:
-            Optional[State]: The state at the index, or None if not found.
+            Optional[State]: State at or before the timestamp, or None if not found.
         """
-        if 0 <= index < len(self.states):
-            return self.states[index]
+        for state in reversed(self.states):
+            if state.last_updated <= timestamp:
+                return state
+        
         return None
     
-    def get_latest(self) -> Optional[State]:
-        """
-        Get the latest state.
-        
-        Returns:
-            Optional[State]: The latest state, or None if history is empty.
-        """
-        return self.states[-1] if self.states else None
-    
     def clear(self) -> None:
-        """Clear the state history."""
+        """Clear the history."""
         self.states = []
-    
-    def get_changes(self) -> List[Dict[str, Any]]:
-        """
-        Get a list of state changes.
-        
-        Returns:
-            List[Dict[str, Any]]: List of state changes.
-        """
-        changes = []
-        
-        for i in range(1, len(self.states)):
-            prev = self.states[i-1]
-            curr = self.states[i]
-            
-            change = {
-                "timestamp": curr.timestamp,
-                "activity_change": prev.activity != curr.activity,
-                "variable_changes": {},
-            }
-            
-            # Check for variable changes
-            for var in StateVariable:
-                prev_val = prev.variables.get(var, 0.0)
-                curr_val = curr.variables.get(var, 0.0)
-                
-                if prev_val != curr_val:
-                    change["variable_changes"][var.value] = {
-                        "from": prev_val,
-                        "to": curr_val,
-                        "delta": curr_val - prev_val,
-                    }
-            
-            if change["activity_change"] or change["variable_changes"]:
-                changes.append(change)
-        
-        return changes
     
     def get_stats(self) -> Dict[str, Any]:
         """
@@ -293,9 +325,8 @@ class StateHistory:
                 "variable_averages": {},
             }
         
-        # Calculate duration
-        first_timestamp = self.states[0].timestamp
-        last_timestamp = self.states[-1].timestamp
+        first_timestamp = self.states[0].last_updated
+        last_timestamp = self.states[-1].last_updated
         duration = last_timestamp - first_timestamp
         
         # Activity distribution
@@ -306,9 +337,16 @@ class StateHistory:
         
         # Variable averages
         variable_averages = {}
-        for var in StateVariable:
-            values = [s.variables.get(var, 0.0) for s in self.states]
-            variable_averages[var.value] = sum(values) / len(values) if values else 0.0
+        for state in self.states:
+            for name, var in state.variables.items():
+                if name not in variable_averages:
+                    variable_averages[name] = []
+                variable_averages[name].append(var.value)
+        
+        # Calculate averages
+        for name in variable_averages:
+            values = variable_averages[name]
+            variable_averages[name] = sum(values) / len(values) if values else 0.0
         
         return {
             "total_states": len(self.states),
