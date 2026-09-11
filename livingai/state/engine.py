@@ -7,7 +7,7 @@ import time
 from typing import Dict, Any, Optional, List
 
 # Local imports
-from .models import State, StateVariable, ActivityState, StateHistory
+from .models import State, StateVariable, StateActivity, StateHistory, StateVariableType
 from ..config import ConfigManager
 from ..security.audit import AuditLogger
 
@@ -18,72 +18,11 @@ class StateEngine:
     
     Responsibilities:
     - Track state variables (energy, focus, confidence, etc.)
-    - Manage activity states (idle, thinking, acting, etc.)
+    - Manage activity state
     - Update state based on system events
-    - Provide state history and statistics
-    - Handle state transitions
+    - Maintain state history
+    - Provide state information
     """
-    
-    # Default state variable values
-    DEFAULT_STATE = {
-        StateVariable.ENERGY: 1.0,
-        StateVariable.FOCUS: 1.0,
-        StateVariable.CONFIDENCE: 0.8,
-        StateVariable.UNCERTAINTY: 0.2,
-        StateVariable.CURIOUSITY: 0.7,
-        StateVariable.URGENCY: 0.3,
-        StateVariable.ATTENTION: 0.8,
-        StateVariable.SATISFACTION: 0.5,
-    }
-    
-    # Activity state transitions
-    ACTIVITY_TRANSITIONS = {
-        ActivityState.IDLE: [
-            ActivityState.THINKING,
-            ActivityState.PLANNING,
-            ActivityState.ACTING,
-            ActivityState.SLEEPING,
-        ],
-        ActivityState.THINKING: [
-            ActivityState.IDLE,
-            ActivityState.PLANNING,
-            ActivityState.ACTING,
-        ],
-        ActivityState.PLANNING: [
-            ActivityState.IDLE,
-            ActivityState.THINKING,
-            ActivityState.ACTING,
-        ],
-        ActivityState.ACTING: [
-            ActivityState.IDLE,
-            ActivityState.THINKING,
-            ActivityState.OBSERVING,
-        ],
-        ActivityState.OBSERVING: [
-            ActivityState.IDLE,
-            ActivityState.THINKING,
-            ActivityState.REFLECTING,
-        ],
-        ActivityState.REFLECTING: [
-            ActivityState.IDLE,
-            ActivityState.LEARNING,
-        ],
-        ActivityState.LEARNING: [
-            ActivityState.IDLE,
-            ActivityState.CONSOLIDATING,
-        ],
-        ActivityState.CONSOLIDATING: [
-            ActivityState.IDLE,
-            ActivityState.SLEEPING,
-        ],
-        ActivityState.SLEEPING: [
-            ActivityState.IDLE,
-        ],
-        ActivityState.WAITING: [
-            ActivityState.IDLE,
-            ActivityState.THINKING,
-        ],
-    }
     
     def __init__(
         self,
@@ -101,222 +40,356 @@ class StateEngine:
         self.audit_logger = audit_logger
         
         # Initialize state
-        self._current_state = State()
+        self._state = State()
+        self._history = StateHistory()
         
-        # Initialize state history
-        self._state_history = StateHistory()
+        # Initialize default state variables
+        self._initialize_default_variables()
         
-        # State configuration
-        self._decay_rates = self._load_decay_rates()
-        self._recovery_rates = self._load_recovery_rates()
-        
-        # Add initial state to history
-        self._state_history.add_state(self._current_state)
+        # Save initial state
+        self._history.add_state(self._state.copy())
         
         logging.info("StateEngine initialized")
     
-    def _load_decay_rates(self) -> Dict[StateVariable, float]:
-        """
-        Load decay rates for state variables.
+    def _initialize_default_variables(self) -> None:
+        """Initialize default state variables."""
+        default_variables = [
+            {
+                "name": "energy",
+                "var_type": StateVariableType.ENERGY,
+                "value": 1.0,
+                "description": "Current energy level",
+            },
+            {
+                "name": "focus",
+                "var_type": StateVariableType.FOCUS,
+                "value": 1.0,
+                "description": "Current focus level",
+            },
+            {
+                "name": "confidence",
+                "var_type": StateVariableType.CONFIDENCE,
+                "value": 0.8,
+                "description": "Current confidence level",
+            },
+            {
+                "name": "uncertainty",
+                "var_type": StateVariableType.UNCERTAINTY,
+                "value": 0.2,
+                "description": "Current uncertainty level",
+            },
+            {
+                "name": "curiosity",
+                "var_type": StateVariableType.CURIOUSITY,
+                "value": 0.7,
+                "description": "Current curiosity level",
+            },
+            {
+                "name": "urgency",
+                "var_type": StateVariableType.URGENCY,
+                "value": 0.3,
+                "description": "Current urgency level",
+            },
+            {
+                "name": "attention",
+                "var_type": StateVariableType.ATTENTION,
+                "value": 0.8,
+                "description": "Current attention level",
+            },
+            {
+                "name": "satisfaction",
+                "var_type": StateVariableType.SATISFACTION,
+                "value": 0.5,
+                "description": "Current satisfaction level",
+            },
+        ]
         
-        Returns:
-            Dict[StateVariable, float]: Decay rates (0.0 to 1.0).
-        """
-        # Default decay rates (per minute)
-        return {
-            StateVariable.ENERGY: 0.01,      # Energy decays slowly
-            StateVariable.FOCUS: 0.05,      # Focus decays faster
-            StateVariable.CONFIDENCE: 0.02,  # Confidence decays slowly
-            StateVariable.UNCERTAINTY: 0.01,  # Uncertainty decays slowly
-            StateVariable.CURIOUSITY: 0.03,  # Curiosity decays moderately
-            StateVariable.URGENCY: 0.05,      # Urgency decays faster
-            StateVariable.ATTENTION: 0.04,   # Attention decays moderately
-            StateVariable.SATISFACTION: 0.02, # Satisfaction decays slowly
-        }
-    
-    def _load_recovery_rates(self) -> Dict[StateVariable, float]:
-        """
-        Load recovery rates for state variables.
-        
-        Returns:
-            Dict[StateVariable, float]: Recovery rates (0.0 to 1.0).
-        """
-        # Default recovery rates (per minute)
-        return {
-            StateVariable.ENERGY: 0.05,      # Energy recovers moderately
-            StateVariable.FOCUS: 0.1,       # Focus recovers faster
-            StateVariable.CONFIDENCE: 0.05,  # Confidence recovers moderately
-            StateVariable.UNCERTAINTY: -0.05, # Uncertainty decreases (negative recovery)
-            StateVariable.CURIOUSITY: 0.05,   # Curiosity recovers moderately
-            StateVariable.URGENCY: -0.1,      # Urgency decreases (negative recovery)
-            StateVariable.ATTENTION: 0.08,    # Attention recovers faster
-            StateVariable.SATISFACTION: 0.03, # Satisfaction recovers slowly
-        }
+        for var_data in default_variables:
+            self._state.variables[var_data["name"]] = StateVariable(
+                name=var_data["name"],
+                var_type=var_data["var_type"],
+                value=var_data["value"],
+                description=var_data["description"],
+            )
     
     def get_state(self) -> State:
         """
         Get the current state.
         
         Returns:
-            State: The current state.
+            State: Current state.
         """
-        return self._current_state
+        return self._state
     
-    def get_variable(self, variable: StateVariable) -> float:
+    def get_variable(self, name: str) -> Optional[StateVariable]:
         """
-        Get the value of a state variable.
+        Get a state variable by name.
         
         Args:
-            variable: The state variable to get.
+            name: Name of the variable.
             
         Returns:
-            float: The value of the variable.
+            Optional[StateVariable]: The variable, or None if not found.
         """
-        return self._current_state.get_variable(variable)
+        return self._state.get_variable(name)
     
-    def set_variable(self, variable: StateVariable, value: float) -> None:
+    def set_variable(self, name: str, value: float) -> bool:
         """
-        Set the value of a state variable.
+        Set a state variable.
         
         Args:
-            variable: The state variable to set.
-            value: The value to set (0.0 to 1.0).
+            name: Name of the variable.
+            value: Value to set (0.0 to 1.0).
+            
+        Returns:
+            bool: True if variable was set, False otherwise.
         """
-        old_value = self._current_state.get_variable(variable)
-        self._current_state.set_variable(variable, value)
+        # Clamp value between 0 and 1
+        value = max(0.0, min(1.0, value))
         
-        # Log the change
+        # Get or create the variable
+        if name not in self._state.variables:
+            self._state.variables[name] = StateVariable(
+                name=name,
+                var_type=StateVariableType.ENERGY,  # Default type
+                value=value,
+            )
+        else:
+            self._state.variables[name].value = value
+            self._state.variables[name].last_updated = time.time()
+        
+        self._state.last_updated = time.time()
+        
+        # Save to history
+        self._history.add_state(self._state.copy())
+        
         self.audit_logger.log(
             "STATE_VARIABLE_SET",
-            f"Set {variable.value} from {old_value:.2f} to {value:.2f}"
+            f"Set {name} to {value}"
         )
-        
-        # Add to history
-        self._state_history.add_state(self._current_state)
-    
-    def adjust_variable(self, variable: StateVariable, delta: float) -> None:
-        """
-        Adjust the value of a state variable by a delta.
-        
-        Args:
-            variable: The state variable to adjust.
-            delta: The amount to adjust by (can be positive or negative).
-        """
-        old_value = self._current_state.get_variable(variable)
-        self._current_state.adjust_variable(variable, delta)
-        new_value = self._current_state.get_variable(variable)
-        
-        # Log the change
-        self.audit_logger.log(
-            "STATE_VARIABLE_ADJUST",
-            f"Adjusted {variable.value} from {old_value:.2f} to {new_value:.2f} (delta: {delta:.2f})"
-        )
-        
-        # Add to history
-        self._state_history.add_state(self._current_state)
-    
-    def get_activity(self) -> ActivityState:
-        """
-        Get the current activity state.
-        
-        Returns:
-            ActivityState: The current activity.
-        """
-        return self._current_state.get_activity()
-    
-    def set_activity(self, activity: ActivityState) -> bool:
-        """
-        Set the current activity state.
-        
-        Args:
-            activity: The new activity state.
-            
-        Returns:
-            bool: True if transition succeeded, False otherwise.
-        """
-        current_activity = self._current_state.get_activity()
-        
-        # Check if transition is allowed
-        if activity not in self.ACTIVITY_TRANSITIONS.get(current_activity, []):
-            logging.warning(f"Invalid activity transition: {current_activity.value} -> {activity.value}")
-            return False
-        
-        old_activity = self._current_state.get_activity()
-        self._current_state.set_activity(activity)
-        
-        # Log the change
-        self.audit_logger.log(
-            "STATE_ACTIVITY_SET",
-            f"Changed activity from {old_activity.value} to {activity.value}"
-        )
-        
-        # Add to history
-        self._state_history.add_state(self._current_state)
         
         return True
     
-    def update(self, delta_time: float = None) -> None:
+    def adjust_variable(self, name: str, delta: float) -> bool:
         """
-        Update the state based on time passed.
+        Adjust a state variable by a delta.
         
         Args:
-            delta_time: Time passed in seconds. If None, uses time since last update.
+            name: Name of the variable.
+            delta: Amount to adjust by (can be positive or negative).
+            
+        Returns:
+            bool: True if variable was adjusted, False otherwise.
         """
-        if delta_time is None:
-            # Calculate time since last update
-            last_timestamp = self._current_state.timestamp
-            delta_time = time.time() - last_timestamp
+        if name not in self._state.variables:
+            return False
         
-        # Convert to minutes
-        delta_minutes = delta_time / 60.0
+        current_value = self._state.variables[name].value
+        new_value = max(0.0, min(1.0, current_value + delta))
         
-        # Apply decay and recovery
-        for variable, decay_rate in self._decay_rates.items():
-            # Get current value
-            current_value = self._current_state.get_variable(variable)
-            
-            # Apply decay
-            decay_amount = decay_rate * delta_minutes
-            new_value = max(0.0, current_value - decay_amount)
-            
-            # Apply recovery
-            recovery_rate = self._recovery_rates.get(variable, 0.0)
-            recovery_amount = recovery_rate * delta_minutes
-            new_value = min(1.0, new_value + recovery_amount)
-            
-            # Update the variable
-            self._current_state.set_variable(variable, new_value)
+        self._state.variables[name].value = new_value
+        self._state.variables[name].last_updated = time.time()
+        self._state.last_updated = time.time()
         
-        # Add to history
-        self._state_history.add_state(self._current_state)
+        # Save to history
+        self._history.add_state(self._state.copy())
         
-        # Log the update
         self.audit_logger.log(
-            "STATE_UPDATE",
-            f"Updated state after {delta_time:.2f} seconds"
+            "STATE_VARIABLE_ADJUST",
+            f"Adjusted {name} by {delta} to {new_value}"
         )
+        
+        return True
     
-    def reset(self) -> None:
-        """Reset the state to default values."""
-        old_state = self._current_state
-        
-        # Create new state with default values
-        self._current_state = State()
-        
-        # Add to history
-        self._state_history.add_state(self._current_state)
-        
-        # Log the reset
-        self.audit_logger.log("STATE_RESET", "State reset to defaults")
-    
-    def get_history(self) -> StateHistory:
+    def get_activity(self) -> StateActivity:
         """
-        Get the state history.
+        Get the current activity.
         
         Returns:
-            StateHistory: The state history.
+            StateActivity: Current activity.
         """
-        return self._state_history
+        return self._state.activity
+    
+    def set_activity(self, activity: StateActivity) -> bool:
+        """
+        Set the current activity.
+        
+        Args:
+            activity: New activity.
+            
+        Returns:
+            bool: True if activity was set, False otherwise.
+        """
+        if isinstance(activity, str):
+            try:
+                activity = StateActivity(activity)
+            except ValueError:
+                return False
+        
+        self._state.activity = activity
+        self._state.last_updated = time.time()
+        
+        # Save to history
+        self._history.add_state(self._state.copy())
+        
+        self.audit_logger.log(
+            "STATE_ACTIVITY_SET",
+            f"Set activity to {activity.value}"
+        )
+        
+        return True
+    
+    def update_from_event(self, event: str, data: Optional[Dict[str, Any]] = None) -> None:
+        """
+        Update state based on a system event.
+        
+        Args:
+            event: Event type.
+            data: Optional event data.
+        """
+        event_handlers = {
+            "action_start": self._handle_action_start,
+            "action_complete": self._handle_action_complete,
+            "action_fail": self._handle_action_fail,
+            "learning_success": self._handle_learning_success,
+            "learning_fail": self._handle_learning_fail,
+            "goal_complete": self._handle_goal_complete,
+            "goal_fail": self._handle_goal_fail,
+            "idle_start": self._handle_idle_start,
+            "idle_end": self._handle_idle_end,
+            "sleep_start": self._handle_sleep_start,
+            "sleep_end": self._handle_sleep_end,
+        }
+        
+        handler = event_handlers.get(event)
+        if handler:
+            handler(data)
+        else:
+            logging.warning(f"No state handler for event: {event}")
+    
+    def _handle_action_start(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle the start of an action."""
+        # Increase urgency and attention
+        self.adjust_variable("urgency", 0.1)
+        self.adjust_variable("attention", 0.1)
+        
+        # Set activity
+        self.set_activity(StateActivity.ACTING)
+    
+    def _handle_action_complete(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle the completion of an action."""
+        # Decrease urgency
+        self.adjust_variable("urgency", -0.1)
+        
+        # Increase confidence and satisfaction
+        self.adjust_variable("confidence", 0.05)
+        self.adjust_variable("satisfaction", 0.1)
+        
+        # Set activity based on what was done
+        if data and data.get("action_type") == "learning":
+            self.set_activity(StateActivity.LEARNING)
+        else:
+            self.set_activity(StateActivity.IDLE)
+    
+    def _handle_action_fail(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle the failure of an action."""
+        # Decrease confidence
+        self.adjust_variable("confidence", -0.1)
+        
+        # Increase uncertainty
+        self.adjust_variable("uncertainty", 0.2)
+        
+        # Decrease satisfaction
+        self.adjust_variable("satisfaction", -0.1)
+        
+        # Set activity
+        self.set_activity(StateActivity.IDLE)
+    
+    def _handle_learning_success(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle successful learning."""
+        # Increase confidence and satisfaction
+        self.adjust_variable("confidence", 0.1)
+        self.adjust_variable("satisfaction", 0.1)
+        
+        # Decrease uncertainty
+        self.adjust_variable("uncertainty", -0.1)
+        
+        # Set activity
+        self.set_activity(StateActivity.LEARNING)
+    
+    def _handle_learning_fail(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle failed learning."""
+        # Decrease confidence
+        self.adjust_variable("confidence", -0.05)
+        
+        # Increase uncertainty
+        self.adjust_variable("uncertainty", 0.1)
+        
+        # Set activity
+        self.set_activity(StateActivity.IDLE)
+    
+    def _handle_goal_complete(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle the completion of a goal."""
+        # Increase satisfaction and confidence
+        self.adjust_variable("satisfaction", 0.2)
+        self.adjust_variable("confidence", 0.1)
+        
+        # Decrease urgency
+        self.adjust_variable("urgency", -0.2)
+        
+        # Set activity
+        self.set_activity(StateActivity.IDLE)
+    
+    def _handle_goal_fail(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle the failure of a goal."""
+        # Decrease confidence and satisfaction
+        self.adjust_variable("confidence", -0.1)
+        self.adjust_variable("satisfaction", -0.2)
+        
+        # Increase uncertainty
+        self.adjust_variable("uncertainty", 0.2)
+        
+        # Set activity
+        self.set_activity(StateActivity.IDLE)
+    
+    def _handle_idle_start(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle the start of idle mode."""
+        # Decrease urgency and attention
+        self.adjust_variable("urgency", -0.3)
+        self.adjust_variable("attention", -0.2)
+        
+        # Set activity
+        self.set_activity(StateActivity.IDLE)
+    
+    def _handle_idle_end(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle the end of idle mode."""
+        # Increase attention
+        self.adjust_variable("attention", 0.2)
+        
+        # Set activity based on what we're doing
+        if data and data.get("next_activity"):
+            self.set_activity(StateActivity(data["next_activity"]))
+        else:
+            self.set_activity(StateActivity.THINKING)
+    
+    def _handle_sleep_start(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle the start of sleep mode."""
+        # Decrease all variables
+        for name in self._state.variables:
+            self.adjust_variable(name, -0.5)
+        
+        # Set activity
+        self.set_activity(StateActivity.SLEEPING)
+    
+    def _handle_sleep_end(self, data: Optional[Dict[str, Any]]) -> None:
+        """Handle the end of sleep mode."""
+        # Reset variables to reasonable values
+        self.set_variable("energy", 1.0)
+        self.set_variable("focus", 0.8)
+        self.set_variable("confidence", 0.8)
+        
+        # Set activity
+        self.set_activity(StateActivity.IDLE)
     
     def get_summary(self) -> Dict[str, Any]:
         """
@@ -325,7 +398,28 @@ class StateEngine:
         Returns:
             Dict[str, Any]: State summary.
         """
-        return self._current_state.get_summary()
+        return self._state.get_summary()
+    
+    def get_history(self) -> StateHistory:
+        """
+        Get the state history.
+        
+        Returns:
+            StateHistory: State history.
+        """
+        return self._history
+    
+    def get_state_at(self, timestamp: float) -> Optional[State]:
+        """
+        Get the state at or before a specific timestamp.
+        
+        Args:
+            timestamp: Timestamp to search for.
+            
+        Returns:
+            Optional[State]: State at or before the timestamp, or None if not found.
+        """
+        return self._history.get_state_at(timestamp)
     
     def get_stats(self) -> Dict[str, Any]:
         """
@@ -335,104 +429,91 @@ class StateEngine:
             Dict[str, Any]: State statistics.
         """
         return {
-            "current_state": self._current_state.get_summary(),
-            "history_stats": self._state_history.get_stats(),
+            "current_state": self._state.get_summary(),
+            "history": self._history.get_stats(),
         }
     
-    def display_state(self) -> None:
-        """Display the current state in a user-friendly format."""
-        state = self._current_state
+    def reset(self) -> None:
+        """Reset the state to default values."""
+        self._state = State()
+        self._initialize_default_variables()
+        self._history.clear()
+        self._history.add_state(self._state.copy())
         
-        print("\n" + "=" * 50)
-        print("INTERNAL STATE")
-        print("=" * 50)
-        
-        # Display activity
-        print(f"\nActivity: {state.get_activity().value.upper()}")
-        
-        # Display variables
-        print("\nVariables:")
-        for variable in StateVariable:
-            value = state.get_variable(variable)
-            bar_length = int(value * 20)
-            bar = "█" * bar_length + "░" * (20 - bar_length)
-            print(f"{variable.value:12} {bar} {value:.0%}")
-        
-        print("=" * 50 + "\n")
+        self.audit_logger.log("STATE_RESET", "State reset to defaults")
     
-    def get_state_as_dict(self) -> Dict[str, Any]:
+    def decay_state(self) -> None:
         """
-        Get the current state as a dictionary.
+        Decay state variables over time (for idle mode).
         
-        Returns:
-            Dict[str, Any]: State as a dictionary.
+        This simulates the natural decay of certain state variables
+        when the system is not actively being used.
         """
-        return self._current_state.to_dict()
+        # Decay energy and focus
+        self.adjust_variable("energy", -0.01)
+        self.adjust_variable("focus", -0.01)
+        
+        # Increase uncertainty slightly
+        self.adjust_variable("uncertainty", 0.005)
+        
+        self.audit_logger.log("STATE_DECAY", "State variables decayed")
     
-    def set_state_from_dict(self, state_dict: Dict[str, Any]) -> None:
+    def boost_state(self, event: str) -> None:
         """
-        Set the current state from a dictionary.
+        Boost state variables based on an event.
         
         Args:
-            state_dict: Dictionary with state data.
+            event: Event that triggered the boost.
         """
-        old_state = self._current_state
-        self._current_state = State.from_dict(state_dict)
+        boosts = {
+            "positive_feedback": {
+                "confidence": 0.1,
+                "satisfaction": 0.1,
+            },
+            "successful_action": {
+                "confidence": 0.05,
+                "satisfaction": 0.1,
+                "energy": 0.02,
+            },
+            "learning_success": {
+                "confidence": 0.1,
+                "curiosity": 0.05,
+            },
+            "goal_complete": {
+                "satisfaction": 0.2,
+                "confidence": 0.1,
+            },
+        }
         
-        # Add to history
-        self._state_history.add_state(self._current_state)
+        event_boosts = boosts.get(event, {})
+        for var_name, delta in event_boosts.items():
+            self.adjust_variable(var_name, delta)
         
-        # Log the change
-        self.audit_logger.log("STATE_SET", "State set from dictionary")
-    
-    def get_changes(self) -> List[Dict[str, Any]]:
-        """
-        Get a list of recent state changes.
-        
-        Returns:
-            List[Dict[str, Any]]: List of state changes.
-        """
-        return self._state_history.get_changes()
-    
-    def clear_history(self) -> None:
-        """Clear the state history."""
-        self._state_history.clear()
+        self.audit_logger.log("STATE_BOOST", f"State boosted by event: {event}")
     
     def get_variable_history(
         self,
-        variable: StateVariable,
+        name: str,
         limit: int = 10
-    ) -> List[Tuple[float, float]]:
+    ) -> List[Dict[str, Any]]:
         """
-        Get the history of a specific variable.
+        Get the history of a specific state variable.
         
         Args:
-            variable: The state variable to get history for.
+            name: Name of the variable.
             limit: Maximum number of entries to return.
             
         Returns:
-            List[Tuple[float, float]]: List of (timestamp, value) tuples.
+            List[Dict[str, Any]]: History of the variable.
         """
         history = []
         
-        for state in self._state_history.get_states()[-limit:]:
-            history.append((state.timestamp, state.get_variable(variable)))
+        for state in self._history.get_states():
+            if name in state.variables:
+                history.append({
+                    "timestamp": state.last_updated,
+                    "value": state.variables[name].value,
+                })
         
-        return history
-    
-    def get_activity_history(self, limit: int = 10) -> List[Tuple[float, str]]:
-        """
-        Get the history of activity states.
-        
-        Args:
-            limit: Maximum number of entries to return.
-            
-        Returns:
-            List[Tuple[float, str]]: List of (timestamp, activity) tuples.
-        """
-        history = []
-        
-        for state in self._state_history.get_states()[-limit:]:
-            history.append((state.timestamp, state.get_activity().value))
-        
-        return history
+        # Return most recent entries
+        return history[-limit:] if limit else history
