@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LivingAI Control Center</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="brand">
+                <h1>✦ LivingAI Control Center</h1>
+                <span class="status-badge" id="status-badge">● Offline</span>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-target="dashboard">Dashboard</button>
+                <button class="nav-btn" data-target="chat">Live Chat</button>
+                <button class="nav-btn" data-target="memory">Memory</button>
+                <button class="nav-btn" data-target="goals">Goals</button>
+                <button class="nav-btn" data-target="skills">Skills</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Dashboard View -->
+            <section id="view-dashboard" class="view active">
+                <h2>System Dashboard</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>AI Brain</h3>
+                        <p class="highlight">SmolLM3-3B</p>
+                        <span class="subtext">One-Model Local Brain</span>
+                    </div>
+                    <div class="card">
+                        <h3>Memories</h3>
+                        <p class="highlight" id="stat-memories">0</p>
+                        <span class="subtext">SQLite Persisted</span>
+                    </div>
+                    <div class="card">
+                        <h3>Active Goals</h3>
+                        <p class="highlight" id="stat-goals">0</p>
+                        <span class="subtext">Managed Objectives</span>
+                    </div>
+                    <div class="card">
+                        <h3>Skills</h3>
+                        <p class="highlight" id="stat-skills">0</p>
+                        <span class="subtext">Sandboxed Tools</span>
+                    </div>
+                </div>
+                <div class="card full-width">
+                    <h3>Diagnostics</h3>
+                    <pre id="diag-output">Loading system diagnostics...</pre>
+                </div>
+            </section>
+
+            <!-- Chat View -->
+            <section id="view-chat" class="view">
+                <h2>Interactive Chat</h2>
+                <div id="chat-messages" class="chat-box"></div>
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" placeholder="Type a command or message to LivingAI...">
+                    <button id="send-btn">Send</button>
+                </div>
+            </section>
+
+            <!-- Memory View -->
+            <section id="view-memory" class="view">
+                <h2>Memory Explorer</h2>
+                <div id="memory-list" class="list-container"></div>
+            </section>
+
+            <!-- Goals View -->
+            <section id="view-goals" class="view">
+                <h2>Goals & Tasks</h2>
+                <div id="goals-list" class="list-container"></div>
+            </section>
+
+            <!-- Skills View -->
+            <section id="view-skills" class="view">
+                <h2>Sandboxed Skills</h2>
+                <div id="skills-list" class="list-container"></div>
+            </section>
+        </main>
+    </div>
+    <script src="/app.js"></script>
+</body>
+</html>
