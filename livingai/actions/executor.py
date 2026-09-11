@@ -6,7 +6,7 @@ import os
 import subprocess
 import logging
 import time
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Optional, Tuple, List
 
 # Local imports
 from ..config import ConfigManager

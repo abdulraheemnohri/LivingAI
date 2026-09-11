@@ -1,0 +1,5 @@
+#!/bin/bash
+if [ -f "$HOME/.livingai/runtime/venv/bin/activate" ]; then
+    source "$HOME/.livingai/runtime/venv/bin/activate"
+fi
+exec python3 -m livingai.cli "$@"
