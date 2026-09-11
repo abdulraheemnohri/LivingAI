@@ -3,7 +3,7 @@
 # This module handles action confirmations for risky operations.
 
 import logging
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from enum import Enum
 
 # Local imports

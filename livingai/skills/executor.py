@@ -4,7 +4,7 @@
 
 import logging
 import time
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 
 # Local imports
 from .sandbox import SkillSandbox

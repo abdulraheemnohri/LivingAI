@@ -6,7 +6,7 @@ import logging
 from typing import Dict, Any, Optional, List
 
 # Local imports
-from .models import Memory, MemoryType, MemorySearchResult
+from .models import Memory, MemoryType, MemorySearchResult, MemoryImportance
 from .manager import MemoryManager
 
 
