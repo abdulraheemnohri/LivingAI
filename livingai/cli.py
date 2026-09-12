@@ -11,6 +11,7 @@ from typing import Optional, List
 # Local imports
 from .app import LivingAIApp
 from .ui.terminal import TerminalUI
+from .cli_agent_extension import add_agent_parser, handle_agent_command
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -45,7 +46,8 @@ def create_parser() -> argparse.ArgumentParser:
     server_parser.add_argument("--host", type=str, default="127.0.0.1", help="Host address")
     server_parser.add_argument("--port", type=int, default=8080, help="Port number")
 
-    subparsers.add_parser("logs", help="View recent application logs")
+    subpars
+ers.add_parser("logs", help="View recent application logs")
 
     chat_parser = subparsers.add_parser("chat", help="Start an interactive chat session")
     chat_parser.add_argument("--no-stream", action="store_true", help="Disable streaming responses")
@@ -75,7 +77,8 @@ def create_parser() -> argparse.ArgumentParser:
     memory_subparsers = memory_parser.add_subparsers(dest="memory_command", title="Memory Commands")
     memory_subparsers.add_parser("list", help="List all memories")
     memory_search = memory_subparsers.add_parser("search", help="Search memories")
-    memory_search.add_argument("query", type=str, help="Search query")
+    memory_search.add_argument("query", 
+type=str, help="Search query")
     memory_subparsers.add_parser("add", help="Add a new memory")
     memory_show = memory_subparsers.add_parser("show", help="Show a memory by ID")
     memory_show.add_argument("memory_id", type=int, help="Memory ID")
@@ -104,7 +107,8 @@ def create_parser() -> argparse.ArgumentParser:
     skill_subparsers.add_parser("import", help="Import a skill")
 
     goal_parser = subparsers.add_parser("goal", help="Manage goals")
-    goal_subparsers = goal_parser.add_subparsers(dest="goal_command", title="Goal Commands")
+    goal_subparsers = goal_parser.add_subparsers(dest="goal_command", ti
+tle="Goal Commands")
     goal_subparsers.add_parser("list", help="List all goals")
     goal_add = goal_subparsers.add_parser("add", help="Add a new goal")
     goal_add.add_argument("title", type=str, help="Goal title")
@@ -135,6 +139,7 @@ def create_parser() -> argparse.ArgumentParser:
     action_subparsers.add_parser("confirmations", help="Manage action confirmations")
 
     config_parser = subparsers.add_parser("config", help="Configure settings")
+
     config_subparsers = config_parser.add_subparsers(dest="config_command", title="Config Commands")
     config_subparsers.add_parser("show", help="Show current configuration")
     config_get = config_subparsers.add_parser("get", help="Get a configuration value")
@@ -164,6 +169,9 @@ def create_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("idle", help="Run idle-mode tasks")
     subparsers.add_parser("shell", help="Controlled shell interface")
 
+    # Agent commands
+    add_agent_parser(subparsers)
+
     return parser
 
 
@@ -173,7 +181,8 @@ def parse_args(args: Optional[List[str]] = None) -> argparse.Namespace:
 
 
 def handle_version() -> None:
-    from . import __version__
+    from . i
+mport __version__
     print(f"LivingAI v{__version__}")
     sys.exit(0)
 
@@ -235,7 +244,8 @@ def handle_command(app: LivingAIApp, args: argparse.Namespace) -> None:
             query = f"{query}\n\n[Piped Input]:\n{piped}" if query else piped
         if not query:
             print("Error: No query provided. Use: livingai ask <your question>")
-            sys.exit(1)
+            sy
+s.exit(1)
         ui.run_ask(query, stream=args.stream)
     elif args.command == "voice":
         voice_cmd = getattr(args, "voice_cmd", None)
@@ -282,6 +292,8 @@ def handle_command(app: LivingAIApp, args: argparse.Namespace) -> None:
         app.idle.run()
     elif args.command == "shell":
         ui.run_shell()
+    elif args.command == "agent":
+        handle_agent_command(app, args)
     else:
         print(f"Error: Unknown command '{args.command}'")
         sys.exit(1)
@@ -292,7 +304,8 @@ def handle_env_command(app: LivingAIApp, args: argparse.Namespace) -> None:
     if getattr(args, "env_command", None) == "remove":
         confirm = input("Are you sure you want to remove the virtual environment? (y/N): ")
         if confirm.lower() == "y":
-            if os.path.exists(venv_dir):
+            if os.path.exists(venv_di
+r):
                 shutil.rmtree(venv_dir)
                 print("✅ Virtual environment removed.")
             else:
@@ -346,7 +359,8 @@ def handle_memory_command(app: LivingAIApp, args: argparse.Namespace) -> None:
             print(f"[{m.id}] {m.content}")
     elif cmd == "add":
         content = input("Enter memory content: ")
-        if content:
+        
+if content:
             app.memory_manager.add({"content": content})
             print("✅ Memory saved.")
     elif cmd == "show":
@@ -400,7 +414,8 @@ def handle_learn_command(app: LivingAIApp, args: argparse.Namespace) -> None:
     elif cmd == "consolidate":
         app.learning_engine.consolidate()
         print("✅ Learning consolidated.")
-    else:
+   
+ else:
         print(app.learning_engine.get_status())
 
 
