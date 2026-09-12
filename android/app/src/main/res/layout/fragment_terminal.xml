@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    tools:context=".ui.terminal.TerminalFragment">
+
+    <!-- Terminal Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarTerminal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSurfaceVariant"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/terminal"
+        app:titleTextColor="@color/colorOnSurface">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClearTerminal"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_delete"
+                app:iconTint="@color/colorError" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTerminalSettings"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:text="@string/settings"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_settings"
+                app:iconTint="@color/colorPrimary" />
+        </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!-- Terminal Display Area -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTerminalOutput"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:background="@color/colorSurfaceVariant"
+        android:padding="@dimen/padding_medium"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/llTerminalInput"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarTerminal"
+        tools:listitem="@layout/item_terminal" />
+
+    <!-- Terminal Input Area -->
+    <LinearLayout
+        android:id="@+id/llTerminalInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:background="@color/colorSurface"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_medium"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tvPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/terminal_prompt"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTerminalInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/enter_command"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/colorOnSurface"
+            android:textSize="@dimen/text_size_medium" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExecute"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            app:icon="@drawable/ic_check"
+            app:iconTint="@color/colorPrimary" />
+    </LinearLayout>
+
+    <!-- Command Suggestions -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCommandSuggestions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSurface"
+        android:maxHeight="@dimen/suggestion_max_height"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTerminalInput" />
+
+    <!-- Empty State -->
+    <LinearLayout
+        android:id="@+id/llEmptyState"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_large"
+            android:layout_height="@dimen/icon_size_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:src="@drawable/ic_terminal"
+            android:tint="@color/colorOnSurfaceVariant" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/terminal_welcome"
+            android:textColor="@color/colorOnSurfaceVariant"
+            android:textSize="@dimen/text_size_large" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@string/terminal_help"
+            android:textColor="@color/colorOnSurfaceVariant"
+            android:textSize="@dimen/text_size_small" />
+    </LinearLayout>
+
+    <!-- Loading State -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    app:cardBackgroundColor="@color/colorSurfaceVariant"
+    app:cardCornerRadius="@dimen/corner_radius_medium"
+    app:cardElevation="@dimen/elevation_small">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_medium">
+
+        <!-- Tool Icon -->
+        <ImageView
+            android:id="@+id/ivToolIcon"
+            android:layout_width="@dimen/icon_size_large"
+            android:layout_height="@dimen/icon_size_large"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:src="@drawable/ic_tools"
+            android:tint="@color/colorPrimary" />
+
+        <!-- Tool Name -->
+        <TextView
+            android:id="@+id/tvToolName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:text="@string/tool_name"
+            android:textAlignment="center"
+            android:textColor="@color/colorOnSurface"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <!-- Tool Category -->
+        <TextView
+            android:id="@+id/tvToolCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:text="@string/tool_category"
+            android:textAlignment="center"
+            android:textColor="@color/colorOnSurfaceVariant"
+            android:textSize="@dimen/text_size_small" />
+
+        <!-- Tool Description -->
+        <TextView
+            android:id="@+id/tvToolDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tool_description"
+            android:textColor="@color/colorOnSurfaceVariant"
+            android:textSize="@dimen/text_size_small"
+            android:maxLines="3"
+            android:ellipsize="end" />
+
+        <!-- Tool Version -->
+        <TextView
+            android:id="@+id/tvToolVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@string/version"
+            android:textAlignment="end"
+            android:textColor="@color/colorOnSurfaceVariant"
+            android:textSize="@dimen/text_size_small" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_small"
+    app:cardBackgroundColor="@color/colorSurfaceVariant"
+    app:cardCornerRadius="@dimen/corner_radius_medium"
+    app:cardElevation="@dimen/elevation_small">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_medium">
+
+        <!-- Agent Icon -->
+        <ImageView
+            android:id="@+id/ivAgentIcon"
+            android:layout_width="@dimen/icon_size_medium"
+            android:layout_height="@dimen/icon_size_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:src="@drawable/ic_agent"
+            android:tint="@color/colorPrimary" />
+
+        <!-- Agent Info -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAgentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/agent_name"
+                android:textColor="@color/colorOnSurface"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvAgentType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:text="@string/agent_type"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/tvAgentStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:text="@string/agent_status"
+                android:textColor="@color/colorSuccess"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+
+        <!-- Agent Actions -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStartAgent"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_tiny"
+                app:icon="@drawable/ic_check"
+                app:iconTint="@color/colorSuccess" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStopAgent"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_close"
+                app:iconTint="@color/colorError" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
