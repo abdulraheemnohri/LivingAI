@@ -19,6 +19,7 @@
 ✅ **Daemon Mode**: **Background processing** (memory consolidation, goal review).
 ✅ **Security**: **Audit logging, prompt injection protection, sandboxed skills**.
 ✅ **Battery & Thermal Protection**: **Stops inference if low battery/overheating**.
+✅ **Agentic AI**: **Goal-driven autonomous agents** with planning, execution, and verification.
 
 ---
 
@@ -66,6 +67,42 @@ LivingAI CLI (Python)
          ├── Battery Check
          ├── Thermal Check
          └── Storage Check
+
+   AND
+
+   Agentic Engine
+   │
+   ├── Agent Manager
+   │     ├── Agent Creation
+   │     ├── Agent Execution
+   │     ├── Agent Monitoring
+   │     └── Agent History
+   │
+   ├── Agent Planner
+   │     ├── Goal Understanding
+   │     ├── Task Decomposition
+   │     ├── Dependency Resolution
+   │     └── Risk Assessment
+   │
+   ├── Task Graph
+   │     ├── Task Management
+   │     ├── Dependency Tracking
+   │     └── Execution Order
+   │
+   ├── Tool System
+   │     ├── Tool Registry
+   │     ├── Tool Selector
+   │     ├── Tool Executor
+   │     └── Permission Manager
+   │
+   ├── Verification Engine
+   │     ├── Result Verification
+   │     ├── Success Criteria
+   │     └── Quality Assurance
+   │
+   └── State Machine
+         ├── Lifecycle Management
+         └── State Transitions
 ```
 
 ---
@@ -129,6 +166,22 @@ livingai
 | `livingai shell` | Controlled shell interface |
 | `livingai version` | Show version |
 | `livingai --help` | Show help |
+| `livingai agent` | **Manage autonomous agents** |
+
+### **Agent Commands**
+
+| Agent Command | Description |
+|---------------|-------------|
+| `livingai agent list` | List all agents |
+| `livingai agent create <goal>` | Create a new agent |
+| `livingai agent start <goal>` | Start an agent run |
+| `livingai agent pause <run_id>` | Pause an agent run |
+| `livingai agent resume <run_id>` | Resume a paused agent |
+| `livingai agent stop <run_id>` | Stop an agent run |
+| `livingai agent status` | Show status of active runs |
+| `livingai agent inspect <run_id>` | Inspect an agent run in detail |
+| `livingai agent logs <run_id>` | Show logs for an agent run |
+| `livingai agent delete <agent_id>` | Delete an agent |
 
 ### **Interactive Mode**
 ```bash
@@ -141,8 +194,111 @@ livingai > what are my active goals?
 livingai > remember this
 livingai > create a skill
 livingai > status
+livingai > agent start "Organize my Downloads folder"
 ```
 Exit with `/exit`.
+
+---
+
+## **🎯 Agentic AI System**
+
+LivingAI now includes a **complete Agentic AI layer** that transforms it from a chatbot into a **goal-driven digital worker**.
+
+### **Agent Capabilities**
+
+- **UNDERSTAND** natural-language goals
+- **CREATE** multi-step plans with task dependencies
+- **SELECT** appropriate tools for each task
+- **EXECUTE** tasks with validation and permissions
+- **OBSERVE** results and detect failures
+- **RETRY** recoverable failures automatically
+- **VERIFY** results meet success criteria
+- **LEARN** from each run to improve future performance
+- **REPORT** completion with full transparency
+
+### **Agent Modes**
+
+| Mode | Description | Use Case |
+|------|-------------|----------|
+| **ASK** | Answer only | Simple questions |
+| **ASSIST** | Create plans, request confirmation | Safe operations |
+| **PLAN** | Create plan without executing | Review before action |
+| **EXECUTE** | Execute approved plan | Pre-approved tasks |
+| **AUTONOMOUS** | Execute allowed tasks | Trusted operations |
+| **BACKGROUND** | Work during idle | Background processing |
+
+### **Agent Example**
+
+```bash
+# Start an agent to organize Downloads
+livingai agent start "Organize my Downloads folder"
+
+# The agent will:
+# 1. Understand the goal
+# 2. Create a plan with tasks
+# 3. Request confirmation for risky actions
+# 4. Execute the plan
+# 5. Verify results
+# 6. Report completion
+```
+
+### **Agent Status Display**
+
+```
+╭──────────────────────────────────────────╮
+│ AGENT STATUS                             │
+├──────────────────────────────────────────┤
+│ ID:       AGT-001                        │
+│ Goal:     Organize Downloads             │
+│ State:    EXECUTING                      │
+│ Progress: 4/7 tasks                      │
+│ Steps:    9/50                           │
+│ Tools:    6                              │
+│ Retries:  1/3                            │
+│ Risk:     LOW                            │
+│ Runtime:  03:21                          │
+╰──────────────────────────────────────────╯
+```
+
+### **Agent Plan Display**
+
+```
+GOAL: Organize Downloads
+
+PLAN:
+✓ Inspect files
+✓ Categorize
+✓ Create folders
+→ Move files
+○ Verify
+○ Final report
+```
+
+### **Agent Security**
+
+- **One Model Only**: All agent intelligence comes from SmolLM3-3B
+- **Permission Profiles**: READ_ONLY, SAFE, PRODUCTIVITY, FILE_MANAGER, DEVELOPER, AUTONOMOUS
+- **Risk Assessment**: Every action is evaluated for risk
+- **User Confirmation**: Required for medium/high/critical risk actions
+- **Loop Protection**: Prevents infinite retries and circular dependencies
+- **Resource Limits**: Budgets for steps, tool calls, runtime, and retries
+
+### **Agent Verification**
+
+Every action is verified:
+- File operations: Check source/deletion and destination/creation
+- Tool execution: Validate success and results
+- Task completion: Verify all dependencies are satisfied
+- Final result: Confirm all success criteria are met
+
+### **Agent Learning**
+
+After each run, agents:
+1. Analyze the outcome
+2. Extract lessons learned
+3. Validate lessons with user feedback
+4. Store lessons in memory
+5. Use lessons to improve future plans
 
 ---
 
@@ -155,7 +311,8 @@ Exit with `/exit`.
 │   └── config.yaml   # Main configuration
 ├── models/           # AI models (SmolLM3-3B)
 ├── data/             # SQLite database
-│   └── livingai.db   # Main database
+│   ├── livingai.db   # Main database
+│   └── agents.db     # Agent database
 ├── memory/           # Memory exports
 ├── skills/           # User-defined skills
 ├── workspace/        # Temporary workspace
@@ -164,6 +321,20 @@ Exit with `/exit`.
 ├── backups/          # Backup files
 └── runtime/          # Python virtual environment
     └── venv/
+```
+
+**New Agent Files:**
+```
+livingai/agents/
+├── __init__.py          # Package initialization
+├── manager.py           # AgentManager - manages agent lifecycle
+├── planner.py           # AgentPlanner - creates execution plans
+├── task.py              # Task and TaskGraph - task management
+├── state_machine.py     # AgentStateMachine - state transitions
+├── tool_registry.py     # ToolRegistry - tool management
+├── verification.py      # VerificationEngine - result verification
+├── database.py          # AgentDatabase - SQLite storage
+└── cli_handlers.py      # CLI command handlers
 ```
 
 ---
@@ -224,6 +395,20 @@ battery:
 logging:
   level: INFO
   file: ~/.livingai/logs/livingai.log
+
+# Agent Configuration
+agent:
+  enabled: true
+  default_mode: ASSIST
+  max_steps: 50
+  max_retries: 3
+  max_runtime_minutes: 30
+  max_tool_calls: 100
+  require_confirmation: true
+  verify_actions: true
+  learn_from_runs: true
+  background_agents: false
+  parallel_agents: false
 ```
 
 ### **Environment Variables**
@@ -320,6 +505,13 @@ REPEAT
 - **Skills are sandboxed** (no unrestricted shell access).
 - **Audit logging** for all actions.
 
+### **Agent Security**
+- **One Model Rule**: Only SmolLM3-3B is used
+- **Permission Gates**: Every action checked against profile
+- **Risk Assessment**: All actions evaluated before execution
+- **No Silent Execution**: User confirmation for risky actions
+- **Audit Trail**: Complete logs of all agent actions
+
 ---
 
 ## **🔋 Battery & Thermal Protection**
@@ -348,6 +540,23 @@ livingai backup restore
 
 ---
 
+## **📚 Agentic AI Documentation**
+
+For complete details on the Agentic AI system, see:
+- **[LIVINGAI_AGENTIC_AI_EXTENSION.md](LIVINGAI_AGENTIC_AI_EXTENSION.md)** - Full agentic architecture specification
+
+This document includes:
+- Complete agent lifecycle
+- Agent modes and configurations
+- Task graph and dependency management
+- Tool system architecture
+- Verification engine
+- Security policies
+- Example agent runs
+- Command reference
+
+---
+
 ## **🐛 Troubleshooting**
 
 ### **Doctor Command**
@@ -365,6 +574,11 @@ Checks:
 ### **Logs**
 ```bash
 cat ~/.livingai/logs/livingai.log
+```
+
+### **Agent Logs**
+```bash
+livingai agent logs <run_id>
 ```
 
 ---
