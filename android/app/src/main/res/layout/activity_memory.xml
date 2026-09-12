@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activities.MemoryActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/elevation_level_2"
+        android:theme="@style/Theme.LivingAI"
+        app:popupTheme="@style/Theme.LivingAI"
+        app:title="@string/title_memory"
+        app:titleTextColor="@color/colorTextOnPrimary" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_md">
+
+            <!-- Search Bar -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:hint="@string/memory_search_hint"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="@dimen/corner_radius_md"
+                app:boxCornerRadiusTopEnd="@dimen/corner_radius_md"
+                app:boxCornerRadiusBottomStart="@dimen/corner_radius_md"
+                app:boxCornerRadiusBottomEnd="@dimen/corner_radius_md"
+                app:strokeColor="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/memory_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Categories -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/memory_categories"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <!-- Category Chips -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/memory_categories_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/memory_category_knowledge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/memory_category_knowledge"
+                    app:chipBackgroundColor="@color/colorPrimaryLight"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/memory_category_conversations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="@string/memory_category_conversations"
+                    app:chipBackgroundColor="@color/colorTransparent"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/memory_category_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="@string/memory_category_settings"
+                    app:chipBackgroundColor="@color/colorTransparent"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/memory_category_cache"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="@string/memory_category_cache"
+                    app:chipBackgroundColor="@color/colorTransparent"
+                    app:chipStrokeColor="@color/colorPrimary" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/memory_clear_all"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/memory_clear_all"
+                    app:backgroundTint="@color/colorError"
+                    app:cornerRadius="@dimen/corner_radius_md"
+                    app:icon="@drawable/ic_delete"
+                    app:iconTint="@color/colorTextOnPrimary" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_sm"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/memory_export"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/memory_export"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="@dimen/corner_radius_md"
+                    app:icon="@drawable/ic_export"
+                    app:iconTint="@color/colorTextOnPrimary" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_sm"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/memory_import"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/memory_import"
+                    app:backgroundTint="@color/colorSecondary"
+                    app:cornerRadius="@dimen/corner_radius_md"
+                    app:icon="@drawable/ic_import"
+                    app:iconTint="@color/colorTextOnPrimary" />
+            </LinearLayout>
+
+            <!-- Memory List -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/memory_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/memory_empty_state"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="@dimen/image_size_xxl"
+                    android:layout_height="@dimen/image_size_xxl"
+                    android:src="@drawable/ic_memory"
+                    android:tint="@color/colorIconInactive" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/memory_no_entries"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_size_lg"
+                    android:layout_marginTop="@dimen/spacing_md" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

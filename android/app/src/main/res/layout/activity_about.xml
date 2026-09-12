@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activities.AboutActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/elevation_level_2"
+        android:theme="@style/Theme.LivingAI"
+        app:popupTheme="@style/Theme.LivingAI"
+        app:title="@string/title_about"
+        app:titleTextColor="@color/colorTextOnPrimary" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_md">
+
+            <!-- App Icon and Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/spacing_xl">
+
+                <ImageView
+                    android:layout_width="@dimen/image_size_xxl"
+                    android:layout_height="@dimen/image_size_xxl"
+                    android:src="@mipmap/ic_launcher"
+                    android:contentDescription="@string/app_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_size_xxl"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/spacing_md" />
+
+                <TextView
+                    android:id="@+id/about_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/version"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_size_md"
+                    android:layout_marginTop="@dimen/spacing_xs" />
+            </LinearLayout>
+
+            <!-- App Description -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_description"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_md"
+                android:layout_marginBottom="@dimen/spacing_xl"
+                android:lineSpacingExtra="4dp" />
+
+            <!-- Features Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Features"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xl"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_size_md"
+                        android:layout_height="@dimen/image_size_md"
+                        android:src="@drawable/ic_agent"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AI Agents"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_size_md"
+                        android:layout_marginStart="@dimen/spacing_md" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_size_md"
+                        android:layout_height="@dimen/image_size_md"
+                        android:src="@drawable/ic_task"
+                        android:tint="@color/colorSecondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Task Management"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_size_md"
+                        android:layout_marginStart="@dimen/spacing_md" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_size_md"
+                        android:layout_height="@dimen/image_size_md"
+                        android:src="@drawable/ic_tool"
+                        android:tint="@color/colorAccent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Powerful Tools"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_size_md"
+                        android:layout_marginStart="@dimen/spacing_md" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_size_md"
+                        android:layout_height="@dimen/image_size_md"
+                        android:src="@drawable/ic_memory"
+                        android:tint="@color/colorPrimaryLight" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Memory Management"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_size_md"
+                        android:layout_marginStart="@dimen/spacing_md" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_size_md"
+                        android:layout_height="@dimen/image_size_md"
+                        android:src="@drawable/ic_terminal"
+                        android:tint="@color/colorWarning" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Terminal"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_size_md"
+                        android:layout_marginStart="@dimen/spacing_md" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/image_size_md"
+                        android:layout_height="@dimen/image_size_md"
+                        android:src="@drawable/ic_analytics"
+                        android:tint="@color/colorInfo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Analytics"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_size_md"
+                        android:layout_marginStart="@dimen/spacing_md" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Links Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Links"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xl"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/about_github"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:text="@string/about_github"
+                    app:icon="@drawable/ic_github"
+                    app:iconTint="@color/colorTextPrimary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/about_website"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:text="@string/about_website"
+                    app:icon="@drawable/ic_web"
+                    app:iconTint="@color/colorTextPrimary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/about_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:text="@string/about_contact"
+                    app:icon="@drawable/ic_email"
+                    app:iconTint="@color/colorTextPrimary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/about_license"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:text="@string/about_license"
+                    app:icon="@drawable/ic_license"
+                    app:iconTint="@color/colorTextPrimary" />
+            </LinearLayout>
+
+            <!-- Legal Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Legal"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xl"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/about_privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:text="@string/about_privacy"
+                    app:icon="@drawable/ic_privacy"
+                    app:iconTint="@color/colorTextPrimary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/about_terms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xs"
+                    android:text="@string/about_terms"
+                    app:icon="@drawable/ic_terms"
+                    app:iconTint="@color/colorTextPrimary" />
+            </LinearLayout>
+
+            <!-- Copyright -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Copyright © 2026 LivingAI. All rights reserved."
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="@dimen/text_size_sm"
+                android:textAlignment="center"
+                android:layout_marginBottom="@dimen/spacing_md" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

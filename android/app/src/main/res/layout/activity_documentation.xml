@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activities.DocumentationActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/elevation_level_2"
+        android:theme="@style/Theme.LivingAI"
+        app:popupTheme="@style/Theme.LivingAI"
+        app:title="@string/title_documentation"
+        app:titleTextColor="@color/colorTextOnPrimary" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_md">
+
+            <!-- Search Bar -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:hint="@string/documentation_search_hint"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="@dimen/corner_radius_md"
+                app:boxCornerRadiusTopEnd="@dimen/corner_radius_md"
+                app:boxCornerRadiusBottomStart="@dimen/corner_radius_md"
+                app:boxCornerRadiusBottomEnd="@dimen/corner_radius_md"
+                app:strokeColor="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/documentation_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Categories -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/documentation_categories"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <!-- Category Grid -->
+            <GridLayout
+                android:id="@+id/documentation_categories_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:columnCount="3"
+                android:rowCount="4">
+
+                <!-- Getting Started -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_documentation"
+                            android:tint="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_getting_started"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Agents -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_agent"
+                            android:tint="@color/colorSecondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_agents"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Tools -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_tool"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_tools"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Tasks -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_task"
+                            android:tint="@color/colorPrimaryLight" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_tasks"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Memory -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_memory"
+                            android:tint="@color/colorSuccess" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_memory"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Terminal -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_terminal"
+                            android:tint="@color/colorWarning" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_terminal"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Analytics -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_analytics"
+                            android:tint="@color/colorInfo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_analytics"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Settings -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_settings"
+                            android:tint="@color/colorToolSystem" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_settings"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- API Reference -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_api"
+                            android:tint="@color/colorToolCode" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_api"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- FAQ -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="@dimen/spacing_xs"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_sm">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_size_md"
+                            android:layout_height="@dimen/image_size_md"
+                            android:src="@drawable/ic_help"
+                            android:tint="@color/colorToolUtility" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/documentation_faq"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xs"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </GridLayout>
+
+            <!-- Documentation Content -->
+            <FrameLayout
+                android:id="@+id/documentation_content_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:background="@color/colorSurface"
+                android:padding="@dimen/spacing_md">
+
+                <!-- Content will be loaded dynamically -->
+            </FrameLayout>
+
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/documentation_empty_state"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="@dimen/image_size_xxl"
+                    android:layout_height="@dimen/image_size_xxl"
+                    android:src="@drawable/ic_documentation"
+                    android:tint="@color/colorIconInactive" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/documentation_no_results"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_size_lg"
+                    android:layout_marginTop="@dimen/spacing_md" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activities.AnalyticsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/elevation_level_2"
+        android:theme="@style/Theme.LivingAI"
+        app:popupTheme="@style/Theme.LivingAI"
+        app:title="@string/title_analytics"
+        app:titleTextColor="@color/colorTextOnPrimary" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_md">
+
+            <!-- Time Period Selector -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/analytics_time_period"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/analytics_period_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/analytics_period_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/analytics_today"
+                    app:chipBackgroundColor="@color/colorPrimaryLight"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/analytics_period_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="@string/analytics_week"
+                    app:chipBackgroundColor="@color/colorTransparent"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/analytics_period_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="@string/analytics_month"
+                    app:chipBackgroundColor="@color/colorTransparent"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/analytics_period_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="@string/analytics_year"
+                    app:chipBackgroundColor="@color/colorTransparent"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/analytics_period_custom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="@string/analytics_custom"
+                    app:chipBackgroundColor="@color/colorTransparent"
+                    app:chipStrokeColor="@color/colorPrimary" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- Overview Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/analytics_overview"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <!-- Overview Cards -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_md">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/analytics_agent_performance"
+                            android:textColor="@color/colorTextSecondary"
+                            android:textSize="@dimen/text_size_sm" />
+
+                        <TextView
+                            android:id="@+id/analytics_agent_performance_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0%"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xxl"
+                            android:textStyle="bold"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/corner_radius_md"
+                    app:cardElevation="@dimen/elevation_level_2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_md">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/analytics_task_completion"
+                            android:textColor="@color/colorTextSecondary"
+                            android:textSize="@dimen/text_size_sm" />
+
+                        <TextView
+                            android:id="@+id/analytics_task_completion_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0%"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="@dimen/text_size_xxl"
+                            android:textStyle="bold"
+                            android:layout_marginTop="@dimen/spacing_xs" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Charts Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/analytics_overview"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <!-- Chart Container -->
+            <FrameLayout
+                android:id="@+id/analytics_chart_container"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:background="@color/colorSurface"
+                android:padding="@dimen/spacing_md">
+
+                <!-- Chart will be added programmatically -->
+            </FrameLayout>
+
+            <!-- Detailed Stats -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/analytics_tool_usage"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/analytics_tool_usage_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/analytics_empty_state"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="@dimen/image_size_xxl"
+                    android:layout_height="@dimen/image_size_xxl"
+                    android:src="@drawable/ic_analytics"
+                    android:tint="@color/colorIconInactive" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/analytics_no_data"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_size_lg"
+                    android:layout_marginTop="@dimen/spacing_md" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

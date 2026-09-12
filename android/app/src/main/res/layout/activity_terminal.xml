@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTerminalBackground"
+    tools:context=".activities.TerminalActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/elevation_level_2"
+        android:theme="@style/Theme.LivingAI"
+        app:popupTheme="@style/Theme.LivingAI"
+        app:title="@string/title_terminal"
+        app:titleTextColor="@color/colorTextOnPrimary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+
+        <!-- Terminal Output -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/terminal_output"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorTerminalBackground"
+            android:padding="@dimen/spacing_md"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <!-- Input Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSurface"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_md">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/terminal_command_hint"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="@dimen/corner_radius_md"
+                app:boxCornerRadiusTopEnd="@dimen/corner_radius_md"
+                app:boxCornerRadiusBottomStart="@dimen/corner_radius_md"
+                app:boxCornerRadiusBottomEnd="@dimen/corner_radius_md"
+                app:strokeColor="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/terminal_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/colorTerminalInput" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Space
+                android:layout_width="@dimen/spacing_sm"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/terminal_execute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/terminal_execute"
+                app:backgroundTint="@color/colorPrimary"
+                app:cornerRadius="@dimen/corner_radius_md" />
+        </LinearLayout>
+
+        <!-- Action Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSurface"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_sm">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/terminal_clear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/terminal_clear"
+                app:backgroundTint="@color/colorError"
+                app:cornerRadius="@dimen/corner_radius_md"
+                app:icon="@drawable/ic_clear"
+                app:iconTint="@color/colorTextOnPrimary" />
+
+            <Space
+                android:layout_width="@dimen/spacing_xs"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/terminal_copy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/terminal_copy"
+                app:backgroundTint="@color/colorSecondary"
+                app:cornerRadius="@dimen/corner_radius_md"
+                app:icon="@drawable/ic_copy"
+                app:iconTint="@color/colorTextOnPrimary" />
+
+            <Space
+                android:layout_width="@dimen/spacing_xs"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/terminal_paste"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/terminal_paste"
+                app:backgroundTint="@color/colorAccent"
+                app:cornerRadius="@dimen/corner_radius_md"
+                app:icon="@drawable/ic_paste"
+                app:iconTint="@color/colorTextOnPrimary" />
+
+            <Space
+                android:layout_width="@dimen/spacing_xs"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/terminal_history"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/terminal_history"
+                app:backgroundTint="@color/colorPrimaryLight"
+                app:cornerRadius="@dimen/corner_radius_md"
+                app:icon="@drawable/ic_history"
+                app:iconTint="@color/colorTextPrimary" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

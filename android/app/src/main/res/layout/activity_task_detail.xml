@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activities.TaskDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/elevation_level_2"
+        android:theme="@style/Theme.LivingAI"
+        app:popupTheme="@style/Theme.LivingAI"
+        app:title="@string/title_task_detail"
+        app:titleTextColor="@color/colorTextOnPrimary" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Task Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_xl">
+
+                <ImageView
+                    android:id="@+id/task_detail_icon"
+                    android:layout_width="@dimen/image_size_xxl"
+                    android:layout_height="@dimen/image_size_xxl"
+                    android:src="@drawable/ic_task"
+                    android:tint="@color/colorTextOnPrimary"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/task_detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Task Title"
+                    android:textColor="@color/colorTextOnPrimary"
+                    android:textSize="@dimen/text_size_xxl"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/task_detail_priority"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Priority"
+                    android:textColor="@color/colorTextOnPrimary"
+                    android:textSize="@dimen/text_size_md"
+                    android:alpha="0.8"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+            <!-- Task Info Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_md"
+                app:cardCornerRadius="@dimen/corner_radius_md"
+                app:cardElevation="@dimen/elevation_level_2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_md">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/task_detail_description"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_size_lg"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/task_detail_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Task description"
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="@dimen/text_size_md"
+                        android:layout_marginTop="@dimen/spacing_xs" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorDivider"
+                        android:layout_marginVertical="@dimen/spacing_md" />
+
+                    <!-- Task Stats -->
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="3"
+                        android:rowCount="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_sm">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/task_detail_status"
+                                android:textColor="@color/colorTextSecondary"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/task_detail_status_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Pending"
+                                android:textColor="@color/colorTaskPending"
+                                android:textSize="@dimen/text_size_md"
+                                android:textStyle="bold"
+                                android:layout_marginTop="@dimen/spacing_xs" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_sm">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/task_detail_priority"
+                                android:textColor="@color/colorTextSecondary"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/task_detail_priority_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Medium"
+                                android:textColor="@color/colorPriorityMedium"
+                                android:textSize="@dimen/text_size_xs"
+                                android:textStyle="bold"
+                                android:layout_marginTop="@dimen/spacing_xs" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_sm">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/task_detail_agent"
+                                android:textColor="@color/colorTextSecondary"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/task_detail_agent_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Agent Name"
+                                android:textColor="@color/colorTextPrimary"
+                                android:textSize="@dimen/text_size_xs"
+                                android:layout_marginTop="@dimen/spacing_xs" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_sm">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/task_detail_created"
+                                android:textColor="@color/colorTextSecondary"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/task_detail_created_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Date"
+                                android:textColor="@color/colorTextPrimary"
+                                android:textSize="@dimen/text_size_xs"
+                                android:layout_marginTop="@dimen/spacing_xs" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_sm">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/task_detail_started"
+                                android:textColor="@color/colorTextSecondary"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/task_detail_started_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Date"
+                                android:textColor="@color/colorTextPrimary"
+                                android:textSize="@dimen/text_size_xs"
+                                android:layout_marginTop="@dimen/spacing_xs" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_sm">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/task_detail_completed"
+                                android:textColor="@color/colorTextSecondary"
+                                android:textSize="@dimen/text_size_xs" />
+
+                            <TextView
+                                android:id="@+id/task_detail_completed_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Date"
+                                android:textColor="@color/colorTextPrimary"
+                                android:textSize="@dimen/text_size_xs"
+                                android:layout_marginTop="@dimen/spacing_xs" />
+                        </LinearLayout>
+                    </GridLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Progress Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task_detail_progress"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/spacing_md" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_md"
+                app:cardCornerRadius="@dimen/corner_radius_md"
+                app:cardElevation="@dimen/elevation_level_1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_md">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Progress"
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="@dimen/text_size_sm"
+                        android:layout_marginBottom="@dimen/spacing_xs" />
+
+                    <ProgressBar
+                        android:id="@+id/task_detail_progress_bar"
+                        style="@style/Widget.LivingAI.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/progress_bar_height"
+                        android:layout_marginBottom="@dimen/spacing_xs" />
+
+                    <TextView
+                        android:id="@+id/task_detail_progress_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_size_md"
+                        android:textAlignment="center" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Logs Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task_detail_logs"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/spacing_md" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_md"
+                app:cardCornerRadius="@dimen/corner_radius_md"
+                app:cardElevation="@dimen/elevation_level_1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_md">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/task_detail_logs_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="200dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_md"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/task_detail_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/task_detail_start"
+                    app:backgroundTint="@color/colorSuccess"
+                    app:cornerRadius="@dimen/corner_radius_md"
+                    app:icon="@drawable/ic_play"
+                    app:iconTint="@color/colorTextOnPrimary" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_sm"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/task_detail_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/task_detail_stop"
+                    app:backgroundTint="@color/colorWarning"
+                    app:cornerRadius="@dimen/corner_radius_md"
+                    app:icon="@drawable/ic_stop"
+                    app:iconTint="@color/colorTextOnPrimary" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_sm"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/task_detail_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/task_detail_cancel"
+                    app:backgroundTint="@color/colorError"
+                    app:cornerRadius="@dimen/corner_radius_md"
+                    app:icon="@drawable/ic_cancel"
+                    app:iconTint="@color/colorTextOnPrimary" />
+            </LinearLayout>
+
+            <!-- Bottom Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_md"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/task_detail_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/task_detail_edit"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="@dimen/corner_radius_md"
+                    app:icon="@drawable/ic_edit"
+                    app:iconTint="@color/colorTextOnPrimary" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_sm"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/task_detail_delete"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/task_detail_delete"
+                    app:backgroundTint="@color/colorError"
+                    app:cornerRadius="@dimen/corner_radius_md"
+                    app:icon="@drawable/ic_delete"
+                    app:iconTint="@color/colorTextOnPrimary" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

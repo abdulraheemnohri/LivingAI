@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activities.AgentsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/elevation_level_2"
+        android:theme="@style/Theme.LivingAI"
+        app:popupTheme="@style/Theme.LivingAI"
+        app:title="@string/title_agents"
+        app:titleTextColor="@color/colorTextOnPrimary" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_md">
+
+            <!-- Search Bar -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:hint="@string/agents_search_hint"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="@dimen/corner_radius_md"
+                app:boxCornerRadiusTopEnd="@dimen/corner_radius_md"
+                app:boxCornerRadiusBottomStart="@dimen/corner_radius_md"
+                app:boxCornerRadiusBottomEnd="@dimen/corner_radius_md"
+                app:strokeColor="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/agents_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Filter and Sort Bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_sm">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/agents_filter_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/agents_filter_all"
+                    app:chipBackgroundColor="@color/colorPrimaryLight"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/agents_filter_active"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="@string/agents_filter_active"
+                    app:chipBackgroundColor="@color/colorTransparent"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/agents_filter_inactive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="@string/agents_filter_inactive"
+                    app:chipBackgroundColor="@color/colorTransparent"
+                    app:chipStrokeColor="@color/colorPrimary" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/agents_sort_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/agents_sort_by_name"
+                    app:icon="@drawable/ic_sort"
+                    app:iconTint="@color/colorTextPrimary" />
+            </LinearLayout>
+
+            <!-- Agents List -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/agents_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/agents_empty_state"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="@dimen/image_size_xxl"
+                    android:layout_height="@dimen/image_size_xxl"
+                    android:src="@drawable/ic_agent"
+                    android:tint="@color/colorIconInactive" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/agents_no_agents"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/text_size_lg"
+                    android:layout_marginTop="@dimen/spacing_md" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/agents_no_agents_description"
+                    android:textColor="@color/colorTextTertiary"
+                    android:textSize="@dimen/text_size_md"
+                    android:layout_marginTop="@dimen/spacing_xs" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/agents_create_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_lg"
+                    android:text="@string/agents_create_new"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="@dimen/corner_radius_md" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/spacing_lg"
+        android:src="@drawable/ic_add"
+        android:tint="@color/colorTextOnPrimary"
+        app:backgroundTint="@color/colorPrimary"
+        app:elevation="@dimen/elevation_level_3"
+        app:pressedTranslationZ="@dimen/elevation_level_4" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activities.CreateTaskActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/elevation_level_2"
+        android:theme="@style/Theme.LivingAI"
+        app:popupTheme="@style/Theme.LivingAI"
+        app:title="@string/title_create_task"
+        app:titleTextColor="@color/colorTextOnPrimary" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_md">
+
+            <!-- Task Icon -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/spacing_xl">
+
+                <ImageView
+                    android:id="@+id/create_task_icon"
+                    android:layout_width="@dimen/image_size_xxl"
+                    android:layout_height="@dimen/image_size_xxl"
+                    android:src="@drawable/ic_task"
+                    android:tint="@color/colorSecondary"
+                    android:background="@color/colorSecondaryLight"
+                    android:padding="@dimen/spacing_xl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_task_title"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/text_size_xxl"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/spacing_md" />
+            </LinearLayout>
+
+            <!-- Form Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                app:cardCornerRadius="@dimen/corner_radius_md"
+                app:cardElevation="@dimen/elevation_level_2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_md">
+
+                    <!-- Task Name -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_md"
+                        android:hint="@string/create_task_name_hint"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusTopStart="@dimen/corner_radius_md"
+                        app:boxCornerRadiusTopEnd="@dimen/corner_radius_md"
+                        app:boxCornerRadiusBottomStart="@dimen/corner_radius_md"
+                        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_md">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/create_task_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Task Description -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_md"
+                        android:hint="@string/create_task_description_hint"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusTopStart="@dimen/corner_radius_md"
+                        app:boxCornerRadiusTopEnd="@dimen/corner_radius_md"
+                        app:boxCornerRadiusBottomStart="@dimen/corner_radius_md"
+                        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_md">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/create_task_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
+                            android:maxLines="5"
+                            android:minLines="3" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Task Agent -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_md"
+                        android:hint="@string/create_task_agent_label"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusTopStart="@dimen/corner_radius_md"
+                        app:boxCornerRadiusTopEnd="@dimen/corner_radius_md"
+                        app:boxCornerRadiusBottomStart="@dimen/corner_radius_md"
+                        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_md">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/create_task_agent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:completionThreshold="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Task Priority -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_md"
+                        android:hint="@string/create_task_priority_label"
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusTopStart="@dimen/corner_radius_md"
+                        app:boxCornerRadiusTopEnd="@dimen/corner_radius_md"
+                        app:boxCornerRadiusBottomStart="@dimen/corner_radius_md"
+                        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_md">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/create_task_priority"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:completionThreshold="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Additional Options Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                app:cardCornerRadius="@dimen/corner_radius_md"
+                app:cardElevation="@dimen/elevation_level_1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_md">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Additional Options"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="@dimen/text_size_lg"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/spacing_md" />
+
+                    <!-- Additional options can be added here -->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_md"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/create_task_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/create_task_cancel"
+                    app:backgroundTint="@color/colorSecondary"
+                    app:cornerRadius="@dimen/corner_radius_md" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_sm"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/create_task_save"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/create_task_save"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="@dimen/corner_radius_md" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
