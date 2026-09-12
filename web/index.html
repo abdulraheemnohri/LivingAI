@@ -3,86 +3,788 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LivingAI Control Center</title>
-    <link rel="stylesheet" href="/style.css">
+    <title>LivingAI - Web Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
-    <div id="app">
-        <header>
-            <div class="brand">
-                <h1>✦ LivingAI Control Center</h1>
-                <span class="status-badge" id="status-badge">● Offline</span>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="material-icons">smart_toy</span>
+                    <h1>LivingAI</h1>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <span class="material-icons">menu</span>
+                </button>
             </div>
-            <nav>
-                <button class="nav-btn active" data-target="dashboard">Dashboard</button>
-                <button class="nav-btn" data-target="chat">Live Chat</button>
-                <button class="nav-btn" data-target="memory">Memory</button>
-                <button class="nav-btn" data-target="goals">Goals</button>
-                <button class="nav-btn" data-target="skills">Skills</button>
-            </nav>
-        </header>
-
-        <main>
-            <!-- Dashboard View -->
-            <section id="view-dashboard" class="view active">
-                <h2>System Dashboard</h2>
-                <div class="grid">
-                    <div class="card">
-                        <h3>AI Brain</h3>
-                        <p class="highlight">SmolLM3-3B</p>
-                        <span class="subtext">One-Model Local Brain</span>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#dashboard" class="nav-link" data-section="dashboard">
+                        <span class="material-icons">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#agents" class="nav-link" data-section="agents">
+                        <span class="material-icons">group</span>
+                        <span>Agents</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tools" class="nav-link" data-section="tools">
+                        <span class="material-icons">build</span>
+                        <span>Tools</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tasks" class="nav-link" data-section="tasks">
+                        <span class="material-icons">assignment</span>
+                        <span>Tasks</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#memory" class="nav-link" data-section="memory">
+                        <span class="material-icons">memory</span>
+                        <span>Memory</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#terminal" class="nav-link" data-section="terminal">
+                        <span class="material-icons">terminal</span>
+                        <span>Terminal</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#analytics" class="nav-link" data-section="analytics">
+                        <span class="material-icons">analytics</span>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#documentation" class="nav-link" data-section="documentation">
+                        <span class="material-icons">description</span>
+                        <span>Documentation</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#settings" class="nav-link" data-section="settings">
+                        <span class="material-icons">settings</span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link" data-section="about">
+                        <span class="material-icons">info</span>
+                        <span>About</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <span class="material-icons">account_circle</span>
                     </div>
-                    <div class="card">
-                        <h3>Memories</h3>
-                        <p class="highlight" id="stat-memories">0</p>
-                        <span class="subtext">SQLite Persisted</span>
-                    </div>
-                    <div class="card">
-                        <h3>Active Goals</h3>
-                        <p class="highlight" id="stat-goals">0</p>
-                        <span class="subtext">Managed Objectives</span>
-                    </div>
-                    <div class="card">
-                        <h3>Skills</h3>
-                        <p class="highlight" id="stat-skills">0</p>
-                        <span class="subtext">Sandboxed Tools</span>
+                    <div class="user-details">
+                        <span class="user-name">User</span>
+                        <span class="user-status">Online</span>
                     </div>
                 </div>
-                <div class="card full-width">
-                    <h3>Diagnostics</h3>
-                    <pre id="diag-output">Loading system diagnostics...</pre>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content" id="mainContent">
+            <!-- Dashboard Section -->
+            <section class="section active" id="dashboard">
+                <div class="section-header">
+                    <h2>Dashboard</h2>
+                    <p>Welcome to LivingAI - Your intelligent assistant platform</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="material-icons">group</span>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalAgents">0</span>
+                            <span class="stat-label">Total Agents</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="material-icons">build</span>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalTools">0</span>
+                            <span class="stat-label">Total Tools</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="material-icons">assignment</span>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalTasks">0</span>
+                            <span class="stat-label">Total Tasks</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="material-icons">memory</span>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="memoryUsage">0%</span>
+                            <span class="stat-label">Memory Usage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list" id="recentActivity">
+                        <div class="activity-item">
+                            <span class="material-icons">history</span>
+                            <span>No recent activity</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="action-button" onclick="createAgent()">
+                            <span class="material-icons">add</span>
+                            <span>Create Agent</span>
+                        </button>
+                        <button class="action-button" onclick="createTask()">
+                            <span class="material-icons">add</span>
+                            <span>Create Task</span>
+                        </button>
+                        <button class="action-button" onclick="openTerminal()">
+                            <span class="material-icons">terminal</span>
+                            <span>Open Terminal</span>
+                        </button>
+                        <button class="action-button" onclick="viewAnalytics()">
+                            <span class="material-icons">analytics</span>
+                            <span>View Analytics</span>
+                        </button>
+                    </div>
                 </div>
             </section>
 
-            <!-- Chat View -->
-            <section id="view-chat" class="view">
-                <h2>Interactive Chat</h2>
-                <div id="chat-messages" class="chat-box"></div>
-                <div class="chat-input-container">
-                    <input type="text" id="chat-input" placeholder="Type a command or message to LivingAI...">
-                    <button id="send-btn">Send</button>
+            <!-- Agents Section -->
+            <section class="section" id="agents">
+                <div class="section-header">
+                    <h2>Agents</h2>
+                    <p>Manage your intelligent agents</p>
+                </div>
+                
+                <div class="toolbar">
+                    <div class="search-box">
+                        <span class="material-icons">search</span>
+                        <input type="text" id="agentSearch" placeholder="Search agents...">
+                    </div>
+                    <button class="btn-primary" onclick="createAgent()">
+                        <span class="material-icons">add</span>
+                        <span>Create Agent</span>
+                    </button>
+                </div>
+
+                <div class="filter-chips">
+                    <button class="chip active" onclick="filterAgents('all')">All</button>
+                    <button class="chip" onclick="filterAgents('active')">Active</button>
+                    <button class="chip" onclick="filterAgents('inactive')">Inactive</button>
+                    <button class="chip" onclick="filterAgents('system')">System</button>
+                    <button class="chip" onclick="filterAgents('custom')">Custom</button>
+                </div>
+
+                <div class="agents-grid" id="agentsGrid">
+                    <div class="empty-state">
+                        <span class="material-icons">group_off</span>
+                        <h3>No agents available</h3>
+                        <p>Create your first agent to get started</p>
+                        <button class="btn-primary" onclick="createAgent()">
+                            <span class="material-icons">add</span>
+                            <span>Create Agent</span>
+                        </button>
+                    </div>
                 </div>
             </section>
 
-            <!-- Memory View -->
-            <section id="view-memory" class="view">
-                <h2>Memory Explorer</h2>
-                <div id="memory-list" class="list-container"></div>
+            <!-- Tools Section -->
+            <section class="section" id="tools">
+                <div class="section-header">
+                    <h2>Tools</h2>
+                    <p>Explore and manage available tools</p>
+                </div>
+
+                <div class="toolbar">
+                    <div class="search-box">
+                        <span class="material-icons">search</span>
+                        <input type="text" id="toolSearch" placeholder="Search tools...">
+                    </div>
+                    <button class="btn-primary" onclick="createTool()">
+                        <span class="material-icons">add</span>
+                        <span>Create Tool</span>
+                    </button>
+                </div>
+
+                <div class="category-tabs">
+                    <button class="tab active" onclick="filterTools('all')">All</button>
+                    <button class="tab" onclick="filterTools('ai')">AI</button>
+                    <button class="tab" onclick="filterTools('data')">Data</button>
+                    <button class="tab" onclick="filterTools('automation')">Automation</button>
+                    <button class="tab" onclick="filterTools('utility')">Utility</button>
+                </div>
+
+                <div class="tools-grid" id="toolsGrid">
+                    <div class="empty-state">
+                        <span class="material-icons">build</span>
+                        <h3>No tools available</h3>
+                        <p>Add tools to enhance your LivingAI experience</p>
+                        <button class="btn-primary" onclick="createTool()">
+                            <span class="material-icons">add</span>
+                            <span>Add Tool</span>
+                        </button>
+                    </div>
+                </div>
             </section>
 
-            <!-- Goals View -->
-            <section id="view-goals" class="view">
-                <h2>Goals & Tasks</h2>
-                <div id="goals-list" class="list-container"></div>
+            <!-- Tasks Section -->
+            <section class="section" id="tasks">
+                <div class="section-header">
+                    <h2>Tasks</h2>
+                    <p>Monitor and manage your tasks</p>
+                </div>
+
+                <div class="stats-row">
+                    <div class="mini-stat">
+                        <span class="stat-value" id="totalTasksCount">0</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="stat-value" id="completedTasksCount">0</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="stat-value" id="pendingTasksCount">0</span>
+                        <span class="stat-label">Pending</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="stat-value" id="failedTasksCount">0</span>
+                        <span class="stat-label">Failed</span>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="search-box">
+                        <span class="material-icons">search</span>
+                        <input type="text" id="taskSearch" placeholder="Search tasks...">
+                    </div>
+                    <button class="btn-primary" onclick="createTask()">
+                        <span class="material-icons">add</span>
+                        <span>Create Task</span>
+                    </button>
+                </div>
+
+                <div class="tasks-list" id="tasksList">
+                    <div class="empty-state">
+                        <span class="material-icons">assignment_late</span>
+                        <h3>No tasks available</h3>
+                        <p>Create your first task to get started</p>
+                        <button class="btn-primary" onclick="createTask()">
+                            <span class="material-icons">add</span>
+                            <span>Create Task</span>
+                        </button>
+                    </div>
+                </div>
             </section>
 
-            <!-- Skills View -->
-            <section id="view-skills" class="view">
-                <h2>Sandboxed Skills</h2>
-                <div id="skills-list" class="list-container"></div>
+            <!-- Memory Section -->
+            <section class="section" id="memory">
+                <div class="section-header">
+                    <h2>Memory</h2>
+                    <p>View and manage stored information</p>
+                </div>
+
+                <div class="memory-stats">
+                    <div class="memory-stat">
+                        <div class="memory-bar">
+                            <div class="memory-fill" id="memoryFill" style="width: 0%"></div>
+                        </div>
+                        <span id="memoryPercentage">0%</span>
+                    </div>
+                    <div class="memory-info">
+                        <span id="memoryEntries">0 entries</span>
+                        <span id="lastBackup">Never backed up</span>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="search-box">
+                        <span class="material-icons">search</span>
+                        <input type="text" id="memorySearch" placeholder="Search memory...">
+                    </div>
+                    <button class="btn-secondary" onclick="backupMemory()">
+                        <span class="material-icons">save</span>
+                        <span>Backup</span>
+                    </button>
+                    <button class="btn-secondary" onclick="clearMemory()">
+                        <span class="material-icons">delete</span>
+                        <span>Clear</span>
+                    </button>
+                </div>
+
+                <div class="memory-types">
+                    <button class="type-chip active" onclick="filterMemory('all')">All</button>
+                    <button class="type-chip" onclick="filterMemory('conversation')">Conversations</button>
+                    <button class="type-chip" onclick="filterMemory('knowledge')">Knowledge</button>
+                    <button class="type-chip" onclick="filterMemory('preference')">Preferences</button>
+                    <button class="type-chip" onclick="filterMemory('context')">Context</button>
+                </div>
+
+                <div class="memory-list" id="memoryList">
+                    <div class="empty-state">
+                        <span class="material-icons">memory</span>
+                        <h3>No memory entries</h3>
+                        <p>Memory will be stored here automatically</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Terminal Section -->
+            <section class="section" id="terminal">
+                <div class="section-header">
+                    <h2>Terminal</h2>
+                    <p>Execute commands and interact with the system</p>
+                </div>
+
+                <div class="terminal-container">
+                    <div class="terminal-toolbar">
+                        <button class="terminal-btn" onclick="clearTerminal()">
+                            <span class="material-icons">delete</span>
+                        </button>
+                        <button class="terminal-btn" onclick="toggleTerminalTheme()">
+                            <span class="material-icons">invert_colors</span>
+                        </button>
+                        <button class="terminal-btn" onclick="toggleTerminalSettings()">
+                            <span class="material-icons">settings</span>
+                        </button>
+                    </div>
+
+                    <div class="terminal-output" id="terminalOutput">
+                        <div class="terminal-welcome">
+                            <p>Welcome to LivingAI Terminal</p>
+                            <p>Type <span class="command">help</span> for available commands</p>
+                        </div>
+                    </div>
+
+                    <div class="terminal-input">
+                        <span class="terminal-prompt">livingai@terminal:~$</span>
+                        <input type="text" id="terminalInput" autocomplete="off" autofocus onkeydown="handleTerminalInput(event)">
+                        <button class="terminal-execute" onclick="executeCommand()">
+                            <span class="material-icons">send</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="command-suggestions" id="commandSuggestions">
+                    <div class="suggestion-item" onclick="useSuggestion('help')">help</div>
+                    <div class="suggestion-item" onclick="useSuggestion('clear')">clear</div>
+                    <div class="suggestion-item" onclick="useSuggestion('list agents')">list agents</div>
+                    <div class="suggestion-item" onclick="useSuggestion('list tools')">list tools</div>
+                    <div class="suggestion-item" onclick="useSuggestion('list tasks')">list tasks</div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section class="section" id="analytics">
+                <div class="section-header">
+                    <h2>Analytics</h2>
+                    <p>Monitor system performance and usage</p>
+                </div>
+
+                <div class="analytics-tabs">
+                    <button class="analytics-tab active" onclick="showAnalyticsTab('overview')">Overview</button>
+                    <button class="analytics-tab" onclick="showAnalyticsTab('usage')">Usage</button>
+                    <button class="analytics-tab" onclick="showAnalyticsTab('performance')">Performance</button>
+                    <button class="analytics-tab" onclick="showAnalyticsTab('logs')">Logs</button>
+                </div>
+
+                <div class="analytics-date-range">
+                    <span>Date Range:</span>
+                    <select id="dateRange" onchange="updateAnalytics()">
+                        <option value="7">Last 7 days</option>
+                        <option value="30" selected>Last 30 days</option>
+                        <option value="90">Last 90 days</option>
+                        <option value="365">Last year</option>
+                        <option value="custom">Custom range</option>
+                    </select>
+                    <button class="btn-secondary" onclick="exportAnalytics()">
+                        <span class="material-icons">download</span>
+                        <span>Export</span>
+                    </button>
+                </div>
+
+                <div class="analytics-content" id="analyticsContent">
+                    <div class="analytics-overview">
+                        <div class="chart-container">
+                            <canvas id="usageChart"></canvas>
+                        </div>
+                        <div class="analytics-stats">
+                            <div class="analytics-stat">
+                                <span class="stat-value" id="totalSessions">0</span>
+                                <span class="stat-label">Total Sessions</span>
+                            </div>
+                            <div class="analytics-stat">
+                                <span class="stat-value" id="totalCommands">0</span>
+                                <span class="stat-label">Total Commands</span>
+                            </div>
+                            <div class="analytics-stat">
+                                <span class="stat-value" id="avgResponseTime">0ms</span>
+                                <span class="stat-label">Avg Response Time</span>
+                            </div>
+                            <div class="analytics-stat">
+                                <span class="stat-value" id="errorRate">0%</span>
+                                <span class="stat-label">Error Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Documentation Section -->
+            <section class="section" id="documentation">
+                <div class="section-header">
+                    <h2>Documentation</h2>
+                    <p>Learn about LivingAI features and capabilities</p>
+                </div>
+
+                <div class="doc-search">
+                    <span class="material-icons">search</span>
+                    <input type="text" id="docSearch" placeholder="Search documentation...">
+                </div>
+
+                <div class="doc-categories">
+                    <div class="doc-category" onclick="showDocCategory('getting-started')">
+                        <span class="material-icons">school</span>
+                        <span>Getting Started</span>
+                    </div>
+                    <div class="doc-category" onclick="showDocCategory('agents')">
+                        <span class="material-icons">group</span>
+                        <span>Agents</span>
+                    </div>
+                    <div class="doc-category" onclick="showDocCategory('tools')">
+                        <span class="material-icons">build</span>
+                        <span>Tools</span>
+                    </div>
+                    <div class="doc-category" onclick="showDocCategory('tasks')">
+                        <span class="material-icons">assignment</span>
+                        <span>Tasks</span>
+                    </div>
+                    <div class="doc-category" onclick="showDocCategory('memory')">
+                        <span class="material-icons">memory</span>
+                        <span>Memory</span>
+                    </div>
+                    <div class="doc-category" onclick="showDocCategory('api')">
+                        <span class="material-icons">code</span>
+                        <span>API Reference</span>
+                    </div>
+                </div>
+
+                <div class="doc-content" id="docContent">
+                    <div class="doc-article">
+                        <h3>Welcome to LivingAI Documentation</h3>
+                        <p>Select a category to get started with LivingAI documentation.</p>
+                        <p>Here you'll find comprehensive guides, tutorials, and reference materials to help you make the most of LivingAI's powerful features.</p>
+                    </div>
+                </div>
+
+                <div class="external-docs">
+                    <h3>External Resources</h3>
+                    <div class="external-links">
+                        <a href="https://github.com/abdulraheemnohri/LivingAI" target="_blank" class="external-link">
+                            <span class="material-icons">code</span>
+                            <span>GitHub Repository</span>
+                        </a>
+                        <a href="#" target="_blank" class="external-link">
+                            <span class="material-icons">description</span>
+                            <span>User Guide</span>
+                        </a>
+                        <a href="#" target="_blank" class="external-link">
+                            <span class="material-icons">help</span>
+                            <span>FAQ</span>
+                        </a>
+                        <a href="#" target="_blank" class="external-link">
+                            <span class="material-icons">forum</span>
+                            <span>Community Forum</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="section" id="settings">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                    <p>Configure LivingAI to your preferences</p>
+                </div>
+
+                <div class="settings-tabs">
+                    <button class="settings-tab active" onclick="showSettingsTab('general')">General</button>
+                    <button class="settings-tab" onclick="showSettingsTab('agents')">Agents</button>
+                    <button class="settings-tab" onclick="showSettingsTab('tools')">Tools</button>
+                    <button class="settings-tab" onclick="showSettingsTab('tasks')">Tasks</button>
+                    <button class="settings-tab" onclick="showSettingsTab('memory')">Memory</button>
+                    <button class="settings-tab" onclick="showSettingsTab('terminal')">Terminal</button>
+                    <button class="settings-tab" onclick="showSettingsTab('analytics')">Analytics</button>
+                    <button class="settings-tab" onclick="showSettingsTab('security')">Security</button>
+                    <button class="settings-tab" onclick="showSettingsTab('notifications')">Notifications</button>
+                </div>
+
+                <div class="settings-content" id="settingsContent">
+                    <div class="settings-section" id="generalSettings">
+                        <h3>General Settings</h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Dark Mode</h4>
+                                <p>Enable dark theme for the application</p>
+                            </div>
+                            <div class="setting-control">
+                                <label class="switch">
+                                    <input type="checkbox" id="darkModeToggle" checked onchange="toggleDarkMode()">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Language</h4>
+                                <p>Select your preferred language</p>
+                            </div>
+                            <div class="setting-control">
+                                <select id="languageSelect" onchange="changeLanguage()">
+                                    <option value="en">English</option>
+                                    <option value="ur">Urdu</option>
+                                    <option value="es">Spanish</option>
+                                    <option value="fr">French</option>
+                                    <option value="de">German</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Auto Update</h4>
+                                <p>Automatically check for updates</p>
+                            </div>
+                            <div class="setting-control">
+                                <label class="switch">
+                                    <input type="checkbox" id="autoUpdateToggle" checked onchange="toggleAutoUpdate()">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Data Sync</h4>
+                                <p>Sync data across devices</p>
+                            </div>
+                            <div class="setting-control">
+                                <label class="switch">
+                                    <input type="checkbox" id="dataSyncToggle" onchange="toggleDataSync()">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn-secondary" onclick="saveSettings()">
+                            <span class="material-icons">save</span>
+                            <span>Save Settings</span>
+                        </button>
+                    </div>
+
+                    <div class="settings-section" id="agentSettings" style="display: none;">
+                        <h3>Agent Settings</h3>
+                        <p>Configure agent behavior and preferences</p>
+                    </div>
+
+                    <div class="settings-section" id="toolSettings" style="display: none;">
+                        <h3>Tool Settings</h3>
+                        <p>Configure tool behavior and preferences</p>
+                    </div>
+
+                    <div class="settings-section" id="taskSettings" style="display: none;">
+                        <h3>Task Settings</h3>
+                        <p>Configure task behavior and preferences</p>
+                    </div>
+
+                    <div class="settings-section" id="memorySettings" style="display: none;">
+                        <h3>Memory Settings</h3>
+                        <p>Configure memory behavior and preferences</p>
+                    </div>
+
+                    <div class="settings-section" id="terminalSettings" style="display: none;">
+                        <h3>Terminal Settings</h3>
+                        <p>Configure terminal behavior and preferences</p>
+                    </div>
+
+                    <div class="settings-section" id="analyticsSettings" style="display: none;">
+                        <h3>Analytics Settings</h3>
+                        <p>Configure analytics behavior and preferences</p>
+                    </div>
+
+                    <div class="settings-section" id="securitySettings" style="display: none;">
+                        <h3>Security Settings</h3>
+                        <p>Configure security behavior and preferences</p>
+                    </div>
+
+                    <div class="settings-section" id="notificationSettings" style="display: none;">
+                        <h3>Notification Settings</h3>
+                        <p>Configure notification behavior and preferences</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="section" id="about">
+                <div class="section-header">
+                    <h2>About LivingAI</h2>
+                    <p>Learn more about the application</p>
+                </div>
+
+                <div class="about-content">
+                    <div class="about-app">
+                        <div class="app-logo">
+                            <span class="material-icons">smart_toy</span>
+                        </div>
+                        <h3>LivingAI</h3>
+                        <p class="app-version">Version 1.0.0</p>
+                        <p class="app-tagline">Your Intelligent Assistant Platform</p>
+                    </div>
+
+                    <div class="about-description">
+                        <p>LivingAI is a comprehensive platform designed to help you manage intelligent agents, tools, tasks, and more. With its powerful features and intuitive interface, LivingAI makes it easy to automate complex workflows, analyze data, and interact with AI systems.</p>
+                    </div>
+
+                    <div class="about-features">
+                        <h3>Key Features</h3>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <span class="material-icons">group</span>
+                                <h4>Intelligent Agents</h4>
+                                <p>Create and manage AI agents with specialized capabilities</p>
+                            </div>
+                            <div class="feature-item">
+                                <span class="material-icons">build</span>
+                                <h4>Powerful Tools</h4>
+                                <p>Access a wide range of tools for various tasks</p>
+                            </div>
+                            <div class="feature-item">
+                                <span class="material-icons">assignment</span>
+                                <h4>Task Management</h4>
+                                <p>Organize and track your tasks efficiently</p>
+                            </div>
+                            <div class="feature-item">
+                                <span class="material-icons">memory</span>
+                                <h4>Persistent Memory</h4>
+                                <p>Store and retrieve information across sessions</p>
+                            </div>
+                            <div class="feature-item">
+                                <span class="material-icons">terminal</span>
+                                <h4>Integrated Terminal</h4>
+                                <p>Execute commands directly from the interface</p>
+                            </div>
+                            <div class="feature-item">
+                                <span class="material-icons">analytics</span>
+                                <h4>Advanced Analytics</h4>
+                                <p>Monitor and analyze system performance</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-developer">
+                        <h3>Developer Information</h3>
+                        <div class="developer-card">
+                            <div class="developer-avatar">
+                                <span class="material-icons">account_circle</span>
+                            </div>
+                            <div class="developer-info">
+                                <h4>Abdulraheem Nohari</h4>
+                                <p>Lead Developer</p>
+                                <div class="developer-links">
+                                    <a href="mailto:abdulraheemnohari@example.com" class="developer-link">
+                                        <span class="material-icons">email</span>
+                                        <span>Email</span>
+                                    </a>
+                                    <a href="https://github.com/abdulraheemnohri" target="_blank" class="developer-link">
+                                        <span class="material-icons">code</span>
+                                        <span>GitHub</span>
+                                    </a>
+                                    <a href="#" target="_blank" class="developer-link">
+                                        <span class="material-icons">language</span>
+                                        <span>Website</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-legal">
+                        <h3>Legal Information</h3>
+                        <div class="legal-links">
+                            <a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a>
+                            <a href="#" onclick="showTermsOfService()">Terms of Service</a>
+                            <a href="#" onclick="showLicense()">Open Source License</a>
+                        </div>
+                        <p class="copyright">&copy; 2026 Abdulraheem Nohari. All rights reserved.</p>
+                    </div>
+                </div>
             </section>
         </main>
     </div>
-    <script src="/app.js"></script>
+
+    <!-- Modal Dialogs -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Modal Title</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="modal-content" id="modalContent">
+                <p>Modal content goes here</p>
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn-primary" onclick="confirmModal()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
