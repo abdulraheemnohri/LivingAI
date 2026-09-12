@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- General Settings -->
+    <PreferenceCategory
+        android:title="@string/pref_category_general"
+        android:key="category_general">
+        
+        <CheckBoxPreference
+            android:title="@string/pref_dark_mode"
+            android:key="pref_dark_mode"
+            android:defaultValue="true"
+            android:summary="@string/pref_dark_mode_summary"/>
+        
+        <ListPreference
+            android:title="@string/pref_language"
+            android:key="pref_language"
+            android:defaultValue="en"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
+            android:summary="@string/pref_language_summary"/>
+        
+        <EditTextPreference
+            android:title="@string/pref_app_name"
+            android:key="pref_app_name"
+            android:defaultValue="LivingAI"
+            android:summary="@string/pref_app_name_summary"/>
+    </PreferenceCategory>
+    
+    <!-- Agent Settings -->
+    <PreferenceCategory
+        android:title="@string/pref_category_agents"
+        android:key="category_agents">
+        
+        <CheckBoxPreference
+            android:title="@string/pref_auto_start_agents"
+            android:key="pref_auto_start_agents"
+            android:defaultValue="false"
+            android:summary="@string/pref_auto_start_agents_summary"/>
+        
+        <ListPreference
+            android:title="@string/pref_default_agent"
+            android:key="pref_default_agent"
+            android:defaultValue=""
+            android:entries="@array/agent_entries"
+            android:entryValues="@array/agent_values"
+            android:summary="@string/pref_default_agent_summary"/>
+        
+        <EditTextPreference
+            android:title="@string/pref_max_agents"
+            android:key="pref_max_agents"
+            android:defaultValue="10"
+            android:inputType="number"
+            android:summary="@string/pref_max_agents_summary"/>
+    </PreferenceCategory>
+    
+    <!-- Tool Settings -->
+    <PreferenceCategory
+        android:title="@string/pref_category_tools"
+        android:key="category_tools">
+        
+        <CheckBoxPreference
+            android:title="@string/pref_auto_update_tools"
+            android:key="pref_auto_update_tools"
+            android:defaultValue="true"
+            android:summary="@string/pref_auto_update_tools_summary"/>
+        
+        <CheckBoxPreference
+            android:title="@string/pref_enable_tool_logging"
+            android:key="pref_enable_tool_logging"
+            android:defaultValue="true"
+            android:summary="@string/pref_enable_tool_logging_summary"/>
+        
+        <EditTextPreference
+            android:title="@string/pref_tool_timeout"
+            android:key="pref_tool_timeout"
+            android:defaultValue="30"
+            android:inputType="number"
+            android:summary="@string/pref_tool_timeout_summary"/>
+    </PreferenceCategory>
+    
+    <!-- Task Settings -->
+    <PreferenceCategory
+        android:title="@string/pref_category_tasks"
+        android:key="category_tasks">
+        
+        <CheckBoxPreference
+            android:title="@string/pref_auto_complete_tasks"
+            android:key="pref_auto_complete_tasks"
+            android:defaultValue="false"
+            android:summary="@string/pref_auto_complete_tasks_summary"/>
+        
+        <ListPreference
+            android:title="@string/pref_default_priority"
+            android:key="pref_default_priority"
+            android:defaultValue="medium"
+            android:entries="@array/priority_entries"
+            android:entryValues="@array/priority_values"
+            android:summary="@string/pref_default_priority_summary"/>
+        
+        <EditTextPreference
+            android:title="@string/pref_max_concurrent_tasks"
+            android:key="pref_max_concurrent_tasks"
+            android:defaultValue="5"
+            android:inputType="number"
+            android:summary="@string/pref_max_concurrent_tasks_summary"/>
+    </PreferenceCategory>
+    
+    <!-- Memory Settings -->
+    <PreferenceCategory
+        android:title="@string/pref_category_memory"
+        android:key="category_memory">
+        
+        <CheckBoxPreference
+            android:title="@string/pref_enable_memory_compression"
+            android:key="pref_enable_memory_compression"
+            android:defaultValue="true"
+            android:summary="@string/pref_enable_memory_compression_summary"/>
+        
+        <EditTextPreference
+            android:title="@string/pref_memory_limit"
+            android:key="pref_memory_limit"
+            android:defaultValue="1000"
+            android:inputType="number"
+            android:summary="@string/pref_memory_limit_summary"/>
+        
+        <CheckBoxPreference
+            android:title="@string/pref_auto_backup_memory"
+            android:key="pref_auto_backup_memory"
+            android:defaultValue="true"
+            android:summary="@string/pref_auto_backup_memory_summary"/>
+    </PreferenceCategory>
+    
+    <!-- Terminal Settings -->
+    <PreferenceCategory
+        android:title="@string/pref_category_terminal"
+        android:key="category_terminal">
+        
+        <ListPreference
+            android:title="@string/pref_terminal_theme"
+            android:key="pref_terminal_theme"
+            android:defaultValue="dark"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values"
+            android:summary="@string/pref_terminal_theme_summary"/>
+        
+        <EditTextPreference
+            android:title="@string/pref_font_size"
+            android:key="pref_font_size"
+            android:defaultValue="14"
+            android:inputType="number"
+            android:summary="@string/pref_font_size_summary"/>
+        
+        <CheckBoxPreference
+            android:title="@string/pref_show_command_suggestions"
+            android:key="pref_show_command_suggestions"
+            android:defaultValue="true"
+            android:summary="@string/pref_show_command_suggestions_summary"/>
+    </PreferenceCategory>
+    
+    <!-- Analytics Settings -->
+    <PreferenceCategory
+        android:title="@string/pref_category_analytics"
+        android:key="category_analytics">
+        
+        <CheckBoxPreference
+            android:title="@string/pref_enable_analytics"
+            android:key="pref_enable_analytics"
+            android:defaultValue="true"
+            android:summary="@string/pref_enable_analytics_summary"/>
+        
+        <CheckBoxPreference
+            android:title="@string/pref_enable_usage_tracking"
+            android:key="pref_enable_usage_tracking"
+            android:defaultValue="true"
+            android:summary="@string/pref_enable_usage_tracking_summary"/>
+        
+        <EditTextPreference
+            android:title="@string/pref_analytics_interval"
+            android:key="pref_analytics_interval"
+            android:defaultValue="24"
+            android:inputType="number"
+            android:summary="@string/pref_analytics_interval_summary"/>
+    </PreferenceCategory>
+    
+    <!-- Security Settings -->
+    <PreferenceCategory
+        android:title="@string/pref_category_security"
+        android:key="category_security">
+        
+        <CheckBoxPreference
+            android:title="@string/pref_enable_biometric_auth"
+            android:key="pref_enable_biometric_auth"
+            android:defaultValue="false"
+            android:summary="@string/pref_enable_biometric_auth_summary"/>
+        
+        <CheckBoxPreference
+            android:title="@string/pref_enable_pin_lock"
+            android:key="pref_enable_pin_lock"
+            android:defaultValue="false"
+            android:summary="@string/pref_enable_pin_lock_summary"/>
+        
+        <EditTextPreference
+            android:title="@string/pref_session_timeout"
+            android:key="pref_session_timeout"
+            android:defaultValue="30"
+            android:inputType="number"
+            android:summary="@string/pref_session_timeout_summary"/>
+    </PreferenceCategory>
+    
+    <!-- Notification Settings -->
+    <PreferenceCategory
+        android:title="@string/pref_category_notifications"
+        android:key="category_notifications">
+        
+        <CheckBoxPreference
+            android:title="@string/pref_enable_notifications"
+            android:key="pref_enable_notifications"
+            android:defaultValue="true"
+            android:summary="@string/pref_enable_notifications_summary"/>
+        
+        <CheckBoxPreference
+            android:title="@string/pref_enable_sound"
+            android:key="pref_enable_sound"
+            android:defaultValue="true"
+            android:summary="@string/pref_enable_sound_summary"/>
+        
+        <CheckBoxPreference
+            android:title="@string/pref_enable_vibration"
+            android:key="pref_enable_vibration"
+            android:defaultValue="true"
+            android:summary="@string/pref_enable_vibration_summary"/>
+    </PreferenceCategory>
+    
+    <!-- About & Advanced -->
+    <PreferenceCategory
+        android:title="@string/pref_category_about"
+        android:key="category_about">
+        
+        <Preference
+            android:title="@string/pref_about"
+            android:key="pref_about"
+            android:summary="@string/pref_about_summary"/>
+        
+        <Preference
+            android:title="@string/pref_version"
+            android:key="pref_version"
+            android:summary="@string/app_version"/>
+        
+        <Preference
+            android:title="@string/pref_privacy_policy"
+            android:key="pref_privacy_policy"
+            android:summary="@string/pref_privacy_policy_summary"/>
+        
+        <Preference
+            android:title="@string/pref_reset_settings"
+            android:key="pref_reset_settings"
+            android:summary="@string/pref_reset_settings_summary"/>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- File Paths Configuration for LivingAI -->
+    
+    <!-- Base Directories -->
+    <string name="path_base">/storage/emulated/0/Android/data/com.livingai.app/</string>
+    <string name="path_app_data">/storage/emulated/0/Android/data/com.livingai.app/files/</string>
+    <string name="path_cache">/storage/emulated/0/Android/data/com.livingai.app/cache/</string>
+    
+    <!-- Agent Files -->
+    <string name="path_agents">/storage/emulated/0/Android/data/com.livingai.app/files/agents/</string>
+    <string name="path_agent_configs">/storage/emulated/0/Android/data/com.livingai.app/files/agents/configs/</string>
+    <string name="path_agent_logs">/storage/emulated/0/Android/data/com.livingai.app/files/agents/logs/</string>
+    
+    <!-- Tool Files -->
+    <string name="path_tools">/storage/emulated/0/Android/data/com.livingai.app/files/tools/</string>
+    <string name="path_tool_scripts">/storage/emulated/0/Android/data/com.livingai.app/files/tools/scripts/</string>
+    <string name="path_tool_outputs">/storage/emulated/0/Android/data/com.livingai.app/files/tools/outputs/</string>
+    
+    <!-- Task Files -->
+    <string name="path_tasks">/storage/emulated/0/Android/data/com.livingai.app/files/tasks/</string>
+    <string name="path_task_data">/storage/emulated/0/Android/data/com.livingai.app/files/tasks/data/</string>
+    <string name="path_task_results">/storage/emulated/0/Android/data/com.livingai.app/files/tasks/results/</string>
+    
+    <!-- Memory Files -->
+    <string name="path_memory">/storage/emulated/0/Android/data/com.livingai.app/files/memory/</string>
+    <string name="path_memory_database">/storage/emulated/0/Android/data/com.livingai.app/files/memory/database/</string>
+    <string name="path_memory_backups">/storage/emulated/0/Android/data/com.livingai.app/files/memory/backups/</string>
+    
+    <!-- Terminal Files -->
+    <string name="path_terminal">/storage/emulated/0/Android/data/com.livingai.app/files/terminal/</string>
+    <string name="path_command_history">/storage/emulated/0/Android/data/com.livingai.app/files/terminal/history/</string>
+    <string name="path_command_scripts">/storage/emulated/0/Android/data/com.livingai.app/files/terminal/scripts/</string>
+    
+    <!-- Analytics Files -->
+    <string name="path_analytics">/storage/emulated/0/Android/data/com.livingai.app/files/analytics/</string>
+    <string name="path_usage_stats">/storage/emulated/0/Android/data/com.livingai.app/files/analytics/usage/</string>
+    <string name="path_performance_metrics">/storage/emulated/0/Android/data/com.livingai.app/files/analytics/performance/</string>
+    
+    <!-- Documentation Files -->
+    <string name="path_documentation">/storage/emulated/0/Android/data/com.livingai.app/files/documentation/</string>
+    <string name="path_docs_markdown">/storage/emulated/0/Android/data/com.livingai.app/files/documentation/markdown/</string>
+    <string name="path_docs_pdf">/storage/emulated/0/Android/data/com.livingai.app/files/documentation/pdf/</string>
+    
+    <!-- Settings Files -->
+    <string name="path_settings">/storage/emulated/0/Android/data/com.livingai.app/files/settings/</string>
+    <string name="path_config">/storage/emulated/0/Android/data/com.livingai.app/files/settings/config.json</string>
+    <string name="path_preferences">/storage/emulated/0/Android/data/com.livingai.app/files/settings/preferences.xml</string>
+    
+    <!-- Log Files -->
+    <string name="path_logs">/storage/emulated/0/Android/data/com.livingai.app/files/logs/</string>
+    <string name="path_error_logs">/storage/emulated/0/Android/data/com.livingai.app/files/logs/errors/</string>
+    <string name="path_debug_logs">/storage/emulated/0/Android/data/com.livingai.app/files/logs/debug/</string>
+    
+    <!-- Temporary Files -->
+    <string name="path_temp">/storage/emulated/0/Android/data/com.livingai.app/files/temp/</string>
+    
+    <!-- External Storage -->
+    <string name="path_external">/storage/emulated/0/</string>
+    <string name="path_external_livingai">/storage/emulated/0/LivingAI/</string>
+    <string name="path_external_exports">/storage/emulated/0/LivingAI/exports/</string>
+    <string name="path_external_imports">/storage/emulated/0/LivingAI/imports/</string>
+</resources>

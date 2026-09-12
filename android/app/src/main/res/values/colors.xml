@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary colors -->
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimaryLight">#BB86FC</color>
+    <color name="colorPrimaryVariant">#3700B3</color>
+
+    <!-- Secondary colors -->
+    <color name="colorSecondary">#03DAC6</color>
+    <color name="colorSecondaryDark">#018786</color>
+    <color name="colorSecondaryLight">#80CBC4</color>
+    <color name="colorSecondaryVariant">#03DAC6</color>
+
+    <!-- Accent colors -->
+    <color name="colorAccent">#03DAC6</color>
+    <color name="colorAccentDark">#018786</color>
+    <color name="colorAccentLight">#80CBC4</color>
+
+    <!-- Background colors -->
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackgroundDark">#121212</color>
+    <color name="colorBackgroundLight">#F5F5F5</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorSurfaceDark">#1E1E1E</color>
+    <color name="colorSurfaceLight">#F5F5F5</color>
+
+    <!-- Text colors -->
+    <color name="colorTextPrimary">#212121</color>
+    <color name="colorTextPrimaryDark">#FFFFFF</color>
+    <color name="colorTextSecondary">#757575</color>
+    <color name="colorTextSecondaryDark">#B3B3B3</color>
+    <color name="colorTextTertiary">#9E9E9E</color>
+    <color name="colorTextTertiaryDark">#8A8A8A</color>
+    <color name="colorTextOnPrimary">#FFFFFF</color>
+    <color name="colorTextOnSecondary">#000000</color>
+
+    <!-- Error colors -->
+    <color name="colorError">#B00020</color>
+    <color name="colorErrorDark">#FF5252</color>
+    <color name="colorErrorLight">#FFCDD2</color>
+
+    <!-- Warning colors -->
+    <color name="colorWarning">#FF9800</color>
+    <color name="colorWarningDark">#F57C00</color>
+    <color name="colorWarningLight">#FFE0B2</color>
+
+    <!-- Success colors -->
+    <color name="colorSuccess">#4CAF50</color>
+    <color name="colorSuccessDark">#2E7D32</color>
+    <color name="colorSuccessLight">#C8E6C9</color>
+
+    <!-- Info colors -->
+    <color name="colorInfo">#2196F3</color>
+    <color name="colorInfoDark">#0D47A1</color>
+    <color name="colorInfoLight">#BBDEFB</color>
+
+    <!-- Divider colors -->
+    <color name="colorDivider">#E0E0E0</color>
+    <color name="colorDividerDark">#333333</color>
+    <color name="colorDividerLight">#E0E0E0</color>
+
+    <!-- Icon colors -->
+    <color name="colorIcon">#757575</color>
+    <color name="colorIconDark">#B3B3B3</color>
+    <color name="colorIconLight">#757575</color>
+    <color name="colorIconActive">#6200EE</color>
+    <color name="colorIconInactive">#9E9E9E</color>
+
+    <!-- Button colors -->
+    <color name="colorButtonPrimary">#6200EE</color>
+    <color name="colorButtonPrimaryDark">#3700B3</color>
+    <color name="colorButtonSecondary">#03DAC6</color>
+    <color name="colorButtonSecondaryDark">#018786</color>
+    <color name="colorButtonDisabled">#9E9E9E</color>
+    <color name="colorButtonText">#FFFFFF</color>
+    <color name="colorButtonTextSecondary">#000000</color>
+
+    <!-- Card colors -->
+    <color name="colorCardBackground">#FFFFFF</color>
+    <color name="colorCardBackgroundDark">#1E1E1E</color>
+    <color name="colorCardElevation">#000000</color>
+    <color name="colorCardElevationDark">#FFFFFF</color>
+
+    <!-- Status bar colors -->
+    <color name="colorStatusBar">#6200EE</color>
+    <color name="colorStatusBarDark">#121212</color>
+    <color name="colorStatusBarLight">#FFFFFF</color>
+
+    <!-- Navigation bar colors -->
+    <color name="colorNavigationBar">#FFFFFF</color>
+    <color name="colorNavigationBarDark">#121212</color>
+    <color name="colorNavigationBarLight">#FFFFFF</color>
+
+    <!-- Splash screen colors -->
+    <color name="colorSplashBackground">#6200EE</color>
+    <color name="colorSplashText">#FFFFFF</color>
+
+    <!-- Terminal colors -->
+    <color name="colorTerminalBackground">#1E1E1E</color>
+    <color name="colorTerminalText">#E0E0E0</color>
+    <color name="colorTerminalInput">#03DAC6</color>
+    <color name="colorTerminalOutput">#80CBC4</color>
+    <color name="colorTerminalError">#FF5252</color>
+    <color name="colorTerminalSuccess">#4CAF50</color>
+    <color name="colorTerminalPrompt">#BB86FC</color>
+
+    <!-- Agent status colors -->
+    <color name="colorAgentActive">#4CAF50</color>
+    <color name="colorAgentInactive">#9E9E9E</color>
+    <color name="colorAgentPaused">#FF9800</color>
+    <color name="colorAgentError">#FF5252</color>
+
+    <!-- Task status colors -->
+    <color name="colorTaskPending">#2196F3</color>
+    <color name="colorTaskInProgress">#FF9800</color>
+    <color name="colorTaskCompleted">#4CAF50</color>
+    <color name="colorTaskFailed">#FF5252</color>
+    <color name="colorTaskCancelled">#9E9E9E</color>
+
+    <!-- Priority colors -->
+    <color name="colorPriorityLow">#4CAF50</color>
+    <color name="colorPriorityMedium">#FF9800</color>
+    <color name="colorPriorityHigh">#FF5252</color>
+    <color name="colorPriorityCritical">#B00020</color>
+
+    <!-- Tool category colors -->
+    <color name="colorToolAI">#9C27B0</color>
+    <color name="colorToolCode">#2196F3</color>
+    <color name="colorToolData">#00BCD4</color>
+    <color name="colorToolSystem">#673AB7</color>
+    <color name="colorToolUtility">#FF5722</color>
+    <color name="colorToolNetwork">#FF9800</color>
+    <color name="colorToolFile">#795548</color>
+    <color name="colorToolDatabase">#E91E63</color>
+
+    <!-- Memory category colors -->
+    <color name="colorMemoryKnowledge">#2196F3</color>
+    <color name="colorMemoryConversations">#4CAF50</color>
+    <color name="colorMemorySettings">#FF9800</color>
+    <color name="colorMemoryCache">#9E9E9E</color>
+
+    <!-- Chart colors -->
+    <color name="colorChart1">#6200EE</color>
+    <color name="colorChart2">#03DAC6</color>
+    <color name="colorChart3">#BB86FC</color>
+    <color name="colorChart4">#80CBC4</color>
+    <color name="colorChart5">#FF5252</color>
+    <color name="colorChart6">#4CAF50</color>
+    <color name="colorChart7">#FF9800</color>
+    <color name="colorChart8">#2196F3</color>
+
+    <!-- Gradient colors -->
+    <color name="colorGradientStart">#6200EE</color>
+    <color name="colorGradientEnd">#03DAC6</color>
+    <color name="colorGradientPrimary">#BB86FC</color>
+    <color name="colorGradientSecondary">#80CBC4</color>
+
+    <!-- Transparent colors -->
+    <color name="colorTransparent">#00000000</color>
+    <color name="colorWhiteTransparent">#80FFFFFF</color>
+    <color name="colorBlackTransparent">#80000000</color>
+
+    <!-- Shadow colors -->
+    <color name="colorShadow">#000000</color>
+    <color name="colorShadowLight">#40000000</color>
+    <color name="colorShadowDark">#80000000</color>
+</resources>

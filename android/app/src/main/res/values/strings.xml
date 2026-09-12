@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">LivingAI</string>
+    <string name="app_version">v1.0.0</string>
+    <string name="app_description">AI-powered assistant for tasks, agents, and tools</string>
+
+    <!-- Activity titles -->
+    <string name="title_splash">LivingAI</string>
+    <string name="title_main">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_agents">Agents</string>
+    <string name="title_tools">Tools</string>
+    <string name="title_tasks">Tasks</string>
+    <string name="title_memory">Memory</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_terminal">Terminal</string>
+    <string name="title_analytics">Analytics</string>
+    <string name="title_documentation">Documentation</string>
+    <string name="title_about">About</string>
+    <string name="title_agent_detail">Agent Details</string>
+    <string name="title_tool_detail">Tool Details</string>
+    <string name="title_task_detail">Task Details</string>
+    <string name="title_create_agent">Create Agent</string>
+    <string name="title_create_task">Create Task</string>
+
+    <!-- Splash screen -->
+    <string name="splash_title">LivingAI</string>
+    <string name="splash_subtitle">Intelligent Assistant Platform</string>
+
+    <!-- Navigation drawer -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_agents">Agents</string>
+    <string name="nav_tools">Tools</string>
+    <string name="nav_tasks">Tasks</string>
+    <string name="nav_memory">Memory</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_terminal">Terminal</string>
+    <string name="nav_analytics">Analytics</string>
+    <string name="nav_documentation">Documentation</string>
+    <string name="nav_about">About</string>
+    <string name="nav_exit">Exit</string>
+
+    <!-- Bottom navigation -->
+    <string name="bottom_nav_dashboard">Dashboard</string>
+    <string name="bottom_nav_agents">Agents</string>
+    <string name="bottom_nav_tools">Tools</string>
+    <string name="bottom_nav_tasks">Tasks</string>
+    <string name="bottom_nav_memory">Memory</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_welcome">Welcome to LivingAI</string>
+    <string name="dashboard_total_agents">Total Agents</string>
+    <string name="dashboard_total_tasks">Total Tasks</string>
+    <string name="dashboard_total_tools">Total Tools</string>
+    <string name="dashboard_active_tasks">Active Tasks</string>
+    <string name="dashboard_recent_activity">Recent Activity</string>
+    <string name="dashboard_quick_actions">Quick Actions</string>
+    <string name="dashboard_statistics">Statistics</string>
+    <string name="dashboard_no_data">No data available</string>
+
+    <!-- Agents -->
+    <string name="agents_title">My Agents</string>
+    <string name="agents_create_new">Create New Agent</string>
+    <string name="agents_search_hint">Search agents...</string>
+    <string name="agents_no_agents">No agents found</string>
+    <string name="agents_no_agents_description">Create your first AI agent to get started</string>
+    <string name="agents_filter_all">All</string>
+    <string name="agents_filter_active">Active</string>
+    <string name="agents_filter_inactive">Inactive</string>
+    <string name="agents_sort_by_name">Sort by Name</string>
+    <string name="agents_sort_by_date">Sort by Date</string>
+    <string name="agents_sort_by_status">Sort by Status</string>
+
+    <!-- Agent details -->
+    <string name="agent_detail_name">Agent Name</string>
+    <string name="agent_detail_description">Description</string>
+    <string name="agent_detail_status">Status</string>
+    <string name="agent_detail_type">Type</string>
+    <string name="agent_detail_created">Created</string>
+    <string name="agent_detail_updated">Last Updated</string>
+    <string name="agent_detail_tasks">Tasks</string>
+    <string name="agent_detail_config">Configuration</string>
+    <string name="agent_detail_performance">Performance</string>
+    <string name="agent_detail_edit">Edit</string>
+    <string name="agent_detail_delete">Delete</string>
+    <string name="agent_detail_start">Start</string>
+    <string name="agent_detail_stop">Stop</string>
+    <string name="agent_detail_pause">Pause</string>
+
+    <!-- Create agent -->
+    <string name="create_agent_title">Create New Agent</string>
+    <string name="create_agent_name_hint">Agent name</string>
+    <string name="create_agent_description_hint">Describe what this agent does</string>
+    <string name="create_agent_type_label">Agent Type</string>
+    <string name="create_agent_type_general">General Purpose</string>
+    <string name="create_agent_type_specialized">Specialized</string>
+    <string name="create_agent_type_research">Research</string>
+    <string name="create_agent_type_development">Development</string>
+    <string name="create_agent_type_analysis">Analysis</string>
+    <string name="create_agent_type_creative">Creative</string>
+    <string name="create_agent_priority_label">Priority</string>
+    <string name="create_agent_priority_low">Low</string>
+    <string name="create_agent_priority_medium">Medium</string>
+    <string name="create_agent_priority_high">High</string>
+    <string name="create_agent_priority_critical">Critical</string>
+    <string name="create_agent_save">Create Agent</string>
+    <string name="create_agent_cancel">Cancel</string>
+
+    <!-- Tools -->
+    <string name="tools_title">Available Tools</string>
+    <string name="tools_search_hint">Search tools...</string>
+    <string name="tools_no_tools">No tools available</string>
+    <string name="tools_categories">Categories</string>
+    <string name="tools_all">All</string>
+    <string name="tools_ai">AI Tools</string>
+    <string name="tools_code">Code Tools</string>
+    <string name="tools_data">Data Tools</string>
+    <string name="tools_system">System Tools</string>
+    <string name="tools_utility">Utility Tools</string>
+    <string name="tools_network">Network Tools</string>
+    <string name="tools_file">File Tools</string>
+    <string name="tools_database">Database Tools</string>
+
+    <!-- Tool details -->
+    <string name="tool_detail_name">Tool Name</string>
+    <string name="tool_detail_description">Description</string>
+    <string name="tool_detail_category">Category</string>
+    <string name="tool_detail_version">Version</string>
+    <string name="tool_detail_author">Author</string>
+    <string name="tool_detail_status">Status</string>
+    <string name="tool_detail_parameters">Parameters</string>
+    <string name="tool_detail_usage">Usage</string>
+    <string name="tool_detail_examples">Examples</string>
+    <string name="tool_detail_enable">Enable</string>
+    <string name="tool_detail_disable">Disable</string>
+    <string name="tool_detail_test">Test</string>
+
+    <!-- Tasks -->
+    <string name="tasks_title">My Tasks</string>
+    <string name="tasks_create_new">Create New Task</string>
+    <string name="tasks_search_hint">Search tasks...</string>
+    <string name="tasks_no_tasks">No tasks found</string>
+    <string name="tasks_no_tasks_description">Create your first task to get started</string>
+    <string name="tasks_filter_all">All</string>
+    <string name="tasks_filter_pending">Pending</string>
+    <string name="tasks_filter_in_progress">In Progress</string>
+    <string name="tasks_filter_completed">Completed</string>
+    <string name="tasks_filter_failed">Failed</string>
+    <string name="tasks_filter_cancelled">Cancelled</string>
+    <string name="tasks_sort_by_name">Sort by Name</string>
+    <string name="tasks_sort_by_date">Sort by Date</string>
+    <string name="tasks_sort_by_status">Sort by Status</string>
+    <string name="tasks_sort_by_priority">Sort by Priority</string>
+
+    <!-- Task details -->
+    <string name="task_detail_title">Task Title</string>
+    <string name="task_detail_description">Description</string>
+    <string name="task_detail_status">Status</string>
+    <string name="task_detail_priority">Priority</string>
+    <string name="task_detail_agent">Assigned Agent</string>
+    <string name="task_detail_created">Created</string>
+    <string name="task_detail_started">Started</string>
+    <string name="task_detail_completed">Completed</string>
+    <string name="task_detail_progress">Progress</string>
+    <string name="task_detail_logs">Logs</string>
+    <string name="task_detail_edit">Edit</string>
+    <string name="task_detail_delete">Delete</string>
+    <string name="task_detail_start">Start</string>
+    <string name="task_detail_stop">Stop</string>
+    <string name="task_detail_cancel">Cancel</string>
+
+    <!-- Create task -->
+    <string name="create_task_title">Create New Task</string>
+    <string name="create_task_name_hint">Task title</string>
+    <string name="create_task_description_hint">Describe what this task should do</string>
+    <string name="create_task_agent_label">Assign to Agent</string>
+    <string name="create_task_agent_none">No agent</string>
+    <string name="create_task_priority_label">Priority</string>
+    <string name="create_task_save">Create Task</string>
+    <string name="create_task_cancel">Cancel</string>
+
+    <!-- Memory -->
+    <string name="memory_title">Memory</string>
+    <string name="memory_search_hint">Search memory...</string>
+    <string name="memory_no_entries">No memory entries found</string>
+    <string name="memory_categories">Categories</string>
+    <string name="memory_category_knowledge">Knowledge</string>
+    <string name="memory_category_conversations">Conversations</string>
+    <string name="memory_category_settings">Settings</string>
+    <string name="memory_category_cache">Cache</string>
+    <string name="memory_clear_all">Clear All</string>
+    <string name="memory_export">Export</string>
+    <string name="memory_import">Import</string>
+
+    <!-- Memory entry -->
+    <string name="memory_entry_title">Title</string>
+    <string name="memory_entry_content">Content</string>
+    <string name="memory_entry_category">Category</string>
+    <string name="memory_entry_created">Created</string>
+    <string name="memory_entry_updated">Last Updated</string>
+    <string name="memory_entry_delete">Delete</string>
+    <string name="memory_entry_share">Share</string>
+
+    <!-- Terminal -->
+    <string name="terminal_title">Terminal</string>
+    <string name="terminal_welcome">Welcome to LivingAI Terminal</string>
+    <string name="terminal_command_hint">Enter command...</string>
+    <string name="terminal_execute">Execute</string>
+    <string name="terminal_clear">Clear</string>
+    <string name="terminal_copy">Copy</string>
+    <string name="terminal_paste">Paste</string>
+    <string name="terminal_history">History</string>
+    <string name="terminal_sessions">Sessions</string>
+    <string name="terminal_new_session">New Session</string>
+    <string name="terminal_no_commands">No commands executed yet</string>
+
+    <!-- Terminal session -->
+    <string name="terminal_session_name">Session Name</string>
+    <string name="terminal_session_started">Started</string>
+    <string name="terminal_session_commands">Commands</string>
+    <string name="terminal_session_delete">Delete Session</string>
+
+    <!-- Analytics -->
+    <string name="analytics_title">Analytics</string>
+    <string name="analytics_overview">Overview</string>
+    <string name="analytics_agent_performance">Agent Performance</string>
+    <string name="analytics_task_completion">Task Completion</string>
+    <string name="analytics_tool_usage">Tool Usage</string>
+    <string name="analytics_memory_usage">Memory Usage</string>
+    <string name="analytics_time_period">Time Period</string>
+    <string name="analytics_today">Today</string>
+    <string name="analytics_week">This Week</string>
+    <string name="analytics_month">This Month</string>
+    <string name="analytics_year">This Year</string>
+    <string name="analytics_custom">Custom</string>
+    <string name="analytics_no_data">No analytics data available</string>
+
+    <!-- Documentation -->
+    <string name="documentation_title">Documentation</string>
+    <string name="documentation_search_hint">Search documentation...</string>
+    <string name="documentation_no_results">No documentation found</string>
+    <string name="documentation_categories">Categories</string>
+    <string name="documentation_getting_started">Getting Started</string>
+    <string name="documentation_agents">Agents</string>
+    <string name="documentation_tools">Tools</string>
+    <string name="documentation_tasks">Tasks</string>
+    <string name="documentation_memory">Memory</string>
+    <string name="documentation_terminal">Terminal</string>
+    <string name="documentation_analytics">Analytics</string>
+    <string name="documentation_settings">Settings</string>
+    <string name="documentation_api">API Reference</string>
+    <string name="documentation_faq">FAQ</string>
+
+    <!-- About -->
+    <string name="about_title">About LivingAI</string>
+    <string name="about_description">LivingAI is an advanced AI-powered assistant platform that helps you manage tasks, agents, and tools efficiently.</string>
+    <string name="about_version">Version</string>
+    <string name="about_license">License</string>
+    <string name="about_github">GitHub Repository</string>
+    <string name="about_contact">Contact Us</string>
+    <string name="about_privacy">Privacy Policy</string>
+    <string name="about_terms">Terms of Service</string>
+    <string name="about_contributors">Contributors</string>
+    <string name="about_acknowledgements">Acknowledgements</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_general">General</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_privacy">Privacy</string>
+    <string name="settings_storage">Storage</string>
+    <string name="settings_about">About</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_urdu">اردو</string>
+    <string name="settings_language_spanish">Español</string>
+    <string name="settings_language_french">Français</string>
+    <string name="settings_language_arabic">العربية</string>
+    <string name="settings_notifications_enabled">Enable Notifications</string>
+    <string name="settings_notifications_sound">Notification Sound</string>
+    <string name="settings_notifications_vibration">Vibration</string>
+    <string name="settings_analytics_enabled">Enable Analytics</string>
+    <string name="settings_auto_update">Auto Update</string>
+    <string name="settings_clear_cache">Clear Cache</string>
+    <string name="settings_clear_cache_confirm">Are you sure you want to clear the cache?</string>
+    <string name="settings_clear_history">Clear History</string>
+    <string name="settings_clear_history_confirm">Are you sure you want to clear history?</string>
+    <string name="settings_reset_app">Reset App</string>
+    <string name="settings_reset_app_confirm">Are you sure you want to reset the app? This cannot be undone.</string>
+
+    <!-- Buttons -->
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_create">Create</string>
+    <string name="btn_update">Update</string>
+    <string name="btn_refresh">Refresh</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_previous">Previous</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+    <string name="btn_retry">Retry</string>
+    <string name="btn_more">More</string>
+
+    <!-- Status messages -->
+    <string name="status_loading">Loading...</string>
+    <string name="status_processing">Processing...</string>
+    <string name="status_saving">Saving...</string>
+    <string name="status_deleting">Deleting...</string>
+    <string name="status_updating">Updating...</string>
+    <string name="status_connecting">Connecting...</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_online">Online</string>
+    <string name="status_offline">Offline</string>
+
+    <!-- Status values -->
+    <string name="status_active">Active</string>
+    <string name="status_inactive">Inactive</string>
+    <string name="status_paused">Paused</string>
+    <string name="status_error">Error</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_in_progress">In Progress</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_failed">Failed</string>
+    <string name="status_cancelled">Cancelled</string>
+    <string name="status_enabled">Enabled</string>
+    <string name="status_disabled">Disabled</string>
+
+    <!-- Priority values -->
+    <string name="priority_low">Low</string>
+    <string name="priority_medium">Medium</string>
+    <string name="priority_high">High</string>
+    <string name="priority_critical">Critical</string>
+
+    <!-- Agent types -->
+    <string name="agent_type_general">General Purpose</string>
+    <string name="agent_type_specialized">Specialized</string>
+    <string name="agent_type_research">Research</string>
+    <string name="agent_type_development">Development</string>
+    <string name="agent_type_analysis">Analysis</string>
+    <string name="agent_type_creative">Creative</string>
+
+    <!-- Tool categories -->
+    <string name="tool_category_ai">AI</string>
+    <string name="tool_category_code">Code</string>
+    <string name="tool_category_data">Data</string>
+    <string name="tool_category_system">System</string>
+    <string name="tool_category_utility">Utility</string>
+    <string name="tool_category_network">Network</string>
+    <string name="tool_category_file">File</string>
+    <string name="tool_category_database">Database</string>
+
+    <!-- Memory categories -->
+    <string name="memory_category_knowledge">Knowledge</string>
+    <string name="memory_category_conversations">Conversations</string>
+    <string name="memory_category_settings">Settings</string>
+    <string name="memory_category_cache">Cache</string>
+
+    <!-- Error messages -->
+    <string name="error_network">Network error. Please check your connection.</string>
+    <string name="error_server">Server error. Please try again later.</string>
+    <string name="error_unauthorized">Unauthorized. Please login again.</string>
+    <string name="error_not_found">Resource not found.</string>
+    <string name="error_validation">Validation error. Please check your input.</string>
+    <string name="error_unknown">An unknown error occurred.</string>
+    <string name="error_no_connection">No internet connection</string>
+    <string name="error_timeout">Request timed out. Please try again.</string>
+    <string name="error_permission_denied">Permission denied</string>
+    <string name="error_storage">Storage error. Please check available space.</string>
+
+    <!-- Success messages -->
+    <string name="success_saved">Changes saved successfully.</string>
+    <string name="success_deleted">Item deleted successfully.</string>
+    <string name="success_created">Item created successfully.</string>
+    <string name="success_updated">Item updated successfully.</string>
+    <string name="success_copied">Copied to clipboard</string>
+    <string name="success_shared">Shared successfully</string>
+    <string name="success_exported">Exported successfully</string>
+    <string name="success_imported">Imported successfully</string>
+
+    <!-- Confirmation messages -->
+    <string name="confirm_delete">Are you sure you want to delete this item?</string>
+    <string name="confirm_delete_title">Confirm Delete</string>
+    <string name="confirm_logout">Are you sure you want to logout?</string>
+    <string name="confirm_logout_title">Confirm Logout</string>
+    <string name="confirm_clear">Are you sure you want to clear all data?</string>
+    <string name="confirm_clear_title">Confirm Clear</string>
+    <string name="confirm_exit">Are you sure you want to exit?</string>
+    <string name="confirm_exit_title">Confirm Exit</string>
+
+    <!-- Empty state messages -->
+    <string name="empty_agents">No agents found. Create your first agent!</string>
+    <string name="empty_tasks">No tasks found. Create your first task!</string>
+    <string name="empty_tools">No tools found.</string>
+    <string name="empty_memory">No memory entries found.</string>
+    <string name="empty_logs">No logs found.</string>
+    <string name="empty_analytics">No analytics data available.</string>
+    <string name="empty_documentation">No documentation found.</string>
+    <string name="empty_terminal">No commands executed yet.</string>
+
+    <!-- Loading messages -->
+    <string name="loading">Loading...</string>
+    <string name="loading_agents">Loading agents...</string>
+    <string name="loading_tasks">Loading tasks...</string>
+    <string name="loading_tools">Loading tools...</string>
+    <string name="loading_memory">Loading memory...</string>
+    <string name="loading_logs">Loading logs...</string>
+    <string name="loading_analytics">Loading analytics...</string>
+
+    <!-- Placeholders -->
+    <string name="placeholder_search">Search...</string>
+    <string name="placeholder_name">Enter name</string>
+    <string name="placeholder_description">Enter description</string>
+    <string name="placeholder_command">Enter command</string>
+    <string name="placeholder_message">Enter message</string>
+
+    <!-- Dates and times -->
+    <string name="date_format_full">yyyy-MM-dd HH:mm:ss</string>
+    <string name="date_format_date_only">yyyy-MM-dd</string>
+    <string name="date_format_time_only">HH:mm:ss</string>
+    <string name="date_format_display">MMM dd, yyyy h:mm a</string>
+    <string name="date_just_now">Just now</string>
+    <string name="date_minutes_ago">%d minutes ago</string>
+    <string name="date_hours_ago">%d hours ago</string>
+    <string name="date_days_ago">%d days ago</string>
+    <string name="date_weeks_ago">%d weeks ago</string>
+    <string name="date_months_ago">%d months ago</string>
+    <string name="date_years_ago">%d years ago</string>
+    <string name="date_today">Today</string>
+    <string name="date_yesterday">Yesterday</string>
+    <string name="date_tomorrow">Tomorrow</string>
+
+    <!-- File operations -->
+    <string name="file_choose">Choose File</string>
+    <string name="file_upload">Upload</string>
+    <string name="file_download">Download</string>
+    <string name="file_share">Share</string>
+    <string name="file_delete">Delete</string>
+    <string name="file_rename">Rename</string>
+    <string name="file_copy">Copy</string>
+    <string name="file_move">Move</string>
+
+    <!-- GitHub -->
+    <string name="github_repo">https://github.com/abdulraheemnohri/LivingAI</string>
+    <string name="github_issues">Issues</string>
+    <string name="github_releases">Releases</string>
+    <string name="github_contribute">Contribute</string>
+    <string name="github_star">Star on GitHub</string>
+
+    <!-- Contact -->
+    <string name="contact_email">contact@livingai.dev</string>
+    <string name="contact_website">https://livingai.dev</string>
+    <string name="contact_twitter">@LivingAI</string>
+    <string name="contact_discord">Join Discord</string>
+
+    <!-- License -->
+    <string name="license">MIT License</string>
+    <string name="license_url">https://opensource.org/licenses/MIT</string>
+
+    <!-- Version -->
+    <string name="version">Version %s</string>
+    <string name="build">Build %s</string>
+
+    <!-- Fragment tags (for programmatic use) -->
+    <string name="fragment_dashboard">fragment_dashboard</string>
+    <string name="fragment_agents">fragment_agents</string>
+    <string name="fragment_tools">fragment_tools</string>
+    <string name="fragment_tasks">fragment_tasks</string>
+    <string name="fragment_memory">fragment_memory</string>
+    <string name="fragment_settings">fragment_settings</string>
+    <string name="fragment_terminal">fragment_terminal</string>
+    <string name="fragment_analytics">fragment_analytics</string>
+    <string name="fragment_documentation">fragment_documentation</string>
+    <string name="fragment_about">fragment_about</string>
+</resources>

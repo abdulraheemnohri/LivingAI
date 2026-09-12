@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Data Extraction Rules for LivingAI -->
+    
+    <!-- Agent Data Extraction -->
+    <string name="rule_agent_id">agent_id</string>
+    <string name="rule_agent_name">agent_name</string>
+    <string name="rule_agent_type">agent_type</string>
+    <string name="rule_agent_status">agent_status</string>
+    <string name="rule_agent_created">agent_created_at</string>
+    
+    <!-- Tool Data Extraction -->
+    <string name="rule_tool_id">tool_id</string>
+    <string name="rule_tool_name">tool_name</string>
+    <string name="rule_tool_category">tool_category</string>
+    <string name="rule_tool_description">tool_description</string>
+    <string name="rule_tool_version">tool_version</string>
+    
+    <!-- Task Data Extraction -->
+    <string name="rule_task_id">task_id</string>
+    <string name="rule_task_title">task_title</string>
+    <string name="rule_task_status">task_status</string>
+    <string name="rule_task_priority">task_priority</string>
+    <string name="rule_task_deadline">task_deadline</string>
+    
+    <!-- Memory Data Extraction -->
+    <string name="rule_memory_id">memory_id</string>
+    <string name="rule_memory_type">memory_type</string>
+    <string name="rule_memory_content">memory_content</string>
+    <string name="rule_memory_timestamp">memory_timestamp</string>
+    
+    <!-- Terminal Data Extraction -->
+    <string name="rule_command_id">command_id</string>
+    <string name="rule_command_input">command_input</string>
+    <string name="rule_command_output">command_output</string>
+    <string name="rule_command_status">command_status</string>
+    
+    <!-- Analytics Data Extraction -->
+    <string name="rule_usage_metrics">usage_metrics</string>
+    <string name="rule_performance_data">performance_data</string>
+    <string name="rule_error_logs">error_logs</string>
+    
+    <!-- Extraction Patterns -->
+    <string name="pattern_json">\"([^\"]+)\":\"([^\"]+)\"</string>
+    <string name="pattern_date">\d{4}-\d{2}-\d{2}</string>
+    <string name="pattern_time">\d{2}:\d{2}:\d{2}</string>
+    <string name="pattern_uuid">[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</string>
+</resources>
