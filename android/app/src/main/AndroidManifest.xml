@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.livingai.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <application
+        android:name=".LivingAIApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LivingAI"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="34">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.LivingAI.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false"
+            android:label="@string/title_dashboard"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".AgentsActivity"
+            android:exported="false"
+            android:label="@string/title_agents"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ToolsActivity"
+            android:exported="false"
+            android:label="@string/title_tools"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".TasksActivity"
+            android:exported="false"
+            android:label="@string/title_tasks"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".MemoryActivity"
+            android:exported="false"
+            android:label="@string/title_memory"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_settings"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".TerminalActivity"
+            android:exported="false"
+            android:label="@string/title_terminal"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".AnalyticsActivity"
+            android:exported="false"
+            android:label="@string/title_analytics"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".DocumentationActivity"
+            android:exported="false"
+            android:label="@string/title_documentation"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false"
+            android:label="@string/title_about"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".AgentDetailActivity"
+            android:exported="false"
+            android:label="@string/title_agent_detail"
+            android:parentActivityName=".AgentsActivity" />
+
+        <activity
+            android:name=".ToolDetailActivity"
+            android:exported="false"
+            android:label="@string/title_tool_detail"
+            android:parentActivityName=".ToolsActivity" />
+
+        <activity
+            android:name=".TaskDetailActivity"
+            android:exported="false"
+            android:label="@string/title_task_detail"
+            android:parentActivityName=".TasksActivity" />
+
+        <activity
+            android:name=".CreateAgentActivity"
+            android:exported="false"
+            android:label="@string/title_create_agent"
+            android:parentActivityName=".AgentsActivity" />
+
+        <activity
+            android:name=".CreateTaskActivity"
+            android:exported="false"
+            android:label="@string/title_create_task"
+            android:parentActivityName=".TasksActivity" />
+
+        <service
+            android:name=".services.AgentService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".services.TaskService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".services.SyncService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".receivers.NetworkReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+</manifest>
