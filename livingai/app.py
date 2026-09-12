@@ -24,6 +24,7 @@ from .autonomy.idle import IdleManager
 from .backup.manager import BackupManager
 from .platform.termux import TermuxPlatform
 from .security.audit import AuditLogger
+from .app_agent_extension import add_agent_support
 
 
 class LivingAIApp:
@@ -52,7 +53,8 @@ class LivingAIApp:
         os.makedirs(self.livingai_home, exist_ok=True)
         os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
         os.makedirs(self.model_dir, exist_ok=True)
-        os.makedirs(self.data_dir, exist_ok=True)
+        os.maked
+irs(self.data_dir, exist_ok=True)
         os.makedirs(self.logs_dir, exist_ok=True)
         
         # Set up logging
@@ -113,7 +115,8 @@ class LivingAIApp:
         )
         
         # Initialize state engine
-        self.state_engine = StateEngine(
+        self.state_engine
+ = StateEngine(
             config=self.config,
             audit_logger=self.audit_logger
         )
@@ -138,6 +141,9 @@ class LivingAIApp:
             config=self.config,
             audit_logger=self.audit_logger
         )
+        
+        # Initialize agent support
+        add_agent_support(self)
         
         # Log initialization
         self.audit_logger.log("APP_INIT", "LivingAI application initialized")
@@ -174,7 +180,8 @@ class LivingAIApp:
         Process a query through the cognitive engine.
         
         Args:
-            query: The user's query or prompt.
+            query: The user
+'s query or prompt.
             **kwargs: Additional arguments for processing.
             
         Returns:
@@ -231,7 +238,8 @@ class LivingAIApp:
             "python": self.platform.check_python(),
             "model": self.model_manager.doctor(),
             "memory": self.memory_manager.doctor(),
-            "storage": self.platform.check_storage(),
+      
+      "storage": self.platform.check_storage(),
             "battery": self.platform.check_battery(),
         }
         return diagnostics
