@@ -14,7 +14,6 @@ from livingai.security.policy import RiskLevel, PermissionProfile
 
 
 class ToolPermission(Enum):
-    """Permission levels for tools."""
     DENIED = "denied"
     READ_ONLY = "read_only"
     RESTRICTED = "restricted"
@@ -184,7 +183,7 @@ DEFAULT_TOOL_PERMISSIONS = {
 
 
 class ToolPermissionManager:
-    def __init__(self, config: Any = None):
+    def __init__(self, config=None):
         self.config = config
         self._permissions = {}
         self._profile_overrides = {}
@@ -196,7 +195,7 @@ class ToolPermissionManager:
             perm_config = ToolPermissionConfig(name=tool_name, **settings)
             self._permissions[tool_name] = perm_config
     
-    def get_permission(self, tool_name: str) -> ToolPermissionConfig:
+    def get_permission(self, tool_name):
         if tool_name not in self._permissions:
             self._permissions[tool_name] = ToolPermissionConfig(
                 name=tool_name,
@@ -206,7 +205,7 @@ class ToolPermissionManager:
             )
         return self._permissions[tool_name]
     
-    def check_tool_access(self, tool_name: str, method: Optional[str] = None, args: Optional[Dict[str, Any]] = None, profile: Optional[PermissionProfile] = None) -> Dict[str, Any]:
+    def check_tool_access(self, tool_name, method=None, args=None, profile=None):
         perm = self.get_permission(tool_name)
         if perm.permission == ToolPermission.DENIED:
             return {'allowed': False, 'permission': perm.permission.value, 'risk': perm.risk.value, 'requires_confirmation': False, 'reason': f"Tool '{tool_name}' is denied"}
@@ -224,7 +223,7 @@ class ToolPermissionManager:
                         return {'allowed': False, 'permission': perm.permission.value, 'risk': perm.risk.value, 'requires_confirmation': False, 'reason': f"Argument '{arg_name}={arg_value}' is blocked for tool '{tool_name}'", 'blocked_arg': arg_name}
         return {'allowed': True, 'permission': perm.permission.value, 'risk': perm.risk.value, 'requires_confirmation': perm.requires_confirmation, 'reason': 'Access allowed'}
     
-    def set_permission(self, tool_name: str, permission: ToolPermission, allowed_methods: List[str] = None, blocked_methods: List[str] = None, allowed_args: List[str] = None, blocked_args: List[str] = None, risk: RiskLevel = None, requires_confirmation: bool = None) -> ToolPermissionConfig:
+    def set_permission(self, tool_name, permission, allowed_methods=None, blocked_methods=None, allowed_args=None, blocked_args=None, risk=None, requires_confirmation=None):
         if tool_name not in self._permissions:
             self._permissions[tool_name] = ToolPermissionConfig(name=tool_name)
         perm = self._permissions[tool_name]
@@ -245,7 +244,7 @@ class ToolPermissionManager:
         self.logger.info(f"Updated permission for tool: {tool_name}")
         return perm
     
-    def set_profile_override(self, profile: PermissionProfile, tool_name: str, permission: ToolPermission, allowed_methods: List[str] = None, blocked_methods: List[str] = None):
+    def set_profile_override(self, profile, tool_name, permission, allowed_methods=None, blocked_methods=None):
         if profile.value not in self._profile_overrides:
             self._profile_overrides[profile.value] = {}
         if tool_name not in self._profile_overrides[profile.value]:
@@ -258,19 +257,19 @@ class ToolPermissionManager:
             perm.blocked_methods = set(blocked_methods)
         self.logger.info(f"Set profile override: {profile.value} -> {tool_name}")
     
-    def get_permission_for_profile(self, tool_name: str, profile: PermissionProfile) -> ToolPermissionConfig:
+    def get_permission_for_profile(self, tool_name, profile):
         if profile.value in self._profile_overrides:
             if tool_name in self._profile_overrides[profile.value]:
                 return self._profile_overrides[profile.value][tool_name]
         return self.get_permission(tool_name)
     
-    def list_all_permissions(self) -> Dict[str, Dict[str, Any]]:
+    def list_all_permissions(self):
         return {name: perm.to_dict() for name, perm in self._permissions.items()}
     
-    def list_tools_by_risk(self, risk: RiskLevel) -> List[str]:
+    def list_tools_by_risk(self, risk):
         return [name for name, perm in self._permissions.items() if perm.risk == risk]
     
-    def list_allowed_tools(self, profile: PermissionProfile = None) -> List[str]:
+    def list_allowed_tools(self, profile=None):
         allowed = []
         for name, perm in self._permissions.items():
             if profile:
@@ -279,7 +278,7 @@ class ToolPermissionManager:
                 allowed.append(name)
         return allowed
     
-    def list_blocked_tools(self) -> List[str]:
+    def list_blocked_tools(self):
         return [name for name, perm in self._permissions.items() if perm.permission == ToolPermission.DENIED]
     
     def reset_to_defaults(self):
