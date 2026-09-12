@@ -1,25 +1,10 @@
-# LivingAI Memory Module
-# ========================
-# This module contains the memory-related components.
+"""
+LivingAI Memory Module
+=====================
 
-from .manager import MemoryManager
-from .database import MemoryDatabase
-from .retrieval import MemoryRetriever
-from .consolidation import MemoryConsolidator
-from .models import (
-    Memory,
-    MemoryType,
-    MemoryStatus,
-    MemoryImportance,
-)
+Memory management for LivingAI agents.
+"""
 
-__all__ = [
-    "MemoryManager",
-    "MemoryDatabase",
-    "MemoryRetriever",
-    "MemoryConsolidator",
-    "Memory",
-    "MemoryType",
-    "MemoryStatus",
-    "MemoryImportance",
-]
+from .main import MemoryManager
+
+__all__ = ['MemoryManager']
