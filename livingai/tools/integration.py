@@ -94,7 +94,7 @@ class ToolsIntegration:
         Returns:
             Command execution result
         """
-        return self.executor.execute_command(command, context)
+        return self.sandbox.execute_command(command)
     
     def list_available_tools(self) -> List[str]:
         """
