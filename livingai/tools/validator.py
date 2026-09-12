@@ -6,6 +6,7 @@ Validates tool inputs, outputs, and execution results.
 """
 
 import logging
+import json
 import re
 from typing import Dict, Any, Optional, List, Callable
 from dataclasses import dataclass, field
@@ -52,49 +53,117 @@ class ValidationResult:
 
 
 class ToolValidator:
-    def __init__(self, permission_manager=None):
+    def __init__(self, permission_manager: ToolPermissionManager = None):
         self.permission_manager = permission_manager
         self.logger = logging.getLogger(__name__)
-        self._schemas = {}
-        self._custom_validators = {}
+        self._schemas: Dict[str, Dict[str, Any]] = {}
+        self._custom_validators: Dict[str, Callable] = {}
         self._load_default_schemas()
     
-    def _load_default_schemas(self):
+    def _load_default_schemas(self) -> None:
         self._schemas['filesystem'] = {
-            'read': {'type': 'object', 'properties': {'path': {'type': 'string', 'minLength': 1}}, 'required': ['path']},
-            'write': {'type': 'object', 'properties': {'path': {'type': 'string', 'minLength': 1}, 'content': {'type': 'string'}}, 'required': ['path', 'content']},
-            'delete': {'type': 'object', 'properties': {'path': {'type': 'string', 'minLength': 1}}, 'required': ['path']}
+            'read': {
+                'type': 'object',
+                'properties': {
+                    'path': {'type': 'string', 'minLength': 1}
+                },
+                'required': ['path']
+            },
+            'write': {
+                'type': 'object',
+                'properties': {
+                    'path': {'type': 'string', 'minLength': 1},
+                    'content': {'type': 'string'},
+                    'mode': {'type': 'string', 'enum': ['w', 'a', 'x']}
+                },
+                'required': ['path', 'content']
+            },
+            'delete': {
+                'type': 'object',
+                'properties': {
+                    'path': {'type': 'string', 'minLength': 1},
+                    'recursive': {'type': 'boolean'}
+                },
+                'required': ['path']
+            },
+            'list': {
+                'type': 'object',
+                'properties': {
+                    'path': {'type': 'string'},
+                    'recursive': {'type': 'boolean'}
+                }
+            }
         }
         self._schemas['terminal'] = {
-            'execute': {'type': 'object', 'properties': {'command': {'type': 'string', 'minLength': 1}}, 'required': ['command']}
+            'execute': {
+                'type': 'object',
+                'properties': {
+                    'command': {'type': 'string', 'minLength': 1}
+                },
+                'required': ['command']
+            }
         }
         self._schemas['sqlite'] = {
-            'query': {'type': 'object', 'properties': {'sql': {'type': 'string', 'minLength': 1}}, 'required': ['sql']}
+            'query': {
+                'type': 'object',
+                'properties': {
+                    'sql': {'type': 'string', 'minLength': 1},
+                    'params': {'type': 'array', 'items': {'type': 'string'}}
+                },
+                'required': ['sql']
+            }
         }
         self._schemas['memory'] = {
-            'add': {'type': 'object', 'properties': {'content': {'type': 'string'}}, 'required': ['content']},
-            'search': {'type': 'object', 'properties': {'query': {'type': 'string'}}, 'required': ['query']}
+            'add': {
+                'type': 'object',
+                'properties': {
+                    'content': {'type': 'string'},
+                    'memory_type': {'type': 'string'},
+                    'tags': {'type': 'array', 'items': {'type': 'string'}},
+                    'importance': {'type': 'number', 'minimum': 0, 'maximum': 10}
+                },
+                'required': ['content']
+            },
+            'search': {
+                'type': 'object',
+                'properties': {
+                    'query': {'type': 'string'},
+                    'limit': {'type': 'integer', 'minimum': 1, 'maximum': 100}
+                },
+                'required': ['query']
+            }
         }
     
-    def register_schema(self, tool_name, schema):
+    def register_schema(self, tool_name: str, schema: Dict[str, Any]) -> None:
         if tool_name not in self._schemas:
             self._schemas[tool_name] = {}
         self._schemas[tool_name].update(schema)
+        self.logger.info(f"Registered schema for tool: {tool_name}")
     
-    def register_validator(self, tool_name, validator):
+    def register_validator(self, tool_name: str, validator: Callable) -> None:
         self._custom_validators[tool_name] = validator
+        self.logger.info(f"Registered custom validator for tool: {tool_name}")
     
-    def validate_input(self, tool_name, method, args=None, kwargs=None):
+    def validate_input(
+        self,
+        tool_name: str,
+        method: str,
+        args: Dict[str, Any] = None,
+        kwargs: Dict[str, Any] = None
+    ) -> ValidationResult:
         args = args or {}
         kwargs = kwargs or {}
         all_args = {**args, **kwargs}
         result = ValidationResult()
+        
         if tool_name in self._custom_validators:
             custom_result = self._custom_validators[tool_name](all_args)
             if not custom_result.is_valid:
                 result.status = custom_result.status
                 result.errors.extend(custom_result.errors)
+                result.warnings.extend(custom_result.warnings)
                 return result
+        
         if tool_name in self._schemas:
             method_schema = self._schemas[tool_name].get(method)
             if method_schema:
@@ -102,15 +171,21 @@ class ToolValidator:
                 if not schema_result.is_valid:
                     result.status = schema_result.status
                     result.errors.extend(schema_result.errors)
+                    result.warnings.extend(schema_result.warnings)
+        
         danger_result = self._check_dangerous_patterns(all_args)
         if not danger_result.is_valid:
             result.status = danger_result.status
             result.errors.extend(danger_result.errors)
+        
         if self.permission_manager:
-            perm_check = self.permission_manager.check_tool_access(tool_name, method, all_args)
+            perm_check = self.permission_manager.check_tool_access(
+                tool_name, method, all_args
+            )
             if not perm_check.get('allowed', False):
                 result.status = ValidationStatus.INVALID
                 result.errors.append(perm_check.get('reason', 'Permission denied'))
+        
         if result.is_valid:
             result.message = "Input validation passed"
         elif result.has_errors:
@@ -119,7 +194,12 @@ class ToolValidator:
             result.message = f"Input validation passed with {len(result.warnings)} warning(s)"
         return result
     
-    def validate_output(self, tool_name, method, output):
+    def validate_output(
+        self,
+        tool_name: str,
+        method: str,
+        output: Any
+    ) -> ValidationResult:
         result = ValidationResult()
         if output is None:
             result.status = ValidationStatus.WARNING
@@ -142,7 +222,15 @@ class ToolValidator:
             result.message = f"Output validation passed with {len(result.warnings)} warning(s)"
         return result
     
-    def validate_execution(self, tool_name, method, args=None, kwargs=None, output=None, error=None):
+    def validate_execution(
+        self,
+        tool_name: str,
+        method: str,
+        args: Dict[str, Any] = None,
+        kwargs: Dict[str, Any] = None,
+        output: Any = None,
+        error: Optional[str] = None
+    ) -> ValidationResult:
         result = ValidationResult()
         input_result = self.validate_input(tool_name, method, args, kwargs)
         if not input_result.is_valid:
@@ -153,7 +241,7 @@ class ToolValidator:
             error_result = self._check_dangerous_patterns({'error': error})
             if not error_result.is_valid:
                 result.status = ValidationStatus.INVALID
-                result.errors.append(f"Execution error contains dangerous pattern")
+                result.errors.append(f"Execution error contains dangerous pattern: {error}")
         if output is not None:
             output_result = self.validate_output(tool_name, method, output)
             if not output_result.is_valid:
@@ -168,7 +256,11 @@ class ToolValidator:
             result.message = f"Execution validation passed with {len(result.warnings)} warning(s)"
         return result
     
-    def _validate_schema(self, data, schema):
+    def _validate_schema(
+        self,
+        data: Dict[str, Any],
+        schema: Dict[str, Any]
+    ) -> ValidationResult:
         result = ValidationResult()
         try:
             schema_type = schema.get('type', 'object')
@@ -177,11 +269,13 @@ class ToolValidator:
                     result.status = ValidationStatus.INVALID
                     result.errors.append(f"Expected object, got {type(data).__name__}")
                     return result
-                for prop in schema.get('required', []):
+                required = schema.get('required', [])
+                for prop in required:
                     if prop not in data:
                         result.status = ValidationStatus.INVALID
                         result.errors.append(f"Missing required property: {prop}")
-                for prop, prop_schema in schema.get('properties', {}).items():
+                properties = schema.get('properties', {})
+                for prop, prop_schema in properties.items():
                     if prop in data:
                         prop_result = self._validate_schema(data[prop], prop_schema)
                         if not prop_result.is_valid:
@@ -193,48 +287,96 @@ class ToolValidator:
                     result.status = ValidationStatus.INVALID
                     result.errors.append(f"Expected array, got {type(data).__name__}")
                     return result
+                items_schema = schema.get('items', {})
+                if items_schema:
+                    for i, item in enumerate(data):
+                        item_result = self._validate_schema(item, items_schema)
+                        if not item_result.is_valid:
+                            result.status = ValidationStatus.INVALID
+                            for err in item_result.errors:
+                                result.errors.append(f"Item {i}: {err}")
             elif schema_type == 'string':
                 if not isinstance(data, str):
                     result.status = ValidationStatus.INVALID
                     result.errors.append(f"Expected string, got {type(data).__name__}")
-                elif schema.get('minLength') is not None and len(data) < schema['minLength']:
-                    result.status = ValidationStatus.INVALID
-                    result.errors.append(f"String too short")
+                else:
+                    min_length = schema.get('minLength')
+                    if min_length is not None and len(data) < min_length:
+                        result.status = ValidationStatus.INVALID
+                        result.errors.append(f"String too short: {len(data)} < {min_length}")
             elif schema_type == 'number':
                 if not isinstance(data, (int, float)):
                     result.status = ValidationStatus.INVALID
                     result.errors.append(f"Expected number, got {type(data).__name__}")
+                else:
+                    minimum = schema.get('minimum')
+                    if minimum is not None and data < minimum:
+                        result.status = ValidationStatus.INVALID
+                        result.errors.append(f"Value too small: {data} < {minimum}")
+                    maximum = schema.get('maximum')
+                    if maximum is not None and data > maximum:
+                        result.status = ValidationStatus.INVALID
+                        result.errors.append(f"Value too large: {data} > {maximum}")
             elif schema_type == 'boolean':
                 if not isinstance(data, bool):
                     result.status = ValidationStatus.INVALID
                     result.errors.append(f"Expected boolean, got {type(data).__name__}")
+            elif schema_type == 'enum':
+                enum_values = schema.get('enum', [])
+                if data not in enum_values:
+                    result.status = ValidationStatus.INVALID
+                    result.errors.append(f"Value '{data}' not in allowed values: {enum_values}")
         except Exception as e:
             result.status = ValidationStatus.INVALID
             result.errors.append(f"Schema validation error: {e}")
         return result
     
-    def _check_dangerous_patterns(self, data):
+    def _check_dangerous_patterns(self, data: Dict[str, Any]) -> ValidationResult:
         result = ValidationResult()
         dangerous_patterns = [
-            (r'[;&|]', "Command injection pattern detected"),
-            (r'rm\s+-rf', "Dangerous rm -rf command detected"),
-            (r'rm\s+-r', "Dangerous rm -r command detected"),
-            (r'dd\s+if=', "Dangerous dd command detected"),
-            (r'chmod\s+777', "Dangerous chmod detected"),
-            (r'^/etc/', "System configuration path detected"),
-            (r'^/usr/', "System directory path detected"),
-            (r'^/bin/', "System binary path detected"),
-            (r'sudo\s+', "Sudo command detected"),
-            (r'kill\s+', "Kill command detected"),
-            (r'apt\s+', "APT package command detected"),
-            (r'pip\s+', "Pip package command detected")
+            (r'[;&|]`', RiskLevel.CRITICAL, "Command injection pattern detected"),
+            (r'\$\(', RiskLevel.CRITICAL, "Command substitution detected"),
+            (r'\$\{', RiskLevel.CRITICAL, "Command substitution detected"),
+            (r'\.\./', RiskLevel.HIGH, "Path traversal pattern detected"),
+            (r'/\.\./', RiskLevel.HIGH, "Path traversal pattern detected"),
+            (r'rm\s+-rf', RiskLevel.CRITICAL, "Dangerous rm -rf command detected"),
+            (r'rm\s+-r', RiskLevel.HIGH, "Dangerous rm -r command detected"),
+            (r'dd\s+if=', RiskLevel.CRITICAL, "Dangerous dd command detected"),
+            (r'chmod\s+777', RiskLevel.HIGH, "Dangerous chmod detected"),
+            (r'chmod\s+\+x', RiskLevel.MEDIUM, "Chmod +x detected"),
+            (r'wget\s+', RiskLevel.HIGH, "Network download detected"),
+            (r'curl\s+', RiskLevel.HIGH, "Network download detected"),
+            (r'^/etc/', RiskLevel.CRITICAL, "System configuration path detected"),
+            (r'^/usr/', RiskLevel.CRITICAL, "System directory path detected"),
+            (r'^/var/', RiskLevel.CRITICAL, "System directory path detected"),
+            (r'^/bin/', RiskLevel.CRITICAL, "System binary path detected"),
+            (r'^/sbin/', RiskLevel.CRITICAL, "System binary path detected"),
+            (r'^/proc/', RiskLevel.CRITICAL, "Proc filesystem path detected"),
+            (r'^/sys/', RiskLevel.CRITICAL, "Sys filesystem path detected"),
+            (r'^/dev/', RiskLevel.CRITICAL, "Device path detected"),
+            (r'^/boot/', RiskLevel.CRITICAL, "Boot directory path detected"),
+            (r'^/root/', RiskLevel.CRITICAL, "Root directory path detected"),
+            (r'sudo\s+', RiskLevel.CRITICAL, "Sudo command detected"),
+            (r'su\s+', RiskLevel.CRITICAL, "Su command detected"),
+            (r'kill\s+', RiskLevel.HIGH, "Kill command detected"),
+            (r'pkill\s+', RiskLevel.HIGH, "Pkill command detected"),
+            (r'killall\s+', RiskLevel.HIGH, "Killall command detected"),
+            (r'apt\s+', RiskLevel.HIGH, "APT package command detected"),
+            (r'yum\s+', RiskLevel.HIGH, "YUM package command detected"),
+            (r'dnf\s+', RiskLevel.HIGH, "DNF package command detected"),
+            (r'pip\s+', RiskLevel.MEDIUM, "Pip package command detected"),
+            (r':\s*\(\s*\)\s*;', RiskLevel.CRITICAL, "Possible fork bomb detected"),
+            (r'\{\s*;\s*\}', RiskLevel.CRITICAL, "Possible infinite loop detected"),
         ]
-        def check_value(value, path=""):
+        def check_value(value: Any, path: str = "") -> None:
             if isinstance(value, str):
-                for pattern, message in dangerous_patterns:
+                for pattern, risk, message in dangerous_patterns:
                     if re.search(pattern, value):
-                        result.status = ValidationStatus.INVALID
-                        result.errors.append(f"{message} in {path}")
+                        if risk == RiskLevel.CRITICAL:
+                            result.status = ValidationStatus.INVALID
+                            result.errors.append(f"{message} in {path}: '{value[:50]}...'")
+                        else:
+                            result.warnings.append(f"{message} in {path}: '{value[:50]}...'")
             elif isinstance(value, dict):
                 for k, v in value.items():
                     check_value(v, f"{path}.{k}" if path else k)
@@ -244,10 +386,12 @@ class ToolValidator:
         check_value(data)
         return result
     
-    def sanitize_input(self, data):
+    def sanitize_input(self, data: Any) -> Any:
         if isinstance(data, str):
             sanitized = data
-            sanitized = re.sub(r'[;&|]', '', sanitized)
+            sanitized = re.sub(r'[;&|]`', '', sanitized)
+            sanitized = re.sub(r'\$\(', '', sanitized)
+            sanitized = re.sub(r'\$\{', '', sanitized)
             return sanitized
         elif isinstance(data, dict):
             return {k: self.sanitize_input(v) for k, v in data.items()}
@@ -256,9 +400,17 @@ class ToolValidator:
         else:
             return data
     
-    def sanitize_output(self, data):
+    def sanitize_output(self, data: Any) -> Any:
         if isinstance(data, str):
-            return data
+            dangerous = [
+                r'[;&|]`',
+                r'\$\(',
+                r'\$\{'
+            ]
+            sanitized = data
+            for pattern in dangerous:
+                sanitized = re.sub(pattern, '', sanitized)
+            return sanitized if sanitized != data else data
         elif isinstance(data, dict):
             return {k: self.sanitize_output(v) for k, v in data.items()}
         elif isinstance(data, list):
@@ -266,7 +418,7 @@ class ToolValidator:
         else:
             return data
     
-    def get_schema(self, tool_name, method=None):
+    def get_schema(self, tool_name: str, method: str = None) -> Optional[Dict[str, Any]]:
         if tool_name in self._schemas:
             if method:
                 return self._schemas[tool_name].get(method)

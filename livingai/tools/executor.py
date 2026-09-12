@@ -7,7 +7,8 @@ Executes tools with full pipeline: validation, permissions, sandboxing, and obse
 
 import logging
 import time
-from typing import Dict, Any, Optional, List, Callable
+import json
+from typing import Dict, Any, Optional, List, Callable, Union
 from dataclasses import dataclass, field
 from enum import Enum
 
@@ -85,51 +86,98 @@ class ExecutionHook:
 
 
 class ToolExecutor:
-    def __init__(self, sandbox=None, permission_manager=None, approval_manager=None, config=None):
+    def __init__(
+        self,
+        sandbox: ToolSandbox = None,
+        permission_manager: ToolPermissionManager = None,
+        approval_manager: ApprovalManager = None,
+        config: Dict[str, Any] = None
+    ):
         self.sandbox = sandbox or ToolSandbox()
         self.permission_manager = permission_manager or ToolPermissionManager()
         self.approval_manager = approval_manager
         self.config = config or {}
-        self._executions = {}
+        
+        self._executions: Dict[str, ToolExecution] = {}
         self._execution_counter = 0
-        self._hooks = {'pre_execute': [], 'post_execute': [], 'on_success': [], 'on_failure': [], 'on_blocked': [], 'on_observation': []}
+        self._hooks: Dict[str, List[ExecutionHook]] = {
+            'pre_execute': [],
+            'post_execute': [],
+            'on_success': [],
+            'on_failure': [],
+            'on_blocked': [],
+            'on_observation': []
+        }
+        
         self.logger = logging.getLogger(__name__)
     
-    def register_hook(self, event, callback, name=None, priority=0):
-        hook = ExecutionHook(name=name or f"hook_{len(self._hooks.get(event, []))}", callback=callback, priority=priority)
+    def register_hook(
+        self,
+        event: str,
+        callback: Callable,
+        name: str = None,
+        priority: int = 0
+    ) -> None:
+        hook = ExecutionHook(
+            name=name or f"hook_{len(self._hooks.get(event, []))}",
+            callback=callback,
+            priority=priority
+        )
         self._hooks.setdefault(event, []).append(hook)
         self._hooks[event].sort(key=lambda h: h.priority, reverse=True)
     
-    def _trigger_hooks(self, event, *args, **kwargs):
+    def _trigger_hooks(self, event: str, *args, **kwargs) -> None:
         for hook in self._hooks.get(event, []):
             try:
                 hook.callback(*args, **kwargs)
             except Exception as e:
                 self.logger.error(f"Hook {hook.name} error: {e}")
     
-    def execute(self, tool_name, method=None, args=None, kwargs=None, context=None):
+    def execute(
+        self,
+        tool_name: str,
+        method: str = None,
+        args: Dict[str, Any] = None,
+        kwargs: Dict[str, Any] = None,
+        context: Dict[str, Any] = None
+    ) -> ToolExecution:
         self._execution_counter += 1
         execution_id = f"exec_{self._execution_counter}"
-        execution = ToolExecution(id=execution_id, tool_name=tool_name, method=method or 'execute', args=args or {}, kwargs=kwargs or {}, start_time=time.time())
+        
+        execution = ToolExecution(
+            id=execution_id,
+            tool_name=tool_name,
+            method=method or 'execute',
+            args=args or {},
+            kwargs=kwargs or {},
+            start_time=time.time()
+        )
+        
         self._executions[execution_id] = execution
+        
         try:
             self._trigger_hooks('pre_execute', execution=execution, context=context)
             execution.status = ExecutionStatus.RUNNING
+            
             perm_check = self._check_permissions(execution, context)
             if not perm_check.get('allowed', False):
                 execution.status = ExecutionStatus.BLOCKED
                 execution.error = perm_check.get('reason', 'Permission denied')
                 self._trigger_hooks('on_blocked', execution=execution, reason=execution.error)
                 return execution
+            
             risk = self._classify_risk(execution, context)
             execution.metrics['risk'] = risk.value
+            
             approval = self._check_approval(execution, risk, context)
             if approval is not None:
                 execution.approval_request = approval
                 execution.status = ExecutionStatus.PENDING
                 return execution
+            
             sandbox_result = self._execute_in_sandbox(execution)
             execution.sandbox_result = sandbox_result
+            
             if sandbox_result.success:
                 execution.status = ExecutionStatus.COMPLETED
                 execution.result = sandbox_result.output
@@ -144,54 +192,99 @@ class ToolExecutor:
             execution.status = ExecutionStatus.FAILED
             execution.error = str(e)
             self._trigger_hooks('on_failure', execution=execution, exception=e)
-            self.logger.exception(f"Tool execution failed")
+            self.logger.exception(f"Tool execution failed: {tool_name}.{method}")
         finally:
             execution.end_time = time.time()
             execution.execution_time = execution.end_time - execution.start_time
             execution.metrics['execution_time'] = execution.execution_time
             self._trigger_hooks('post_execute', execution=execution)
+        
         return execution
     
-    def _check_permissions(self, execution, context):
+    def _check_permissions(
+        self,
+        execution: ToolExecution,
+        context: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         profile = context.get('profile') if context else None
-        return self.permission_manager.check_tool_access(execution.tool_name, execution.method, {**execution.args, **execution.kwargs}, profile)
+        return self.permission_manager.check_tool_access(
+            execution.tool_name,
+            execution.method,
+            {**execution.args, **execution.kwargs},
+            profile
+        )
     
-    def _classify_risk(self, execution, context):
+    def _classify_risk(
+        self,
+        execution: ToolExecution,
+        context: Dict[str, Any] = None
+    ) -> RiskLevel:
         from livingai.security.policy import SecurityPolicyManager
         policy_manager = SecurityPolicyManager()
-        risk = policy_manager.classify_risk(f"{execution.tool_name}.{execution.method}", execution.tool_name)
+        risk = policy_manager.classify_risk(
+            f"{execution.tool_name}.{execution.method}",
+            execution.tool_name
+        )
         all_args = {**execution.args, **execution.kwargs}
         for arg_name, arg_value in all_args.items():
             arg_risk = self._classify_arg_risk(arg_name, arg_value)
-            if arg_risk == RiskLevel.CRITICAL:
+            if arg_risk.value == RiskLevel.CRITICAL.value:
                 return RiskLevel.CRITICAL
-            elif arg_risk == RiskLevel.HIGH and risk != RiskLevel.CRITICAL:
+            elif arg_risk.value == RiskLevel.HIGH.value and risk.value != RiskLevel.CRITICAL.value:
                 risk = RiskLevel.HIGH
         return risk
     
-    def _classify_arg_risk(self, arg_name, arg_value):
+    def _classify_arg_risk(self, arg_name: str, arg_value: Any) -> RiskLevel:
         from livingai.security.policy import RiskLevel
         if isinstance(arg_value, str):
-            patterns = [('rm -rf', RiskLevel.CRITICAL), ('rm -r', RiskLevel.HIGH), ('sudo', RiskLevel.CRITICAL), ('su ', RiskLevel.CRITICAL), ('chmod', RiskLevel.HIGH)]
-            for pattern, risk in patterns:
+            dangerous_patterns = [
+                ('rm -rf', RiskLevel.CRITICAL),
+                ('rm -r', RiskLevel.HIGH),
+                ('> /', RiskLevel.CRITICAL),
+                ('; ', RiskLevel.CRITICAL),
+                ('&& ', RiskLevel.CRITICAL),
+                ('| ', RiskLevel.HIGH),
+                ('`', RiskLevel.HIGH),
+                ('$(', RiskLevel.HIGH),
+                ('sudo', RiskLevel.CRITICAL),
+                ('su ', RiskLevel.CRITICAL),
+                ('chmod', RiskLevel.HIGH),
+                ('chown', RiskLevel.HIGH)
+            ]
+            for pattern, risk in dangerous_patterns:
                 if pattern in arg_value:
                     return risk
         if arg_name.lower() in ['path', 'file', 'dir', 'directory', 'target']:
-            if isinstance(arg_value, str) and arg_value.startswith('/'):
-                if arg_value.startswith('/etc') or arg_value.startswith('/usr'):
-                    return RiskLevel.CRITICAL
-                return RiskLevel.HIGH
+            if isinstance(arg_value, str):
+                if arg_value.startswith('/'):
+                    if arg_value.startswith('/etc') or arg_value.startswith('/usr'):
+                        return RiskLevel.CRITICAL
+                    elif arg_value.startswith('/'):
+                        return RiskLevel.HIGH
         return RiskLevel.LOW
     
-    def _check_approval(self, execution, risk, context):
+    def _check_approval(
+        self,
+        execution: ToolExecution,
+        risk: RiskLevel,
+        context: Dict[str, Any] = None
+    ) -> Optional[ApprovalRequest]:
         if not self.approval_manager:
             return None
-        if self.approval_manager.check_rule(f"{execution.tool_name}.{execution.method}", execution.tool_name, risk):
+        if self.approval_manager.check_rule(
+            f"{execution.tool_name}.{execution.method}",
+            execution.tool_name,
+            risk
+        ):
             return None
         from livingai.security.policy import SecurityPolicyManager, PermissionProfile
         policy_manager = SecurityPolicyManager()
         profile = context.get('profile', PermissionProfile.SAFE.value) if context else PermissionProfile.SAFE.value
-        perm_check = policy_manager.check_permission(action=f"{execution.tool_name}.{execution.method}", tool=execution.tool_name, profile=PermissionProfile(profile))
+        perm_check = policy_manager.check_permission(
+            action=f"{execution.tool_name}.{execution.method}",
+            tool=execution.tool_name,
+            profile=PermissionProfile(profile)
+        )
         if perm_check.get('requires_confirmation', False):
             request = self.approval_manager.request_approval(
                 action=f"{execution.tool_name}.{execution.method}",
@@ -206,13 +299,28 @@ class ToolExecutor:
             return request
         return None
     
-    def _execute_in_sandbox(self, execution):
-        return self.sandbox.execute(execution.tool_name, execution.method, execution.args, execution.kwargs)
+    def _execute_in_sandbox(self, execution: ToolExecution) -> SandboxResult:
+        return self.sandbox.execute(
+            execution.tool_name,
+            execution.method,
+            execution.args,
+            execution.kwargs
+        )
     
-    def execute_command(self, command, context=None):
+    def execute_command(
+        self,
+        command: str,
+        context: Dict[str, Any] = None
+    ) -> ToolExecution:
         self._execution_counter += 1
         execution_id = f"exec_{self._execution_counter}"
-        execution = ToolExecution(id=execution_id, tool_name='terminal', method='execute', args={'command': command}, start_time=time.time())
+        execution = ToolExecution(
+            id=execution_id,
+            tool_name='terminal',
+            method='execute',
+            args={'command': command},
+            start_time=time.time()
+        )
         self._executions[execution_id] = execution
         try:
             perm_check = self._check_permissions(execution, context)
@@ -243,10 +351,15 @@ class ToolExecutor:
             execution.execution_time = execution.end_time - execution.start_time
         return execution
     
-    def get_execution(self, execution_id):
+    def get_execution(self, execution_id: str) -> Optional[ToolExecution]:
         return self._executions.get(execution_id)
     
-    def list_executions(self, status=None, tool_name=None, limit=100):
+    def list_executions(
+        self,
+        status: ExecutionStatus = None,
+        tool_name: str = None,
+        limit: int = 100
+    ) -> List[ToolExecution]:
         executions = list(self._executions.values())
         if status:
             executions = [e for e in executions if e.status == status]
@@ -255,7 +368,7 @@ class ToolExecutor:
         executions.sort(key=lambda e: e.start_time, reverse=True)
         return executions[:limit]
     
-    def cancel_execution(self, execution_id):
+    def cancel_execution(self, execution_id: str) -> bool:
         execution = self._executions.get(execution_id)
         if not execution:
             return False
@@ -265,7 +378,7 @@ class ToolExecutor:
             return True
         return False
     
-    def cleanup_executions(self, older_than=3600.0):
+    def cleanup_executions(self, older_than: float = 3600.0) -> int:
         cutoff = time.time() - older_than
         removed = 0
         for exec_id, execution in list(self._executions.items()):
@@ -274,8 +387,19 @@ class ToolExecutor:
                 removed += 1
         return removed
     
-    def get_stats(self):
-        stats = {'total': len(self._executions), 'pending': 0, 'running': 0, 'completed': 0, 'failed': 0, 'blocked': 0, 'timeout': 0, 'cancelled': 0, 'total_execution_time': 0.0, 'avg_execution_time': 0.0}
+    def get_stats(self) -> Dict[str, Any]:
+        stats = {
+            'total': len(self._executions),
+            'pending': 0,
+            'running': 0,
+            'completed': 0,
+            'failed': 0,
+            'blocked': 0,
+            'timeout': 0,
+            'cancelled': 0,
+            'total_execution_time': 0.0,
+            'avg_execution_time': 0.0
+        }
         for execution in self._executions.values():
             stats['total'] += 1
             stats[execution.status.value] += 1
@@ -284,11 +408,20 @@ class ToolExecutor:
             stats['avg_execution_time'] = stats['total_execution_time'] / stats['total']
         return stats
     
-    def add_observation(self, execution_id, observation, data=None):
+    def add_observation(
+        self,
+        execution_id: str,
+        observation: str,
+        data: Dict[str, Any] = None
+    ) -> bool:
         execution = self._executions.get(execution_id)
         if not execution:
             return False
-        obs = {'timestamp': time.time(), 'content': observation, 'data': data}
+        obs = {
+            'timestamp': time.time(),
+            'content': observation,
+            'data': data
+        }
         execution.observations.append(obs)
         self._trigger_hooks('on_observation', execution=execution, observation=obs)
         return True
