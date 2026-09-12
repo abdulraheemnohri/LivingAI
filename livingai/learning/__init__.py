@@ -1,13 +1,10 @@
-# LivingAI Learning Module
-# ==========================
-# This module contains the learning-related components.
+"""
+LivingAI Learning Module
+=======================
 
-from .engine import LearningEngine
-from .lessons import LessonManager
-from .evaluator import OutcomeEvaluator
+Learning system for LivingAI agents.
+"""
 
-__all__ = [
-    "LearningEngine",
-    "LessonManager",
-    "OutcomeEvaluator",
-]
+from .main import LearningSystem
+
+__all__ = ['LearningSystem']
