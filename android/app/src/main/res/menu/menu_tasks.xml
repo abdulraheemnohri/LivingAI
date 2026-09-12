@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/tasks_menu_create"
+        android:title="@string/tasks_create_new"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/tasks_menu_search"
+        android:title="@string/tasks_search_hint"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/tasks_menu_sort"
+        android:title="@string/tasks_sort_by_name"
+        android:icon="@drawable/ic_sort"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tasks_menu_filter_all"
+        android:title="@string/tasks_filter_all"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tasks_menu_filter_pending"
+        android:title="@string/tasks_filter_pending"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tasks_menu_filter_in_progress"
+        android:title="@string/tasks_filter_in_progress"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tasks_menu_filter_completed"
+        android:title="@string/tasks_filter_completed"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tasks_menu_filter_failed"
+        android:title="@string/tasks_filter_failed"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tasks_menu_filter_cancelled"
+        android:title="@string/tasks_filter_cancelled"
+        app:showAsAction="never" />
+
+</menu>

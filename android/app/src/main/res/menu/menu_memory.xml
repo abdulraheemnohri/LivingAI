@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/memory_menu_search"
+        android:title="@string/memory_search_hint"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/memory_menu_clear_all"
+        android:title="@string/memory_clear_all"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/memory_menu_export"
+        android:title="@string/memory_export"
+        android:icon="@drawable/ic_export"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/memory_menu_import"
+        android:title="@string/memory_import"
+        android:icon="@drawable/ic_import"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/memory_menu_category_knowledge"
+        android:title="@string/memory_category_knowledge"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/memory_menu_category_conversations"
+        android:title="@string/memory_category_conversations"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/memory_menu_category_settings"
+        android:title="@string/memory_category_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/memory_menu_category_cache"
+        android:title="@string/memory_category_cache"
+        app:showAsAction="never" />
+
+</menu>

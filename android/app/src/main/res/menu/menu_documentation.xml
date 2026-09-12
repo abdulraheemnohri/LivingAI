@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/documentation_menu_search"
+        android:title="@string/documentation_search_hint"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/documentation_menu_getting_started"
+        android:title="@string/documentation_getting_started"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/documentation_menu_agents"
+        android:title="@string/documentation_agents"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/documentation_menu_tools"
+        android:title="@string/documentation_tools"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/documentation_menu_tasks"
+        android:title="@string/documentation_tasks"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/documentation_menu_memory"
+        android:title="@string/documentation_memory"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/documentation_menu_terminal"
+        android:title="@string/documentation_terminal"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/documentation_menu_analytics"
+        android:title="@string/documentation_analytics"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/documentation_menu_settings"
+        android:title="@string/documentation_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/documentation_menu_api"
+        android:title="@string/documentation_api"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/documentation_menu_faq"
+        android:title="@string/documentation_faq"
+        app:showAsAction="never" />
+
+</menu>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/terminal_menu_execute"
+        android:title="@string/terminal_execute"
+        android:icon="@drawable/ic_play"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/terminal_menu_clear"
+        android:title="@string/terminal_clear"
+        android:icon="@drawable/ic_clear"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/terminal_menu_copy"
+        android:title="@string/terminal_copy"
+        android:icon="@drawable/ic_copy"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/terminal_menu_paste"
+        android:title="@string/terminal_paste"
+        android:icon="@drawable/ic_paste"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/terminal_menu_history"
+        android:title="@string/terminal_history"
+        android:icon="@drawable/ic_history"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/terminal_menu_sessions"
+        android:title="@string/terminal_sessions"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/terminal_menu_new_session"
+        android:title="@string/terminal_new_session"
+        app:showAsAction="never" />
+
+</menu>

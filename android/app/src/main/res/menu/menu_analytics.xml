@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/analytics_menu_today"
+        android:title="@string/analytics_today"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/analytics_menu_week"
+        android:title="@string/analytics_week"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/analytics_menu_month"
+        android:title="@string/analytics_month"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/analytics_menu_year"
+        android:title="@string/analytics_year"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/analytics_menu_custom"
+        android:title="@string/analytics_custom"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/analytics_menu_overview"
+        android:title="@string/analytics_overview"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/analytics_menu_agent_performance"
+        android:title="@string/analytics_agent_performance"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/analytics_menu_task_completion"
+        android:title="@string/analytics_task_completion"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/analytics_menu_tool_usage"
+        android:title="@string/analytics_tool_usage"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/analytics_menu_memory_usage"
+        android:title="@string/analytics_memory_usage"
+        app:showAsAction="never" />
+
+</menu>

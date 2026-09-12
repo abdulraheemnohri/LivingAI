@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Navigation Drawer Items -->
+    <group android:id="@+id/menu_group_main">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:title="@string/nav_dashboard"
+            android:icon="@drawable/ic_dashboard"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_agents"
+            android:title="@string/nav_agents"
+            android:icon="@drawable/ic_agent"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_tools"
+            android:title="@string/nav_tools"
+            android:icon="@drawable/ic_tool"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_tasks"
+            android:title="@string/nav_tasks"
+            android:icon="@drawable/ic_task"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_memory"
+            android:title="@string/nav_memory"
+            android:icon="@drawable/ic_memory"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_terminal"
+            android:title="@string/nav_terminal"
+            android:icon="@drawable/ic_terminal"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_analytics"
+            android:title="@string/nav_analytics"
+            android:icon="@drawable/ic_analytics"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_documentation"
+            android:title="@string/nav_documentation"
+            android:icon="@drawable/ic_documentation"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/nav_settings"
+            android:icon="@drawable/ic_settings"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:title="@string/nav_about"
+            android:icon="@drawable/ic_about"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/nav_exit"
+            android:title="@string/nav_exit"
+            android:icon="@drawable/ic_exit"
+            app:showAsAction="never" />
+    </group>
+
+    <!-- Bottom Navigation Items -->
+    <group android:id="@+id/menu_group_bottom">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:title="@string/bottom_nav_dashboard"
+            android:icon="@drawable/ic_dashboard"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/nav_agents"
+            android:title="@string/bottom_nav_agents"
+            android:icon="@drawable/ic_agent"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/nav_tools"
+            android:title="@string/bottom_nav_tools"
+            android:icon="@drawable/ic_tool"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/nav_tasks"
+            android:title="@string/bottom_nav_tasks"
+            android:icon="@drawable/ic_task"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/nav_memory"
+            android:title="@string/bottom_nav_memory"
+            android:icon="@drawable/ic_memory"
+            app:showAsAction="ifRoom" />
+    </group>
+
+</menu>

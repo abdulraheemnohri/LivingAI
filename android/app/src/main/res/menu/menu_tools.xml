@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/tools_menu_search"
+        android:title="@string/tools_search_hint"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/tools_menu_all"
+        android:title="@string/tools_all"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tools_menu_ai"
+        android:title="@string/tool_category_ai"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tools_menu_code"
+        android:title="@string/tool_category_code"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tools_menu_data"
+        android:title="@string/tool_category_data"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tools_menu_system"
+        android:title="@string/tool_category_system"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tools_menu_utility"
+        android:title="@string/tool_category_utility"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tools_menu_network"
+        android:title="@string/tool_category_network"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tools_menu_file"
+        android:title="@string/tool_category_file"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tools_menu_database"
+        android:title="@string/tool_category_database"
+        app:showAsAction="never" />
+
+</menu>

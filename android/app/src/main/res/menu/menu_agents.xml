@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/agents_menu_create"
+        android:title="@string/agents_create_new"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/agents_menu_search"
+        android:title="@string/agents_search_hint"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/agents_menu_sort"
+        android:title="@string/agents_sort_by_name"
+        android:icon="@drawable/ic_sort"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/agents_menu_filter_all"
+        android:title="@string/agents_filter_all"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/agents_menu_filter_active"
+        android:title="@string/agents_filter_active"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/agents_menu_filter_inactive"
+        android:title="@string/agents_filter_inactive"
+        app:showAsAction="never" />
+
+</menu>
